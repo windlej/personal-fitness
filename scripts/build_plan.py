@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
 """Build data/plan.js from the training plan workbook.
 
-The Daily Schedule sheet in the source workbook stores dates one day earlier
-than the weekday labels it prints (a generation bug). Phase 1 is documented as
-starting Thursday Oct 1 2026 and the first quality session as Tue Oct 6 2026, so
-we trust the weekday labels and shift daily dates forward one day. Weekly
-Summary dates are already correct and are left untouched.
+The Daily Schedule sheet's printed weekday labels are one day AHEAD of the
+stored dates (a quirk of how the workbook was generated). The stored dates land
+on the real weekday for the intended Sun->Sat layout:
+
+  Sun  rest + KB A (hinge & press)
+  Mon  quality 1: threshold
+  Tue  easy Z2 (+ strides on A weeks) + KB B (upper & core)
+  Wed  quality 2: VO2 (A weeks) or sprints/strides (B weeks)
+  Thu  no run + KB C (squat / single-leg / carry)
+  Fri  easy Z2 + strides
+  Sat  long run
+
+So we trust the stored dates. Weekly Summary start/end are recomputed from the
+daily rows so everything lines up on Sun->Sat weeks.
 
 Run:  python3 scripts/build_plan.py
 """
@@ -16,6 +25,8 @@ import os
 import re
 
 import openpyxl
+
+WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -103,7 +114,12 @@ def parse_days(wb):
         date = to_date(row[1])
         if date is None:
             continue
-        date = date + datetime.timedelta(days=1)  # correct the off-by-one
+        # NOTE: the sheet's printed weekday labels are one day AHEAD of the stored
+        # dates. The stored dates are the real weekday the session falls on and
+        # produce the intended Sun->Sat week (Sun rest+KB A, Mon threshold,
+        # Tue easy+KB B, Wed quality 2, Thu KB C, Fri easy+strides, Sat long).
+        # So we trust the dates and derive the weekday from them.
+        weekday = WEEKDAYS[date.weekday()]
         session = clean(row[4])
         details = clean(row[7])
         kb = clean(row[8])
@@ -112,7 +128,7 @@ def parse_days(wb):
         days.append({
             "week": int(row[0]),
             "date": date.isoformat(),
-            "weekday": clean(row[2]),
+            "weekday": weekday,
             "phase": clean(row[3]),
             "phaseNum": int(str(row[3]).split()[0]) if row[3] else None,
             "session": session,
@@ -133,21 +149,24 @@ def parse_days(wb):
     return days
 
 
-def parse_weeks(wb):
+def parse_weeks(wb, days):
     ws = wb["Weekly Summary"]
     rows = list(ws.iter_rows(values_only=True))
+    spans = {}
+    for d in days:
+        lo, hi = spans.get(d["week"], (d["date"], d["date"]))
+        spans[d["week"]] = (min(lo, d["date"]), max(hi, d["date"]))
     weeks = []
     for row in rows:
         if not row or not isinstance(row[0], (int, float)) or row[1] is None:
             continue
-        start = to_date(row[1])
-        end = to_date(row[2])
-        if start is None:
+        if to_date(row[1]) is None:
             continue
+        span = spans.get(int(row[0]))
         weeks.append({
             "week": int(row[0]),
-            "start": start.isoformat(),
-            "end": end.isoformat() if end else None,
+            "start": span[0] if span else None,
+            "end": span[1] if span else None,
             "phase": clean(row[3]),
             "type": clean(row[4]),
             "qualityMix": clean(row[5]),
@@ -236,7 +255,7 @@ def parse_meta(wb):
 def main():
     wb = openpyxl.load_workbook(XLSX, data_only=True)
     days = parse_days(wb)
-    weeks = parse_weeks(wb)
+    weeks = parse_weeks(wb, days)
     zones = parse_zones(wb)
     kb = parse_kb(wb)
     meta_rows = parse_meta(wb)
