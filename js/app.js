@@ -8,16 +8,19 @@
   var PLAN = window.PLAN;
   var LS_LOGS = "tp.logs.v1";
   var LS_SETTINGS = "tp.settings.v1";
+  var LS_PACES = "tp.paces.v1";
   var ANCHOR = PLAN.meta.anchor || "2026-10-04"; // plan start; sets A/B parity + "since" date
 
   var store = {
     logs: load(LS_LOGS, {}),
     settings: load(LS_SETTINGS, { unit: "mi" }),
+    paces: load(LS_PACES, { maxHR: null, aecPct: 12, efforts: [] }),
   };
   var state = {
     view: "day",
     selectedDate: todayISO(),
     calMonth: null,
+    pacesDraft: null,
   };
 
   /* --------------------------------------------------------------- helpers */
@@ -31,6 +34,7 @@
     try {
       localStorage.setItem(LS_LOGS, JSON.stringify(store.logs));
       localStorage.setItem(LS_SETTINGS, JSON.stringify(store.settings));
+      localStorage.setItem(LS_PACES, JSON.stringify(store.paces));
     } catch (e) { toast("Could not save — storage may be full"); }
   }
   function esc(s) {
@@ -107,6 +111,163 @@
     toast._t = setTimeout(function () { el.hidden = true; }, 2200);
   }
 
+  /* --------------------------------------------------------- pace model
+     Derives training paces from all-out race efforts. AeC (anaerobic-capacity
+     fraction) is user-adjustable (default 12%); lower = better aerobic fitness.
+
+     Two or more efforts -> critical-speed model:
+       CS    = (d2 - d1) / (t2 - t1)           (critical speed, m/s)
+       D'    = d_small - CS * t_small          (anaerobic distance capacity, m)
+       vVO2  = CS + D' / 425.5, capped at a Riegel 6-min estimate from the
+               shorter race (the 2-race extrapolation overshoots for
+               recreational runners)
+
+     One effort -> single-race model:
+       P_race    = time / distance * 1609      (sec/mi of the effort)
+       CP pace   = P_race / (1 - AeC/2)
+       vVO2 pace = 2*P_race - CP pace
+       CS = CP speed, vVO2 = vVO2 speed
+
+     Either way:
+       speed = (1 - ZONE_K * AeC) * vVO2, with ZONE_K
+               LT2 1.5, LT1 1.9, FatMax 2.4, BZ2 2.75, BZ1 3.55
+       (AeC default 12%: LT2 0.82, LT1 0.772, FatMax 0.712, BZ2 0.67, BZ1 0.574)
+     Anchors (fast -> slow): vVO2, CS, LT2, LT1, FatMax, BZ2, BZ1.
+     Zones (pace ranges, slow -> fast):
+       Z1 BZ1->BZ2  Z2 BZ2->LT1  Z3 LT1->LT2  Z4 LT2->CS  Z5 CS->vVO2  Z6 <vVO2
+     HR is derived from %maxHR: vVO2 100, CS 93, LT2 88, LT1 83, FatMax 78,
+     BZ2 73, BZ1 60. */
+  var HR_PCT = { vvo2: 1.0, cs: 0.93, lt2: 0.88, lt1: 0.83, fatmax: 0.78, bz2: 0.73, bz1: 0.60 };
+  var AEC_CONST = 0.12; // fallback anaerobic-capacity fraction if unset
+  // Zone speeds as fractions of vVO2: speed = (1 - k*AeC) * vVO2.
+  var ZONE_K = { lt2: 1.5, lt1: 1.9, fatmax: 2.4, bz2: 2.75, bz1: 3.55 };
+  var METERS_PER = { mi: 1609.344, km: 1000, m: 1 };
+  var KIND_ZONE = { easy: "Z2", long: "Z2", threshold: "Z4", vo2: "Z5", speed: "Z6", test: null, rest: null };
+
+  function parseTime(str) {
+    if (str == null || str === "") return null;
+    str = String(str).trim();
+    if (/^\d+(\.\d+)?$/.test(str)) return Math.round(+str);
+    var parts = str.split(":");
+    if (!parts.length || parts.length > 3) return null;
+    var s = 0;
+    for (var i = 0; i < parts.length; i++) { var v = +parts[i]; if (!isFinite(v)) return null; s = s * 60 + v; }
+    return Math.round(s);
+  }
+  function parseDist(str, unit) {
+    var n = parseFloat(str);
+    if (!isFinite(n) || n <= 0) return null;
+    return n * (METERS_PER[unit] || METERS_PER.mi);
+  }
+  function speedToPace(speed, unit) {
+    var d = METERS_PER[unit] || METERS_PER.mi;
+    return d / speed;
+  }
+
+  function twoEffortModel(efforts, maxHR, aec) {
+    var es = efforts.slice().sort(function (a, b) { return (a.date || "") < (b.date || "") ? 1 : -1; });
+    var a = es[0], b = es[1];
+    var dt = Math.abs(a.timeS - b.timeS), dd = Math.abs(a.distanceM - b.distanceM);
+    if (dt < 1 || dd <= 0) return null;
+    var cs = dd / dt;
+    var small = a.distanceM <= b.distanceM ? a : b;
+    var dPrime = small.distanceM - cs * small.timeS;
+    if (dPrime < 0) dPrime = 0;
+    // vVO2 = CS + D'/tTe (tTe = 425.5 s). That extrapolation overshoots for
+    // recreational runners, so cap it at a Riegel 6-min prediction from the
+    // shorter race (vVO2max ~ the pace you could hold ~6 min) -- otherwise
+    // "VO2max pace" can come out faster than a race actually run.
+    var cap6 = small.timeS <= 360
+      ? small.distanceM / small.timeS
+      : small.distanceM * Math.pow(360 / small.timeS, 1 / 1.06) / 360;
+    var vvo2 = Math.min(cs + dPrime / 425.5, cap6);
+    if (!(vvo2 > cs)) vvo2 = cs * 1.001;
+    return buildModel(cs, vvo2, maxHR, "two", aec);
+  }
+  function singleRaceModel(race, maxHR, aec) {
+    if (aec == null) aec = AEC_CONST;
+    var pRace = (race.timeS / race.distanceM) * METERS_PER.mi; // sec per mile of the effort
+    var cpPace = pRace / (1 - aec / 2);
+    var vvo2Pace = 2 * pRace - cpPace;
+    if (!(cpPace > 0) || !(vvo2Pace > 0)) return null;
+    return buildModel(METERS_PER.mi / cpPace, METERS_PER.mi / vvo2Pace, maxHR, "single", aec);
+  }
+  function buildModel(cs, vvo2, maxHR, source, aec) {
+    if (!(cs > 0) || !(vvo2 > 0)) return null;
+    if (aec == null) aec = 1 - cs / vvo2;
+    var sp = {
+      vvo2: vvo2,
+      cs: cs,
+      lt2: (1 - ZONE_K.lt2 * aec) * vvo2,
+      lt1: (1 - ZONE_K.lt1 * aec) * vvo2,
+      fatmax: (1 - ZONE_K.fatmax * aec) * vvo2,
+      bz2: (1 - ZONE_K.bz2 * aec) * vvo2,
+      bz1: (1 - ZONE_K.bz1 * aec) * vvo2,
+    };
+    // Keep the anchor ladder monotonic (vVO2 >= CS >= LT2 >= LT1 >= FatMax >=
+    // BZ2 >= BZ1). The 2-race CS estimate can land slightly below the vVO2-derived
+    // LT2, which would otherwise invert the threshold pair.
+    sp.lt2 = Math.min(sp.lt2, sp.cs);
+    sp.lt1 = Math.min(sp.lt1, sp.lt2);
+    sp.fatmax = Math.min(sp.fatmax, sp.lt1);
+    sp.bz2 = Math.min(sp.bz2, sp.fatmax);
+    sp.bz1 = Math.min(sp.bz1, sp.bz2);
+    if (!(sp.bz1 > 0 && sp.bz2 > 0 && sp.lt1 > 0 && sp.lt2 > 0 && sp.cs > 0 && sp.vvo2 > 0)) return null;
+    var zones = {
+      Z1: { slow: sp.bz1, fast: sp.bz2, hr: [HR_PCT.bz1, HR_PCT.bz2] },
+      Z2: { slow: sp.bz2, fast: sp.lt1, hr: [HR_PCT.bz2, HR_PCT.lt1] },
+      Z3: { slow: sp.lt1, fast: sp.lt2, hr: [HR_PCT.lt1, HR_PCT.lt2] },
+      Z4: { slow: sp.lt2, fast: sp.cs, hr: [HR_PCT.lt2, HR_PCT.cs] },
+      Z5: { slow: sp.cs, fast: sp.vvo2, hr: [HR_PCT.cs, HR_PCT.vvo2] },
+      Z6: { slow: sp.vvo2, fast: sp.vvo2 * 1.08, hr: [HR_PCT.vvo2, null] },
+    };
+    return { source: source, maxHR: maxHR || null, aec: aec, speeds: sp, zones: zones };
+  }
+  function computePaces() {
+    var p = store.paces || {};
+    var aec = (p.aecPct != null && isFinite(+p.aecPct)) ? (+p.aecPct) / 100 : AEC_CONST;
+    var efforts = (p.efforts || []).filter(function (e) { return e && e.distanceM > 0 && e.timeS > 0; });
+    if (efforts.length >= 2) return twoEffortModel(efforts, p.maxHR, aec);
+    if (efforts.length === 1) return singleRaceModel(efforts[0], p.maxHR, aec);
+    return null;
+  }
+  function fmtSec(sec) {
+    if (!isFinite(sec) || sec <= 0) return "";
+    var m = Math.floor(sec / 60), s = Math.round(sec - m * 60);
+    if (s === 60) { m++; s = 0; }
+    return m + ":" + pad(s);
+  }
+  function zonePaceRange(zone, unit) {
+    var a = speedToPace(zone.slow, unit), b = speedToPace(zone.fast, unit);
+    return [Math.max(a, b), Math.min(a, b)]; // [slow, fast]
+  }
+  function paceRangeText(range, unit) {
+    return fmtSec(range[0]) + "–" + fmtSec(range[1]) + "/" + unit;
+  }
+  function hrRangeText(hr) {
+    if (!hr) return "";
+    if (hr[1] == null) return ">" + Math.round(hr[0]);
+    return Math.round(hr[0]) + "–" + Math.round(hr[1]);
+  }
+  function paceInfoFor(day) {
+    var model = computePaces();
+    if (!model) return null;
+    var z = KIND_ZONE[day.kind];
+    if (!z || !model.zones[z]) return null;
+    var zn = model.zones[z];
+    var pace = zonePaceRange(zn, store.settings.unit);
+    var hr = model.maxHR ? [zn.hr[0] * model.maxHR, zn.hr[1] == null ? null : zn.hr[1] * model.maxHR] : null;
+    return { zone: z, pace: pace, hr: hr };
+  }
+  function paceTextFor(day) {
+    var info = paceInfoFor(day);
+    if (!info) return "";
+    var parts = ["Pace " + paceRangeText(info.pace, store.settings.unit)];
+    var hr = hrRangeText(info.hr);
+    if (hr) parts.push("HR " + hr + " bpm");
+    return parts.join(" · ");
+  }
+
   /* ------------------------------------------------------------ day view */
   function renderDay() {
     var iso = state.selectedDate;
@@ -127,6 +288,8 @@
     if (day.runMin) html += '<span class="chip">' + esc(fmtMin(day.runMin)) + " run</span>";
     html += '<span class="chip ghost">' + esc(weekLabel(iso)) + "</span>";
     html += "</div>";
+    var paceText = paceTextFor(day);
+    if (paceText) html += '<div class="pace-target">Target ' + esc(paceText) + "</div>";
 
     if (details.length) {
       html += '<ul class="detail-list">';
@@ -228,12 +391,16 @@
       var iso = addDays(start, i);
       var d = dayFor(iso);
       var st = status(iso);
+      var sub = [];
+      if (d.intensity && d.intensity !== "—") sub.push(d.intensity);
+      if (d.runMin) sub.push(fmtMin(d.runMin));
+      var pt = paceTextFor(d);
+      if (pt) sub.push(pt);
       html += '<button class="week-row" data-action="open-day" data-date="' + iso + '">' +
         '<div class="week-row-inner">' +
         '<div class="week-day"><span class="dow">' + esc(d.weekday) + '</span><span class="dm">' + esc(fmtShort(iso)) + "</span></div>" +
         '<div class="week-main"><div class="s-title">' + esc(d.session) + '</div><div class="s-sub">' +
-        (d.intensity && d.intensity !== "—" ? esc(d.intensity) : "") +
-        (d.runMin ? (d.intensity && d.intensity !== "—" ? " · " : "") + esc(fmtMin(d.runMin)) : "") +
+        esc(sub.join(" · ")) +
         "</div></div>" +
         '<div class="status-dot ' + (st || "") + '"></div>' +
         "</div></button>";
@@ -439,11 +606,23 @@
       html += "</tbody></table></div></div>";
     }
 
-    html += '<div class="card"><h3 class="card-title">Pace reference</h3>' +
-      '<div class="small muted" style="margin-top:8px">Based on 20-min time trial ≈ ' + esc(PLAN.meta.timeTrialMiles) + " mi. Update after a time trial.</div>" +
-      '<div class="scroll-x" style="margin-top:12px"><table class="data zone-table"><thead><tr><th>Zone</th><th>RPE</th><th>Pace</th><th>Rule vs TT</th></tr></thead><tbody>';
-    PLAN.zones.forEach(function (z) { html += "<tr><td>" + esc(z.name) + "</td><td>" + esc(z.rpe || "") + "</td><td>" + esc(z.pace || "") + "</td><td>" + esc(z.rule || "") + "</td></tr>"; });
-    html += "</tbody></table></div></div>";
+    var model = computePaces();
+    if (model) {
+      html += '<div class="card"><h3 class="card-title">Training paces</h3>' +
+        '<div class="small muted" style="margin-top:8px">From your race input (' +
+        (model.source === "two" ? "two efforts · critical-speed model" : "single race") +
+        (model.maxHR ? " · max HR " + model.maxHR : "") +
+        "). Update in <strong>Paces</strong> (top right).</div>" +
+        '<div class="sub" style="margin:14px 0 6px"><strong>Anchors</strong></div>' + anchorTableHtml(model) +
+        '<div class="sub" style="margin:16px 0 8px">Zone ranges</div>' + paceTableHtml(model) + "</div></div>";
+    } else {
+      html += '<div class="card"><h3 class="card-title">Pace reference</h3>' +
+        '<div class="small muted" style="margin-top:8px">Based on 20-min time trial ≈ ' + esc(PLAN.meta.timeTrialMiles) + " mi. " +
+        "Add your race results in <strong>Paces</strong> (top right) for personalized paces.</div>" +
+        '<div class="scroll-x" style="margin-top:12px"><table class="data zone-table"><thead><tr><th>Zone</th><th>RPE</th><th>Pace</th><th>Rule vs TT</th></tr></thead><tbody>';
+      PLAN.zones.forEach(function (z) { html += "<tr><td>" + esc(z.name) + "</td><td>" + esc(z.rpe || "") + "</td><td>" + esc(z.pace || "") + "</td><td>" + esc(z.rule || "") + "</td></tr>"; });
+      html += "</tbody></table></div></div>";
+    }
 
     if (PLAN.meta.zonesNote) html += '<div class="card"><div class="small muted">' + esc(PLAN.meta.zonesNote) + "</div></div>";
     document.getElementById("app").innerHTML = html;
@@ -480,9 +659,15 @@
   }
 
   /* ---------------------------------------------------------- modal */
+  function openModal(title, bodyHtml) {
+    document.getElementById("modal-title").textContent = title;
+    document.getElementById("modal-body").innerHTML = bodyHtml;
+    document.getElementById("modal").hidden = false;
+  }
+  function closeModal() { document.getElementById("modal").hidden = true; }
   function openDataModal() {
     var n = Object.keys(store.logs).length;
-    document.getElementById("modal-body").innerHTML =
+    openModal("Data",
       '<div class="small muted" style="margin-bottom:14px">' + n + " logged session" + (n === 1 ? "" : "s") + " stored in this browser only. Export to back up or move devices.</div>" +
       '<div class="actions"><button class="btn primary" data-action="export-json">Export JSON (backup)</button>' +
       '<button class="btn secondary" data-action="export-csv">Export CSV (spreadsheet)</button>' +
@@ -490,12 +675,144 @@
       '<div class="hr" style="margin:18px 0"></div>' +
       '<div class="field"><label>Distance unit</label><select id="unit-select"><option value="mi"' + (store.settings.unit === "mi" ? " selected" : "") + ">miles</option><option value=\"km\"" + (store.settings.unit === "km" ? " selected" : "") + ">kilometers</option></select></div>" +
       '<div class="actions"><button class="btn danger" data-action="clear-all">Erase all logs</button></div>' +
-      '<input type="file" id="import-file" accept="application/json,.json" hidden />';
-    document.getElementById("modal").hidden = false;
+      '<input type="file" id="import-file" accept="application/json,.json" hidden />');
   }
-  function closeModal() { document.getElementById("modal").hidden = true; }
+
+  /* ------------------------------------------------------ paces modal */
+  var ANCHOR_ROWS = [
+    ["vVO2 Max", "VO2max / ~5K effort", "vvo2", "vvo2"],
+    ["Critical Power", "Critical speed (CS)", "cs", "cs"],
+    ["LT2 / MLSS", "Lactate threshold", "lt2", "lt2"],
+    ["LT1 / AeT", "Aerobic threshold", "lt1", "lt1"],
+    ["FatMax", "Max fat oxidation", "fatmax", "fatmax"],
+    ["Bot. Zone 2", "Bottom of easy zone", "bz2", "bz2"],
+    ["Bot. Zone 1", "Bottom of recovery", "bz1", "bz1"],
+  ];
+  var PACE_ROWS = [
+    ["Zone 1", "Recovery / very easy"],
+    ["Zone 2", "Easy aerobic · long run"],
+    ["Zone 3", "Steady / marathon"],
+    ["Zone 4", "Threshold"],
+    ["Zone 5", "VO2 max"],
+    ["Zone 6", "Sprint / mile effort"],
+  ];
+  function anchorTableHtml(model) {
+    if (!model) return "";
+    var unit = store.settings.unit;
+    var html = '<div class="scroll-x"><table class="data zone-table"><thead><tr><th>Anchor</th><th>What it is</th><th>Pace</th><th>HR</th></tr></thead><tbody>';
+    ANCHOR_ROWS.forEach(function (r) {
+      var spd = model.speeds[r[2]];
+      if (!(spd > 0)) return;
+      var pace = fmtSec(speedToPace(spd, unit)) + "/" + unit;
+      var hr = (model.maxHR && HR_PCT[r[3]] != null) ? Math.round(HR_PCT[r[3]] * model.maxHR) + " bpm" : "—";
+      html += "<tr><td>" + esc(r[0]) + "</td><td>" + esc(r[1]) + "</td><td>" + esc(pace) + "</td><td>" + esc(hr) + "</td></tr>";
+    });
+    return html + "</tbody></table></div>";
+  }
+  function paceTableHtml(model) {
+    if (!model) return "";
+    var unit = store.settings.unit;
+    var html = '<div class="scroll-x"><table class="data zone-table"><thead><tr><th>Zone</th><th>Description</th><th>Pace</th><th>HR</th></tr></thead><tbody>';
+    PACE_ROWS.forEach(function (r) {
+      var z = model.zones[r[0].replace("Zone ", "Z")];
+      if (!z) return;
+      var p = zonePaceRange(z, unit);
+      var hr = model.maxHR ? hrRangeText([z.hr[0] * model.maxHR, z.hr[1] == null ? null : z.hr[1] * model.maxHR]) : "—";
+      html += "<tr><td>" + esc(r[0]) + "</td><td>" + esc(r[1]) + "</td><td>" + esc(paceRangeText(p, unit)) + "</td><td>" + esc(hr) + "</td></tr>";
+    });
+    return html + "</tbody></table></div>";
+  }
+  function unitOptions(cur) {
+    return ["mi", "km", "m"].map(function (u) { return '<option value="' + u + '"' + (cur === u ? " selected" : "") + ">" + u + "</option>"; }).join("");
+  }
+  function parsedEfforts(list) {
+    return (list || []).map(function (e) {
+      return { distanceM: parseDist(e.distRaw, e.unit), timeS: parseTime(e.timeRaw), date: e.date };
+    }).filter(function (e) { return e.distanceM > 0 && e.timeS > 0; });
+  }
+  function modelFromDraft(d) {
+    var efforts = parsedEfforts(d.efforts);
+    var maxHR = d.maxHR ? +d.maxHR : null;
+    var aec = (d.aecPct != null && isFinite(+d.aecPct)) ? (+d.aecPct) / 100 : AEC_CONST;
+    if (efforts.length >= 2) return twoEffortModel(efforts, maxHR, aec);
+    if (efforts.length === 1) return singleRaceModel(efforts[0], maxHR, aec);
+    return null;
+  }
+  function openPacesModal() {
+    var p = store.paces || {};
+    state.pacesDraft = {
+      maxHR: p.maxHR != null ? p.maxHR : "",
+      aecPct: p.aecPct != null ? p.aecPct : 12,
+      efforts: (p.efforts || []).map(function (e) {
+        return { distRaw: e.distRaw != null ? e.distRaw : "", unit: e.unit || store.settings.unit, timeRaw: e.timeRaw || "", date: e.date || todayISO() };
+      }),
+    };
+    if (!state.pacesDraft.efforts.length) state.pacesDraft.efforts.push({ distRaw: "", unit: store.settings.unit, timeRaw: "", date: todayISO() });
+    renderPacesModal();
+  }
+  function renderPacesModal() {
+    var d = state.pacesDraft;
+    var html = '<div class="small muted" style="margin-bottom:14px">Enter one or more all-out efforts (races or time trials). ' +
+      "One effort uses your single-race formula; two or more use the critical-speed model. Distance can be mi, km, or meters (m). Saved in this browser only.</div>" +
+      '<div class="grid-2">' +
+      '<div class="field"><label>Max heart rate (bpm)</label><input type="number" inputmode="numeric" min="120" max="230" id="pace-maxhr" value="' + esc(d.maxHR) + '" placeholder="e.g. 190" /></div>' +
+      '<div class="field"><label>AeC (%)</label><input type="number" inputmode="decimal" min="4" max="20" step="0.5" id="pace-aec" value="' + esc(d.aecPct) + '" placeholder="12" /></div>' +
+      "</div>" +
+      '<div class="small muted" style="margin:-6px 0 14px">AeC is the anaerobic-capacity fraction (lower = better aerobic fitness): ~6.5–7% elite, up to ~15% newer runners.</div>' +
+      '<div class="field"><label>All-out efforts</label></div>';
+    d.efforts.forEach(function (e, i) {
+      html += '<div class="effort-row">' +
+        '<div class="field"><label>Distance</label><input type="number" inputmode="decimal" min="0" step="0.001" data-pace-idx="' + i + '" data-pace-field="distRaw" value="' + esc(e.distRaw) + '" placeholder="5000 or 3.1" /></div>' +
+        '<div class="field unit"><label>Unit</label><select data-pace-idx="' + i + '" data-pace-field="unit">' + unitOptions(e.unit) + "</select></div>" +
+        '<div class="field time"><label>Time</label><input type="text" data-pace-idx="' + i + '" data-pace-field="timeRaw" value="' + esc(e.timeRaw) + '" placeholder="mm:ss" /></div>' +
+        '<div class="field"><label>Date</label><input type="date" data-pace-idx="' + i + '" data-pace-field="date" value="' + esc(e.date) + '" /></div>' +
+        '<button class="effort-del" data-action="del-effort" data-idx="' + i + '" title="Remove">✕</button>' +
+        "</div>";
+    });
+    html += '<div class="actions" style="margin-bottom:16px"><button class="btn secondary" data-action="add-effort">+ Add effort</button></div>';
+
+    var model = modelFromDraft(d);
+    html += '<div class="hr"></div>';
+    if (model) {
+      html += '<div class="muted small" style="margin:14px 0 10px">Computed from your input:</div>' +
+        anchorTableHtml(model) +
+        '<div class="muted small" style="margin:16px 0 10px">Zone ranges:</div>' + paceTableHtml(model);
+    } else {
+      html += '<div class="small muted" style="margin:14px 0">Add at least one valid effort (distance + time) to see target paces.' +
+        " The two-effort critical-speed model needs two efforts.</div>";
+    }
+    html += '<div class="actions" style="margin-top:18px"><button class="btn primary" data-action="save-paces">Save paces</button></div>';
+    openModal("Training paces", html);
+  }
+  function readPacesDom() {
+    var d = state.pacesDraft;
+    var mh = document.getElementById("pace-maxhr");
+    if (mh) d.maxHR = mh.value;
+    var ae = document.getElementById("pace-aec");
+    if (ae) d.aecPct = ae.value;
+    var efforts = [];
+    Array.prototype.forEach.call(document.querySelectorAll("#modal-body .effort-row"), function (row) {
+      var g = function (f) { var el = row.querySelector('[data-pace-field="' + f + '"]'); return el ? el.value : ""; };
+      efforts.push({ distRaw: g("distRaw"), unit: g("unit") || store.settings.unit, timeRaw: g("timeRaw"), date: g("date") });
+    });
+    d.efforts = efforts;
+    return d;
+  }
+  function savePaces() {
+    var d = state.pacesDraft;
+    store.paces = {
+      maxHR: d.maxHR ? +d.maxHR : null,
+      aecPct: (d.aecPct != null && isFinite(+d.aecPct)) ? +d.aecPct : 12,
+      efforts: (d.efforts || []).map(function (e) {
+        var distanceM = parseDist(e.distRaw, e.unit), timeS = parseTime(e.timeRaw);
+        return { distRaw: e.distRaw, unit: e.unit, timeRaw: e.timeRaw, date: e.date, distanceM: distanceM, timeS: timeS };
+      }).filter(function (e) { return e.distanceM > 0 && e.timeS > 0; }),
+    };
+    save(); closeModal(); render();
+    toast(store.paces.efforts.length ? "Paces updated" : "Paces cleared");
+  }
   function exportJSON() {
-    download("training-log-" + todayISO() + ".json", JSON.stringify({ app: "training-log", exportedAt: new Date().toISOString(), settings: store.settings, logs: store.logs }, null, 2), "application/json");
+    download("training-log-" + todayISO() + ".json", JSON.stringify({ app: "training-log", exportedAt: new Date().toISOString(), settings: store.settings, paces: store.paces, logs: store.logs }, null, 2), "application/json");
     toast("Exported JSON");
   }
   function exportCSV() {
@@ -521,6 +838,7 @@
         var data = JSON.parse(reader.result), logs = data.logs || data, count = 0;
         Object.keys(logs).forEach(function (iso) { if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) { store.logs[iso] = logs[iso]; count++; } });
         if (data.settings && data.settings.unit) store.settings.unit = data.settings.unit;
+        if (data.paces) store.paces = data.paces;
         save(); closeModal(); render(); toast("Imported " + count + " entries");
       } catch (e) { toast("Could not read that file"); }
     };
@@ -544,6 +862,19 @@
       case "save-log": saveLog(); break;
       case "clear-log": clearLog(); break;
       case "open-data": openDataModal(); break;
+      case "open-paces": openPacesModal(); break;
+      case "add-effort":
+        readPacesDom();
+        state.pacesDraft.efforts.push({ distRaw: "", unit: store.settings.unit, timeRaw: "", date: todayISO() });
+        renderPacesModal();
+        break;
+      case "del-effort":
+        readPacesDom();
+        state.pacesDraft.efforts.splice(+t.dataset.idx, 1);
+        if (!state.pacesDraft.efforts.length) state.pacesDraft.efforts.push({ distRaw: "", unit: store.settings.unit, timeRaw: "", date: todayISO() });
+        renderPacesModal();
+        break;
+      case "save-paces": readPacesDom(); savePaces(); break;
       case "export-json": exportJSON(); break;
       case "export-csv": exportCSV(); break;
       case "import-json": document.getElementById("import-file").click(); break;
@@ -560,6 +891,7 @@
   document.addEventListener("change", function (e) { if (e.target.id === "import-file" && e.target.files[0]) importJSON(e.target.files[0]); });
   document.getElementById("tabs").addEventListener("click", function (e) { var b = e.target.closest("button[data-view]"); if (b) go(b.dataset.view); });
   document.getElementById("data-btn").addEventListener("click", openDataModal);
+  document.getElementById("paces-btn").addEventListener("click", openPacesModal);
   document.getElementById("modal-close").addEventListener("click", closeModal);
   document.getElementById("modal").addEventListener("click", function (e) { if (e.target.id === "modal") closeModal(); });
 

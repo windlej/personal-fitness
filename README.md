@@ -10,6 +10,7 @@ hosted for free on GitHub Pages.
 - **Journal** — every logged session in one list.
 - **Progress** — completion %, time/distance logged, weekly planned-vs-logged volume, RPE trend, adherence by session type.
 - **Plan** — the phases, the full 12-month week-by-week schedule, and zones & paces.
+- **Paces** (header) — enter race/time-trial results and max HR; the app derives target pace **and HR** for each workout from your critical-speed model.
 - **Data** — export/import JSON (backup / move devices) and export CSV.
 
 No build step, no frameworks, no accounts. Your logs live in this browser's
@@ -38,8 +39,54 @@ window. Dates outside the window fall back to a repeating Sun → Sat template.
 | **Sat** | **Long run**, easy (ramps up over the plan) |
 
 Maintenance weeks (Nov–Dec) drop to one quality day; holiday/race weeks go light.
-Paces come from the 20-min time-trial reference. Effort/RPE always wins over the
-watch on hot, hilly, or tired days.
+Effort/RPE always wins over the watch on hot, hilly, or tired days.
+
+---
+
+## Training paces
+
+Open **Paces** in the header and enter your max heart rate, an **AeC %**
+(anaerobic-capacity fraction, default 12%), and one or more all-out efforts (a
+race or time trial: distance, time, date). From those the app derives your target
+**pace range and HR** for every workout.
+
+**Two or more efforts** — critical-speed model:
+
+```
+CS   = (d₂ − d₁) / (t₂ − t₁)          critical speed (m/s)
+D'   = d_small − CS · t_small          anaerobic distance capacity (m)
+vVO₂ = min( CS + D' / 425.5 , Riegel 6-min pace from the shorter race )
+```
+
+**One effort** — single-race model:
+
+```
+P_race    = time / distance × 1609        (sec/mi of the effort)
+CP pace   = P_race / (1 − AeC/2)
+vVO₂ pace = 2·P_race − CP pace
+CS = CP speed, vVO₂ = vVO₂ speed
+```
+
+**Zone speeds** (either model), as fractions of vVO₂ — tuned so easy/recovery
+lands where it should rather than far too slow:
+
+```
+LT2 = (1 − 1.5·AeC)·vVO₂     LT1 = (1 − 1.9·AeC)·vVO₂
+FatMax = (1 − 2.4·AeC)·vVO₂
+BZ2 = (1 − 2.75·AeC)·vVO₂    BZ1 = (1 − 3.55·AeC)·vVO₂
+```
+
+At the 12% default that's LT2 0.82, LT1 0.772, FatMax 0.712, BZ2 0.67, BZ1 0.574
+of vVO₂.
+
+The app lists the full anchor ladder — **vVO2 Max → Critical Power → LT2 / MLSS →
+LT1 / AeT → FatMax → Bottom of Zone 2 → Bottom of Zone 1** — with a pace and HR for
+each, then the zone ranges. Zones: `Z2 = BZ2→LT1` (easy, long), `Z4 = LT2→CS`
+(threshold), `Z5 = CS→vVO₂` (VO2), `Z6` faster than vVO₂ (sprints). HR targets
+scale from %maxHR (vVO₂ 100, CS 93, LT2 88, LT1 83, FatMax 78, BZ2 73, BZ1 60).
+Lower **AeC = better aerobic fitness** (~6.5–7% elite, up to ~15% newer runners).
+Efforts, AeC, and max HR are stored in this browser only and included in your
+JSON export.
 
 ---
 

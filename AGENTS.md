@@ -40,7 +40,9 @@ Maintenance weeks (Nov–Dec) drop to one quality day; holiday/race weeks go lig
 
 - `index.html`, `css/styles.css`, `js/app.js` — the web app. `js/app.js` resolves
   any date to a session (dated schedule first, then the A/B fallback), handles
-  logging (localStorage), and export/import. **Edit here only for app/UI changes.**
+  logging (localStorage), export/import, and a **critical-speed pace engine**
+  (header **Paces** modal: race efforts + max HR → per-workout pace & HR, stored
+  in localStorage). **Edit here only for app/UI changes.**
 - `data/plan.js` / `data/plan.json` — **generated** plan data (`window.PLAN`):
   `meta`, the dated `schedule` (keyed by ISO date), `weeks`, `phases`, the
   out-of-range `template` (A/B), and `zones`. **Never hand-edit** — regenerate.

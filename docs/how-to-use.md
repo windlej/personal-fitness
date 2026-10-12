@@ -33,7 +33,22 @@ the plan itself is built and deployed, see the top-level `README.md`.
 | **Journal** | Every session you've logged, newest first. |
 | **Progress** | Completion %, time/distance logged, planned-vs-logged volume, RPE trend, adherence by session type. |
 | **Plan** | The phases, the full 12-month week-by-week schedule, and the zone/pace table. |
+| **Paces** (header button) | Enter races/time trials + max HR to get target pace and HR per workout. |
 | **Data** | Export/import your logs. |
+
+## Set your training paces
+
+Tap **Paces** in the top-right header, enter your **max heart rate**, an
+**AeC %**, and one or more **all-out efforts** (distance, time, date — a race or
+time trial), then **Save**. One effort uses the single-race formula; two or more
+use the critical-speed model. The app computes target paces and HR from your
+results and shows them on each workout day. The **Plan** view (and the Paces
+modal) lists the full anchor ladder — **vVO2 Max → Critical Power → LT2 / MLSS →
+LT1 / AeT → FatMax → Bottom of Zone 2 → Bottom of Zone 1** — with a pace and heart
+rate for each. AeC is the anaerobic-capacity
+fraction — lower means better aerobic fitness (elite ~6.5–7%, newer runners up
+to ~15%; **12% default**). Paces are stored in this browser (and in your JSON
+export) — they're not part of the shared plan.
 
 ## Back up your data (important)
 
