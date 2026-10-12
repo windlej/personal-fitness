@@ -40,6 +40,10 @@ Kettlebell days are Sun (A), Tue (B), Thu (C). Wednesday has **no** kettlebell.
   `build_week()`. **Edit the template here.**
 - `docs/training-context.md` — the athlete's goals, constraints, and preferences.
   Update this when life changes; the coach reads it.
+- `docs/how-to-use.md` — plain-language usage guide for the app + coach.
+- `scripts/build_history.py` — distills a Strava/SmashRun CSV export into
+  `docs/training-history.md` (coach-readable history/insights) and
+  `data/history-summary.json`. Output is **generated and git-ignored** (personal).
 - `.opencode/` — opencode agent + skill config (see below).
 
 ## Rebuild + deploy

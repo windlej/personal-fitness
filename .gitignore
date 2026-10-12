@@ -9,3 +9,17 @@ __pycache__/
 journal-export.json
 journal*.json
 journal*.csv
+
+# Raw activity exports (Strava / SmashRun) — personal dates, HR, routes.
+activities.csv
+history.csv
+smashrun-export.csv
+strava/
+*.fit
+*.fit.gz
+*.gpx
+*.tcx
+
+# Generated from personal history by scripts/build_history.py.
+docs/training-history.md
+data/history-summary.json

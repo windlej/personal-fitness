@@ -66,12 +66,37 @@ The coach edits the plan by following the
 `.opencode/skills/modify-training-plan/SKILL.md` workflow, then rebuilds and
 shows you the diff before committing.
 
+## Leverage your Strava / SmashRun history
+
+You have years of real training data — use it to spot **consistency, trends, and
+what you've actually sustained**, so the coach can ground its advice.
+
+1. **Get a CSV export:**
+   - **Strava:** Settings → My Account → *Download your account* → Request
+     download. The emailed zip contains `activities.csv`.
+   - **SmashRun:** open `smashrun.com/<your-username>/export` (or Account
+     Settings → *Request Bulk Export*).
+2. **Save it** in the repo root as `history.csv` (git-ignored).
+3. **Run the digest:**
+   ```bash
+   python3 scripts/build_history.py history.csv
+   ```
+   This writes `docs/training-history.md` — all-time volume, consistency and
+   streaks, personal bests, yearly trends, and insight notes — plus a
+   machine-readable `data/history-summary.json`.
+4. **Ask the coach** about it: "Given my 10-year history, is my current weekly
+   volume realistic?" or "Where do I lose consistency?"
+
+Both generated files are git-ignored. If the CSV columns aren't detected, the
+script prints the headers it saw — pass `--unit km|mi|m` or rename the columns.
+
 ## Privacy
 
 - The **website is public** (anyone can see the plan and code).
-- Your **logs are not** — they stay in your browser and in any JSON/CSV files you
-  export. `journal-export.json` is git-ignored; never commit it or your Strava
-  files to a public repo.
+- Your **logs and history are not** — they stay in your browser and in any
+  JSON/CSV files you export. `journal-export.json`, `history.csv`,
+  `docs/training-history.md`, and `data/history-summary.json` are all
+  git-ignored; never commit them or your Strava files to a public repo.
 
 ## Troubleshooting
 

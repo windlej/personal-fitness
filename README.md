@@ -49,6 +49,8 @@ js/app.js               # all app logic (generates any date from the template)
 data/plan.js            # generated: the weekly template + zones
 data/plan.json          # same data as JSON
 scripts/build_plan.py   # regenerates data/plan.* (zones read from the workbook)
+scripts/build_history.py# distills a Strava/SmashRun CSV into a history digest
+docs/                   # how-to-use.md, training-context.md (+ personal history)
 Training Plan (1).xlsx  # original source workbook (reference)
 ```
 
@@ -111,7 +113,15 @@ This repo ships an opencode **training-coach** agent and supporting docs:
 
 To have the coach review your actual training, export **JSON** from the app's
 **Data** view and save it as `journal-export.json` in the repo root (git-ignored).
-Restart opencode after editing any `.opencode/` or `opencode.json` file.
+For long-term context, feed it your history:
+
+```bash
+python3 scripts/build_history.py history.csv   # from a Strava/SmashRun export
+```
+
+This writes `docs/training-history.md` (volume, consistency, PBs, yearly trends)
+for the coach to read. See `docs/how-to-use.md` for how to get the CSV. Restart
+opencode after editing any `.opencode/` or `opencode.json` file.
 
 ## Roadmap
 
@@ -120,3 +130,4 @@ Restart opencode after editing any `.opencode/` or `opencode.json` file.
 - [ ] Training-load model (RPE × duration, acute:chronic ratio) and fatigue warnings.
 - [ ] Per-day template editing in the UI (no code changes).
 - [x] Drive edits and coaching via opencode with a repo-scoped "training coach" agent.
+- [x] Distill Strava/SmashRun history into a coach-readable digest.

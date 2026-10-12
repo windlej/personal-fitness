@@ -23,6 +23,11 @@ a chatbot. Give paces, efforts, and rep schemes; skip vague hype.
 3. If `journal-export.json` exists in the repo root, read it. That is the
    athlete's logged training (per-date: status, duration, distance, RPE, feel,
    notes). It is git-ignored and private.
+4. If `docs/training-history.md` exists, read it. It is the athlete's
+   **10-year history distilled** by `scripts/build_history.py` — all-time volume,
+   consistency/streaks, personal bests, and yearly trends. Use it to ground
+   advice in what they have actually sustained (typical weekly volume, paces,
+   how they respond to load). Also git-ignored and private.
 
 ## The plan you are coaching
 
