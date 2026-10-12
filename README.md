@@ -94,10 +94,26 @@ Add the site to your phone's home screen for one-tap access.
 
 ---
 
+## Coaching with opencode
+
+This repo ships an opencode **training-coach** agent and supporting docs:
+
+- `docs/training-context.md` — **your** goals, races, constraints, injuries. Edit
+  this when life changes; the coach reads it every session.
+- `.opencode/agent/training-coach.md` — the coach persona. Switch to it with the
+  agent picker.
+- `.opencode/skills/modify-training-plan/SKILL.md` — the safe workflow for
+  changing the template, zones, or adding a race.
+- `AGENTS.md` — repo/plan context loaded automatically.
+
+To have the coach review your actual training, export **JSON** from the app's
+**Data** view and save it as `journal-export.json` in the repo root (git-ignored).
+Restart opencode after editing any `.opencode/` or `opencode.json` file.
+
 ## Roadmap
 
 - [ ] Import actuals from Strava / Garmin / Apple Health (GPX/CSV or API).
 - [ ] Compute pace zones from a real 20-min time trial entry instead of the placeholder.
 - [ ] Training-load model (RPE × duration, acute:chronic ratio) and fatigue warnings.
 - [ ] Per-day template editing in the UI (no code changes).
-- [ ] Drive edits and coaching via opencode with a repo-scoped "training coach" agent.
+- [x] Drive edits and coaching via opencode with a repo-scoped "training coach" agent.

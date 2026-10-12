@@ -195,6 +195,20 @@ def main():
     zones = parse_zones(wb)
     tt_miles, _rotation, zones_note = parse_footer(wb)
 
+    # The workbook's "frequency" text predates the current Mon/Wed layout;
+    # keep it aligned with the authoritative template (see AGENTS.md).
+    freq_override = {
+        "lactate threshold": "Every week (Monday)",
+        "vo2": "Every other week (Wednesday, A weeks)",
+        "short sprints": "Every other week (Wednesday, B weeks) + weekly strides",
+    }
+    for z in zones:
+        name = (z.get("name") or "").lower()
+        for key, value in freq_override.items():
+            if name.startswith(key):
+                z["frequency"] = value
+                break
+
     plan = {
         "meta": {
             "title": "Continuous Running + Kettlebell Plan",

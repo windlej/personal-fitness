@@ -4,3 +4,8 @@ node_modules/
 .venv/
 __pycache__/
 *.pyc
+
+# Personal training logs — the repo is public, never commit these.
+journal-export.json
+journal*.json
+journal*.csv

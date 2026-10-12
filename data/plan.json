@@ -226,7 +226,7 @@
       "pace": "7:09 \u2013 7:14",
       "rule": "TT pace + 15\u201320 sec/mi",
       "sessions": "Cruise intervals (3\u00d78'/1'), 2\u00d712'/2', 20\u201325' tempo",
-      "frequency": "Every week (Tuesday)"
+      "frequency": "Every week (Monday)"
     },
     {
       "name": "VO2 Max",
@@ -235,7 +235,7 @@
       "pace": "6:44 \u2013 6:49",
       "rule": "TT pace \u2212 5 to 10 sec/mi (\u22483K\u20135K effort)",
       "sessions": "30/30s, 1' reps, 2\u20134' reps, 5\u00d73'",
-      "frequency": "Every other week (Thursday, A weeks)"
+      "frequency": "Every other week (Wednesday, A weeks)"
     },
     {
       "name": "Short Sprints / Accelerations",
@@ -244,7 +244,7 @@
       "pace": "Effort-based (not paced)",
       "rule": "Fast and relaxed \u2014 roughly mile-race effort or hill sprint",
       "sessions": "Hill sprints 6\u20138\u00d78\u201310s, flat 6\u20138\u00d715\u201320s; 4\u20135 strides after select easy runs",
-      "frequency": "Every other week (Thursday, B weeks) + strides weekly"
+      "frequency": "Every other week (Wednesday, B weeks) + weekly strides"
     }
   ]
 }
