@@ -103,6 +103,9 @@ Add the site to your phone's home screen for one-tap access.
 
 This repo ships an opencode **training-coach** agent and supporting docs:
 
+- `docs/training-principles.md` — **your authoritative training philosophy.** This
+  is how you "teach" the coach the rules to follow; it's loaded into every
+  session. Edit it to change how the coach thinks.
 - `docs/training-context.md` — **your** goals, races, constraints, injuries. Edit
   this when life changes; the coach reads it every session.
 - `.opencode/agent/training-coach.md` — the coach persona. Switch to it with the

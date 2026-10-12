@@ -50,14 +50,18 @@ switching devices, means starting over — so **export regularly**:
 This repo includes an opencode **training-coach** agent (see `README.md` and
 `AGENTS.md`). To use it:
 
-1. **Fill in `docs/training-context.md`** — your goals, races, constraints,
+1. **Set the rules:** edit **`docs/training-principles.md`** — your authoritative
+   training philosophy. This is how you "teach" the coach what to follow; it's
+   loaded into every session. When you correct the coach, have it add the rule
+   here so it sticks.
+2. **Fill in `docs/training-context.md`** — your goals, races, constraints,
    injuries, equipment. The coach reads this first.
-2. **Give it your data:** in the app, **Data → Export JSON**, then save the file
+3. **Give it your data:** in the app, **Data → Export JSON**, then save the file
    as `journal-export.json` in the repo root. (It's git-ignored — never
    committed, because this repo is public.)
-3. **Restart opencode**, then switch to the **training-coach** agent with the
+4. **Restart opencode**, then switch to the **training-coach** agent with the
    agent picker (press `Tab`).
-4. Ask things like:
+5. Ask things like:
    - "How was my week? Anything to adjust?"
    - "I'm doing a 10K in 8 weeks — adjust the template."
    - "My Tuesday runs feel too hard lately."

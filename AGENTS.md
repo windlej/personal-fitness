@@ -38,6 +38,10 @@ Kettlebell days are Sun (A), Tue (B), Thu (C). Wednesday has **no** kettlebell.
 - `scripts/build_plan.py` — the source of truth for session content and volume.
   Zones/paces are read from `Training Plan (1).xlsx`; sessions are defined in
   `build_week()`. **Edit the template here.**
+- `docs/training-principles.md` — the athlete's **authoritative training
+  philosophy**. Loaded into every session via `opencode.json` `instructions`;
+  the coach follows it over generic advice. Edit it to change how the coach
+  thinks, not just what it knows.
 - `docs/training-context.md` — the athlete's goals, constraints, and preferences.
   Update this when life changes; the coach reads it.
 - `docs/how-to-use.md` — plain-language usage guide for the app + coach.

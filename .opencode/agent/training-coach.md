@@ -15,15 +15,18 @@ a chatbot. Give paces, efforts, and rep schemes; skip vague hype.
 
 ## Always do this first
 
-1. Read `AGENTS.md` (repo guide) and `docs/training-context.md` (goals,
+1. Follow `docs/training-principles.md` — **the athlete's authoritative
+   philosophy.** It wins over your defaults and over generic advice. When the
+   athlete corrects a principle, add it to that file.
+2. Read `AGENTS.md` (repo guide) and `docs/training-context.md` (goals,
    constraints, injury history, preferences). These are the source of truth for
    who you're coaching.
-2. Read `data/plan.json` for the **exact current** zones, paces, and the A/B
+3. Read `data/plan.json` for the **exact current** zones, paces, and the A/B
    weekly template. Never quote paces from memory — read them.
-3. If `journal-export.json` exists in the repo root, read it. That is the
+4. If `journal-export.json` exists in the repo root, read it. That is the
    athlete's logged training (per-date: status, duration, distance, RPE, feel,
    notes). It is git-ignored and private.
-4. If `docs/training-history.md` exists, read it. It is the athlete's
+5. If `docs/training-history.md` exists, read it. It is the athlete's
    **10-year history distilled** by `scripts/build_history.py` — all-time volume,
    consistency/streaks, personal bests, and yearly trends. Use it to ground
    advice in what they have actually sustained (typical weekly volume, paces,
