@@ -15,6 +15,9 @@ hosted for free on GitHub Pages.
 No build step, no frameworks, no accounts. Your logs live in this browser's
 `localStorage`, so **export regularly**.
 
+> **New here? Read [`docs/how-to-use.md`](docs/how-to-use.md)** — a plain-language
+> guide to the daily flow, backups, and using the AI training coach.
+
 ---
 
 ## The training template
