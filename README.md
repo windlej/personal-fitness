@@ -60,23 +60,18 @@ python3 scripts/build_plan.py
 
 ## Deploy on GitHub Pages (free)
 
-Pick **one** option:
-
-**A. Simplest — deploy from a branch**
+This repo is already set up as a static site (no build step):
 
 1. Push this repo to GitHub (`main` branch).
 2. Repo → **Settings → Pages → Build and deployment → Source: "Deploy from a branch"**.
 3. Branch: **main**, folder: **/(root)** → Save.
-4. After ~1 minute the site is at `https://<username>.github.io/<repo>/`.
-5. Delete `.github/workflows/pages.yml` (it's only for option B).
-
-**B. Workbook stays the source of truth — deploy via Actions**
-
-Keep `.github/workflows/pages.yml` and set **Settings → Pages → Source:
-"GitHub Actions"**. Every push rebuilds `data/plan.js` from the `.xlsx`
-(requires `openpyxl`, installed automatically in the workflow) and deploys.
+4. After ~1 minute the site is live at `https://<username>.github.io/<repo>/`.
 
 Add the site to your phone's home screen for one-tap access.
+
+> Prefer the `.xlsx` to stay the source of truth and auto-rebuild on push? Add a
+> GitHub Actions workflow that runs `scripts/build_plan.py` and deploys via
+> `actions/deploy-pages`, then set Pages → Source to "GitHub Actions".
 
 ---
 
