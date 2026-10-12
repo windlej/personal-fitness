@@ -111,6 +111,39 @@
     toast._t = setTimeout(function () { el.hidden = true; }, 2200);
   }
 
+  /* ------------------------------------------------------------- icons
+     Inline Lucide (ISC) glyphs — one stroke system, no runtime dependency.
+     Shaped and sized via the .ico class in styles.css. */
+  var ICONS = {
+    "chevron-left": '<path d="m15 18-6-6 6-6"/>',
+    "chevron-right": '<path d="m9 18 6-6-6-6"/>',
+    "x": '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+    "plus": '<path d="M5 12h14"/><path d="M12 5v14"/>',
+    "clock": '<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+    "dumbbell": '<path d="M17.596 12.768a2 2 0 1 0 2.829-2.829l-1.768-1.767a2 2 0 0 0 2.828-2.829l-2.828-2.828a2 2 0 0 0-2.829 2.828l-1.767-1.768a2 2 0 1 0-2.829 2.829z"/><path d="m2.5 21.5 1.4-1.4"/><path d="m20.1 3.9 1.4-1.4"/><path d="M5.343 21.485a2 2 0 1 0 2.829-2.828l1.767 1.768a2 2 0 1 0 2.829-2.829l-6.364-6.364a2 2 0 1 0-2.829 2.829l1.768 1.767a2 2 0 0 0-2.828 2.829z"/><path d="m9.6 14.4 4.8-4.8"/>',
+    "target": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+    "download": '<path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/>',
+    "upload": '<path d="M12 3v12"/><path d="m17 8-5-5-5 5"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>',
+    "trash-2": '<path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+    "file-spreadsheet": '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/>'
+  };
+  function icon(name) {
+    return '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || "") + "</svg>";
+  }
+  // Two racing lines sweeping through the hero — motion with intent, kept faint.
+  function raceLines() {
+    return '<svg class="hero-race" viewBox="0 0 900 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+      '<defs><linearGradient id="racegrad" x1="0" y1="0" x2="1" y2="0">' +
+      '<stop offset="0" stop-color="var(--energy)" stop-opacity="0"/>' +
+      '<stop offset="0.45" stop-color="var(--energy)" stop-opacity="0.85"/>' +
+      '<stop offset="0.8" stop-color="var(--accent)" stop-opacity="0.5"/>' +
+      '<stop offset="1" stop-color="var(--accent)" stop-opacity="0"/>' +
+      "</linearGradient></defs>" +
+      '<path d="M-20 128 C 150 40, 320 150, 470 88 S 760 12, 920 76" fill="none" stroke="url(#racegrad)" stroke-width="2.5" stroke-linecap="round"/>' +
+      '<path d="M-20 150 C 160 72, 330 166, 490 112 S 770 48, 920 112" fill="none" stroke="url(#racegrad)" stroke-width="1.2" stroke-linecap="round" opacity="0.55"/>' +
+      "</svg>";
+  }
+
   /* --------------------------------------------------------- pace model
      Derives training paces from all-out race efforts. AeC (anaerobic-capacity
      fraction) is user-adjustable (default 12%); lower = better aerobic fitness.
@@ -279,17 +312,18 @@
 
     var details = day.details ? day.details.split("|").map(trim).filter(Boolean) : [];
     html += '<div class="card hero">';
-    html += '<div class="hero-stripe" style="background:' + colorVar(day) + '"></div>';
+    html += '<div class="hero-stripe" style="--c:' + colorVar(day) + '"></div>';
+    html += raceLines();
     html += '<div class="hero-top"><div><h1>' + esc(day.session) + "</h1>";
     html += '<div class="sub">' + esc(weekLabel(iso)) + " · " + esc(day.weekday) + " · " + esc(fmtLong(iso).split(",")[0]) + "</div></div></div>";
 
     html += '<div class="chips">';
     if (day.intensity && day.intensity !== "—") html += '<span class="chip ' + chipClass(day) + '"><span class="dot"></span>' + esc(day.intensity) + "</span>";
-    if (day.runMin) html += '<span class="chip">' + esc(fmtMin(day.runMin)) + " run</span>";
+    if (day.runMin) html += '<span class="chip">' + icon("clock") + esc(fmtMin(day.runMin)) + " run</span>";
     html += '<span class="chip ghost">' + esc(weekLabel(iso)) + "</span>";
     html += "</div>";
     var paceText = paceTextFor(day);
-    if (paceText) html += '<div class="pace-target">Target ' + esc(paceText) + "</div>";
+    if (paceText) html += '<div class="pace-target">' + icon("target") + "Target " + esc(paceText) + "</div>";
 
     if (details.length) {
       html += '<ul class="detail-list">';
@@ -298,7 +332,7 @@
     }
     if (day.kb) {
       var kbLines = day.kb.split("|").map(trim).filter(Boolean);
-      html += '<div class="kb-block"><h4>' + (day.kbCode ? '<span class="kb-badge">KB ' + day.kbCode + "</span>" : "") + esc(kbLabel(day.kbCode)) + "</h4>";
+      html += '<div class="kb-block"><h4>' + icon("dumbbell") + (day.kbCode ? '<span class="kb-badge">KB ' + day.kbCode + "</span>" : "") + esc(kbLabel(day.kbCode)) + "</h4>";
       html += '<ul class="detail-list" style="margin-top:0">';
       kbLines.forEach(function (d) { html += "<li>" + esc(d) + "</li>"; });
       html += "</ul></div>";
@@ -319,10 +353,10 @@
   function dayNav(iso) {
     var isToday = iso === todayISO();
     return '<div class="daynav">' +
-      '<button class="nav-btn" data-action="day-prev" aria-label="Previous day">‹</button>' +
+      '<button class="nav-btn" data-action="day-prev" aria-label="Previous day">' + icon("chevron-left") + '</button>' +
       '<div class="nav-center"><div class="wk">' + (isToday ? "Today" : esc(fmtLong(iso).split(",")[0])) + " · " + esc(weekLabel(iso)) + "</div>" +
       '<input type="date" id="date-input" value="' + iso + '" /></div>' +
-      '<button class="nav-btn" data-action="day-next" aria-label="Next day">›</button></div>' +
+      '<button class="nav-btn" data-action="day-next" aria-label="Next day">' + icon("chevron-right") + '</button></div>' +
       (isToday ? "" : '<div style="text-align:center;margin-top:10px"><button class="today-jump" data-action="go-today">Jump to today</button></div>');
   }
 
@@ -381,10 +415,10 @@
     for (var q = 0; q < 7; q++) { if (isQuality(dayFor(addDays(start, q)).kind)) qCount++; }
     var html = "";
     html += '<div class="card"><div class="daynav">' +
-      '<button class="nav-btn" data-action="week-prev">‹</button>' +
+      '<button class="nav-btn" data-action="week-prev">' + icon("chevron-left") + '</button>' +
       '<div class="nav-center"><div class="wk">' + esc(weekLabel(start)) + (qCount ? " · " + qCount + " quality day" + (qCount === 1 ? "" : "s") : "") + '</div>' +
       '<div class="dt">' + esc(fmtShort(start)) + " – " + esc(fmtShort(addDays(start, 6))) + "</div></div>" +
-      '<button class="nav-btn" data-action="week-next">›</button></div></div>';
+      '<button class="nav-btn" data-action="week-next">' + icon("chevron-right") + '</button></div></div>';
 
     html += '<div class="card pad-0"><div class="week-grid" style="padding:12px">';
     for (var i = 0; i < 7; i++) {
@@ -419,7 +453,7 @@
     var monthName = new Date(y, m, 1).toLocaleDateString(undefined, { month: "long", year: "numeric" });
 
     var html = '<div class="card">';
-    html += '<div class="cal-head"><button class="nav-btn" data-action="cal-prev">‹</button><strong>' + esc(monthName) + '</strong><button class="nav-btn" data-action="cal-next">›</button></div>';
+    html += '<div class="cal-head"><button class="nav-btn" data-action="cal-prev">' + icon("chevron-left") + '</button><strong>' + esc(monthName) + '</strong><button class="nav-btn" data-action="cal-next">' + icon("chevron-right") + '</button></div>';
     html += '<div class="cal-grid">';
     ["S", "M", "T", "W", "T", "F", "S"].forEach(function (d) { html += '<div class="cal-dow">' + d + "</div>"; });
     for (var i = 0; i < startDow; i++) html += '<div class="cal-cell empty"></div>';
@@ -555,7 +589,7 @@
     var w = 100, h = 30, step = w / (pts.length - 1);
     var path = pts.map(function (p, i) { return (i ? "L" : "M") + (i * step).toFixed(2) + " " + (h - ((p.rpe - 1) / 9) * h).toFixed(2); }).join(" ");
     var svg = '<svg class="chart" viewBox="0 0 ' + w + " " + h + '" preserveAspectRatio="none" style="height:120px">' +
-      '<defs><linearGradient id="rg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--accent)" stop-opacity="0.35"/><stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>' +
+      '<defs><linearGradient id="rg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--energy)" stop-opacity="0.45"/><stop offset="100%" stop-color="var(--energy)" stop-opacity="0"/></linearGradient></defs>' +
       '<path d="' + path + " L" + w + " " + h + " L0 " + h + ' Z" fill="url(#rg)"/>' +
       '<path d="' + path + '" fill="none" stroke="var(--accent)" stroke-width="1" vector-effect="non-scaling-stroke"/></svg>';
     var avg = pts.reduce(function (s, p) { return s + p.rpe; }, 0) / pts.length;
@@ -669,12 +703,12 @@
     var n = Object.keys(store.logs).length;
     openModal("Data",
       '<div class="small muted" style="margin-bottom:14px">' + n + " logged session" + (n === 1 ? "" : "s") + " stored in this browser only. Export to back up or move devices.</div>" +
-      '<div class="actions"><button class="btn primary" data-action="export-json">Export JSON (backup)</button>' +
-      '<button class="btn secondary" data-action="export-csv">Export CSV (spreadsheet)</button>' +
-      '<button class="btn secondary" data-action="import-json">Import / restore JSON</button></div>' +
+      '<div class="actions"><button class="btn primary" data-action="export-json">' + icon("download") + 'Export JSON (backup)</button>' +
+      '<button class="btn secondary" data-action="export-csv">' + icon("file-spreadsheet") + 'Export CSV (spreadsheet)</button>' +
+      '<button class="btn secondary" data-action="import-json">' + icon("upload") + 'Import / restore JSON</button></div>' +
       '<div class="hr" style="margin:18px 0"></div>' +
       '<div class="field"><label>Distance unit</label><select id="unit-select"><option value="mi"' + (store.settings.unit === "mi" ? " selected" : "") + ">miles</option><option value=\"km\"" + (store.settings.unit === "km" ? " selected" : "") + ">kilometers</option></select></div>" +
-      '<div class="actions"><button class="btn danger" data-action="clear-all">Erase all logs</button></div>' +
+      '<div class="actions"><button class="btn danger" data-action="clear-all">' + icon("trash-2") + 'Erase all logs</button></div>' +
       '<input type="file" id="import-file" accept="application/json,.json" hidden />');
   }
 
@@ -766,10 +800,10 @@
         '<div class="field unit"><label>Unit</label><select data-pace-idx="' + i + '" data-pace-field="unit">' + unitOptions(e.unit) + "</select></div>" +
         '<div class="field time"><label>Time</label><input type="text" data-pace-idx="' + i + '" data-pace-field="timeRaw" value="' + esc(e.timeRaw) + '" placeholder="mm:ss" /></div>' +
         '<div class="field"><label>Date</label><input type="date" data-pace-idx="' + i + '" data-pace-field="date" value="' + esc(e.date) + '" /></div>' +
-        '<button class="effort-del" data-action="del-effort" data-idx="' + i + '" title="Remove">✕</button>' +
+        '<button class="effort-del" data-action="del-effort" data-idx="' + i + '" title="Remove">' + icon("x") + '</button>' +
         "</div>";
     });
-    html += '<div class="actions" style="margin-bottom:16px"><button class="btn secondary" data-action="add-effort">+ Add effort</button></div>';
+    html += '<div class="actions" style="margin-bottom:16px"><button class="btn secondary" data-action="add-effort">' + icon("plus") + 'Add effort</button></div>';
 
     var model = modelFromDraft(d);
     html += '<div class="hr"></div>';

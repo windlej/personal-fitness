@@ -59,6 +59,10 @@ Maintenance weeks (Nov–Dec) drop to one quality day; holiday/race weeks go lig
 - `docs/training-context.md` — the athlete's goals, constraints, and preferences.
   Update this when life changes; the coach reads it.
 - `docs/how-to-use.md` — plain-language usage guide for the app + coach.
+- `docs/design-system.md` — the **living visual design system** (palette, tokens,
+  type, motion, components, anti-patterns). Update it alongside any change to
+  `css/styles.css`. Edit `css/styles.css`/`index.html`/`js/app.js` for the look;
+  this doc is the reference.
 - `scripts/build_history.py` — distills a Strava/SmashRun CSV export into
   `docs/training-history.md` (coach-readable history/insights) and
   `data/history-summary.json`. Output is **generated and git-ignored** (personal).
