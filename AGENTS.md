@@ -6,38 +6,50 @@ web app for viewing today's session and logging how it felt. Read this file, the
 
 ## What this is
 
-- **Continuous weekly template** — a repeating **Sun → Sat** week that never
-  ends. Weeks alternate **A** and **B** by week parity (no phases, no dated
-  calendar). Any date resolves to a session.
+- **Dated 12-month progression** — Oct 1 2026 → Oct 3 2027, across six phases,
+  with a down week roughly every 4th. Session content lives in the workbook's
+  **Daily Schedule** sheet and is parsed into `data/plan.*`.
 - **80/20-ish polarized** toward easy running, with two quality days, one long
-  run, three kettlebell-only days, and strides.
+  run, three kettlebell-only days, and strides. Dates outside the window fall
+  back to a repeating sun→sat A/B template, so the app can still resolve *any*
+  date.
 - Hosted free on GitHub Pages (static, no build). Live at
   <https://windlej.github.io/personal-fitness/>.
 
-## Weekly template (authoritative)
+> **Sheet gotcha:** the Daily Schedule's `Day` column is mislabeled — it runs one
+> day ahead of the real weekday (e.g. a row dated 2026-10-04, a real Sunday, is
+> labeled "Mon"). The **Date** column is correct; `build_plan.py` trusts dates
+> and derives the weekday from them.
+
+## Weekly template (build weeks)
 
 | Day | Session | Kind |
 |-----|---------|------|
 | Sun | Rest from running + **KB A** (hinge & press) | rest |
-| Mon | **Quality 1: Threshold** (3×8') | threshold |
-| Tue | Easy Z2 + **KB B** (upper & core); strides on A weeks | easy |
-| Wed | **Quality 2**: VO2 5×3' (A weeks) / hill sprints (B weeks) | vo2 / speed |
+| Mon | **Quality 1: Threshold** (progresses: 3×5' → 3×6' → 2×10' → 20–25' tempo) | threshold |
+| Tue | Easy Z2 + **KB B** (upper & core); strides some weeks | easy |
+| Wed | **Quality 2**: VO2 / hill sprints / flat accelerations | vo2 / speed |
 | Thu | No running + **KB C** (squat, single-leg, carry) | rest |
 | Fri | Easy Z2 + strides | easy |
-| Sat | **Long run** (80') | long |
+| Sat | **Long run**, easy (ramps to 90') | long |
 
 Kettlebell days are Sun (A), Tue (B), Thu (C). Wednesday has **no** kettlebell.
+Maintenance weeks (Nov–Dec) drop to one quality day; holiday/race weeks go light.
 
 ## File map
 
-- `index.html`, `css/styles.css`, `js/app.js` — the web app. `js/app.js` derives
-  any date's session from the template, handles logging (localStorage), and
-  export/import. **Edit here only for app/UI changes.**
-- `data/plan.js` / `data/plan.json` — **generated** plan data (`window.PLAN`).
-  **Never hand-edit** — regenerate with `scripts/build_plan.py`.
-- `scripts/build_plan.py` — the source of truth for session content and volume.
-  Zones/paces are read from `Training Plan (1).xlsx`; sessions are defined in
-  `build_week()`. **Edit the template here.**
+- `index.html`, `css/styles.css`, `js/app.js` — the web app. `js/app.js` resolves
+  any date to a session (dated schedule first, then the A/B fallback), handles
+  logging (localStorage), and export/import. **Edit here only for app/UI changes.**
+- `data/plan.js` / `data/plan.json` — **generated** plan data (`window.PLAN`):
+  `meta`, the dated `schedule` (keyed by ISO date), `weeks`, `phases`, the
+  out-of-range `template` (A/B), and `zones`. **Never hand-edit** — regenerate.
+- `scripts/build_plan.py` — the source of truth. It **parses the workbook's
+  `Daily Schedule`** (dates, sessions, run minutes, intensity, details, KB work,
+  notes) into `schedule`/`weeks`/`phases`, reads zones/paces from
+  `Zones & Sessions`, and keeps an A/B `build_week()` template as the
+  out-of-range fallback. **Edit session content in the workbook; edit the
+  fallback template / parsing here.**
 - `docs/training-principles.md` — the athlete's **authoritative training
   philosophy**. Loaded into every session via `opencode.json` `instructions`;
   the coach follows it over generic advice. Edit it to change how the coach

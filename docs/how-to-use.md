@@ -32,7 +32,7 @@ the plan itself is built and deployed, see the top-level `README.md`.
 | **Calendar** | Any date, past or future (colour-coded by intensity). |
 | **Journal** | Every session you've logged, newest first. |
 | **Progress** | Completion %, time/distance logged, planned-vs-logged volume, RPE trend, adherence by session type. |
-| **Plan** | The weekly template and the zone/pace table. |
+| **Plan** | The phases, the full 12-month week-by-week schedule, and the zone/pace table. |
 | **Data** | Export/import your logs. |
 
 ## Back up your data (important)
@@ -63,7 +63,7 @@ This repo includes an opencode **training-coach** agent (see `README.md` and
    agent picker (press `Tab`).
 5. Ask things like:
    - "How was my week? Anything to adjust?"
-   - "I'm doing a 10K in 8 weeks — adjust the template."
+   - "I'm doing a 10K in 8 weeks — adjust the plan."
    - "My Tuesday runs feel too hard lately."
 
 The coach edits the plan by following the

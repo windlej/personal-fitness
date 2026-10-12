@@ -1,25 +1,35 @@
 #!/usr/bin/env python3
-"""Build data/plan.js for the continuous run + kettlebell plan.
+"""Build data/plan.js for the 12-month run + kettlebell plan.
 
-The plan is a *continuous weekly template* rather than a fixed calendar. There
-are two alternating weeks (A and B) that repeat forever, so you can open the app
-on any date. Weeks run Sunday -> Saturday:
+The plan is a **dated progression**, Oct 1 2026 -> Oct 3 2027, split into six
+phases. Session content, run time, intensity, details, kettlebell work and
+notes are read from the "Daily Schedule" sheet of Training Plan (1).xlsx, so the
+website always matches the spreadsheet.
 
-  Sun  rest from running + KB A (hinge & press)
-  Mon  quality 1: threshold
-  Tue  easy Z2 (+ strides on A weeks) + KB B (upper & core)
-  Wed  quality 2: VO2 (A weeks) or sprints/strides (B weeks) — no kettlebell
-  Thu  no running + KB C (squat / single-leg / carry)
-  Fri  easy Z2 + strides
-  Sat  long run, easy
+  * Dates come from the sheet's Date column. The sheet's `Day` column is known
+    to be mislabeled (it runs one day ahead of the real weekday), so we IGNORE
+    it and derive the weekday from the date. Trusting the dates reproduces the
+    intended Sun -> Sat template:
 
-Zones/paces are still read from the workbook so they stay in sync with the
-"Zones & Sessions" sheet. Run:  python3 scripts/build_plan.py
+      Sun  long run        (easy Z2)
+      Mon  quality 1: threshold
+      Tue  easy Z2 + KB B  (strides on some weeks)
+      Wed  quality 2: VO2 / sprints / race-week sharpener
+      Thu  easy Z2 + strides  (or KB C on rest days)
+      Fri  rest / easy     (KB C on rest days)
+      Sat  easy Z2 + strides
+
+  * Out-of-range dates (before the plan starts or after it ends) fall back to a
+    repeating Sun -> Sat A/B weekly template so the app can resolve *any* date.
+
+Zones/paces still come from the workbook's "Zones & Sessions" sheet.
+Run: python3 scripts/build_plan.py
 """
 
 import datetime
 import json
 import os
+import re
 
 import openpyxl
 
@@ -31,6 +41,7 @@ XLSX = os.path.join(ROOT, "Training Plan (1).xlsx")
 OUT_JS = os.path.join(ROOT, "data", "plan.js")
 OUT_JSON = os.path.join(ROOT, "data", "plan.json")
 
+# --- Fallback weekly template (only used outside the dated plan window) -------
 KB_A = ("KB A – Hinge & Press (~35'): One-arm swings 4×10 each | "
         "Single-leg RDL (one KB) 3×8 each | Double-KB press 4×5 | "
         "Renegade row 3×5 each | Turkish get-up 3×2 each | Double farmer carry 4×40s")
@@ -46,6 +57,17 @@ EASY = "Zone 2 – easy (RPE 3–4)"
 THRESHOLD = "Threshold – Zone 4 (RPE 6–7)"
 VO2 = "VO2 Max – Zone 5 (RPE 8–9)"
 SPRINT = "Sprint / neuromuscular (RPE 8–9, full recovery)"
+
+# Session kind -> zone code (drives the app's colour chips).
+ZONE_BY_KIND = {
+    "threshold": "Z4",
+    "vo2": "Z5",
+    "speed": "SPD",
+    "easy": "Z2",
+    "long": "Z2",
+    "test": "TEST",
+    "rest": "",
+}
 
 
 def clean(value):
@@ -65,7 +87,7 @@ def easy_run(minutes, strides=False):
 
 
 def build_week(variant):
-    """Return the 7 template entries (Sun..Sat) for week variant 'A' or 'B'."""
+    """Return the 7 fallback template entries (Sun..Sat) for week variant 'A'/'B'."""
     a_week = variant == "A"
 
     sun = {
@@ -75,7 +97,6 @@ def build_week(variant):
         "kb": KB_A, "kbCode": "A",
         "notes": "Strength day. Stop each set ~2 reps shy of failure; quality running always wins.",
     }
-
     mon = {
         "session": "Quality 1: Threshold",
         "kind": "threshold", "zone": "Z4", "runMin": 40, "intensity": THRESHOLD,
@@ -83,7 +104,6 @@ def build_week(variant):
         "kb": None, "kbCode": None,
         "notes": "Run by effort. Once comfortable, progress by pace (3–5 sec/mi), not volume.",
     }
-
     tue = {
         "session": "Easy Zone 2 + KB B",
         "kind": "easy", "zone": "Z2", "runMin": 40, "intensity": EASY,
@@ -93,7 +113,6 @@ def build_week(variant):
                   if a_week else
                   "Keep it genuinely easy. KB B can be done after the run, at lunch, or split into desk-break blocks."),
     }
-
     if a_week:
         wed = {
             "session": "Quality 2: VO2 Max",
@@ -110,7 +129,6 @@ def build_week(variant):
             "kb": None, "kbCode": None,
             "notes": "Quality over quantity: stop if form degrades. Full recovery between reps.",
         }
-
     thu = {
         "session": "No running + KB C",
         "kind": "rest", "zone": "", "runMin": 0, "intensity": "—",
@@ -118,7 +136,6 @@ def build_week(variant):
         "kb": KB_C, "kbCode": "C",
         "notes": "Keep legs moderate so Friday's strides and Saturday's long run stay fresh.",
     }
-
     fri = {
         "session": "Easy Zone 2 + strides",
         "kind": "easy", "zone": "Z2", "runMin": 35, "intensity": EASY + "; strides ~7",
@@ -126,7 +143,6 @@ def build_week(variant):
         "kb": None, "kbCode": None,
         "notes": "Shakeout before tomorrow's long run.",
     }
-
     sat = {
         "session": "Long Run",
         "kind": "long", "zone": "Z2", "runMin": 80, "intensity": "Zone 2 – easy (RPE 3–4)",
@@ -141,6 +157,125 @@ def build_week(variant):
         e["weekday"] = WEEKDAYS[i]
         e["variant"] = variant
     return entries
+
+
+def classify(session):
+    """Map a sheet session name to an app 'kind'."""
+    s = (session or "").lower()
+    if s.startswith("race"):
+        return "test"
+    if "time trial" in s:
+        return "test"
+    if "threshold" in s:
+        return "threshold"
+    if "vo2" in s:
+        return "vo2"
+    if "sprint" in s or "stride" in s:
+        return "speed"
+    if s.startswith("long"):
+        return "long"
+    if s.startswith("easy"):
+        return "easy"
+    if s.startswith("rest"):
+        return "rest"
+    return "easy"
+
+
+def split_kb(text):
+    """Return (exercise_list, kb_code) with the 'KB X – Title (...):' header removed."""
+    if text is None:
+        return None, None
+    m = re.match(r"^KB\s+([ABC])\b", text)
+    code = m.group(1) if m else None
+    body = re.sub(r"^KB\s+[A-Z]\s*[–-]\s*[^:]*:\s*", "", text).strip()
+    return (body or None), code
+
+
+def js_dow(dt):
+    return (dt.weekday() + 1) % 7  # JS getDay(): Sun=0 .. Sat=6
+
+
+def as_int(value):
+    if isinstance(value, float):
+        return int(value)
+    if isinstance(value, int):
+        return value
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return 0
+
+
+def parse_schedule(wb):
+    """Read the Daily Schedule sheet into (schedule, weeks, phases)."""
+    ws = wb["Daily Schedule"]
+    rows = list(ws.iter_rows(values_only=True))
+
+    header = next((i for i, r in enumerate(rows) if clean(r[0]) == "Week"), None)
+    if header is None:
+        raise RuntimeError("Daily Schedule: header row not found")
+
+    schedule = {}
+    week_agg = {}
+    phases = []
+
+    for row in rows[header + 1:]:
+        dt = row[1]
+        if not isinstance(dt, (datetime.datetime, datetime.date)):
+            continue
+        if isinstance(dt, datetime.datetime):
+            dt = dt.date()
+        session = clean(row[4])
+        if not session:
+            continue
+
+        iso = dt.isoformat()
+        kind = classify(session)
+        kb_body, kb_code = split_kb(clean(row[8]))
+        week = as_int(row[0])
+        run_min = as_int(row[5])
+        phase = clean(row[3])
+
+        schedule[iso] = {
+            "session": session,
+            "kind": kind,
+            "zone": ZONE_BY_KIND.get(kind, ""),
+            "runMin": run_min,
+            "intensity": clean(row[6]) or "—",
+            "details": clean(row[7]) or "",
+            "kb": kb_body,
+            "kbCode": kb_code,
+            "notes": clean(row[9]),
+            "week": week,
+            "phase": phase,
+            "dow": js_dow(dt),
+            "weekday": dt.strftime("%a"),
+        }
+
+        agg = week_agg.get(week)
+        if agg is None:
+            agg = week_agg[week] = {
+                "week": week, "phase": phase,
+                "start": iso, "end": iso,
+                "longMin": 0, "totalRunMin": 0, "quality": 0,
+            }
+        agg["start"] = min(agg["start"], iso)
+        agg["end"] = max(agg["end"], iso)
+        agg["totalRunMin"] += run_min
+        if kind == "long":
+            agg["longMin"] = max(agg["longMin"], run_min)
+        if kind in ("threshold", "vo2", "speed"):
+            agg["quality"] += 1
+
+        known = next((p for p in phases if p["name"] == phase), None)
+        if known is None:
+            phases.append({"name": phase, "start": iso, "end": iso})
+        else:
+            known["start"] = min(known["start"], iso)
+            known["end"] = max(known["end"], iso)
+
+    weeks = [week_agg[k] for k in sorted(week_agg)]
+    return schedule, weeks, phases
 
 
 def parse_zones(wb):
@@ -195,12 +330,12 @@ def main():
     zones = parse_zones(wb)
     tt_miles, _rotation, zones_note = parse_footer(wb)
 
-    # The workbook's "frequency" text predates the current Mon/Wed layout;
-    # keep it aligned with the authoritative template (see AGENTS.md).
+    # The workbook's "frequency" text predates the current layout; keep it in
+    # sync with the authoritative schedule (see AGENTS.md).
     freq_override = {
-        "lactate threshold": "Every week (Monday)",
-        "vo2": "Every other week (Wednesday, A weeks)",
-        "short sprints": "Every other week (Wednesday, B weeks) + weekly strides",
+        "lactate threshold": "Most weeks (Monday)",
+        "vo2": "Most weeks (Wednesday, or Tuesday in maintenance weeks)",
+        "short sprints": "Every other week (Wednesday) + weekly strides",
     }
     for z in zones:
         name = (z.get("name") or "").lower()
@@ -209,18 +344,29 @@ def main():
                 z["frequency"] = value
                 break
 
+    schedule, weeks, phases = parse_schedule(wb)
+    start = min(schedule)
+    end = max(schedule)
+
     plan = {
         "meta": {
-            "title": "Continuous Running + Kettlebell Plan",
+            "title": "12-Month Running + Kettlebell Plan",
             "goal": "General fitness and fun — stay ready to run anything from 5K to "
                     "the half marathon. Train by effort; let RPE win over the watch.",
-            "note": "A repeating Sun–Sat weekly template. Weeks alternate A and B. "
-                    "Log how each session felt and adjust as life demands.",
+            "note": "A dated 12-month progression (Oct 2026 – Oct 2027) across six phases, "
+                    "with a down week roughly every 4th. Dates outside the plan fall back "
+                    "to a repeating A/B weekly template. Log how each session felt and adjust "
+                    "as life demands.",
             "timeTrialMiles": tt_miles,
             "zonesNote": zones_note,
-            "anchor": "2026-10-04",
+            "anchor": start,
+            "start": start,
+            "end": end,
         },
         "template": {"A": build_week("A"), "B": build_week("B")},
+        "schedule": schedule,
+        "weeks": weeks,
+        "phases": phases,
         "zones": zones,
     }
 
@@ -232,7 +378,8 @@ def main():
         json.dump(plan, fh, separators=(",", ":"))
         fh.write(";\n")
 
-    print("template weeks: A/B, 7 days each; zones=%d" % len(zones))
+    print("schedule: %d days, %d weeks, %d phases (%s -> %s); zones=%d"
+          % (len(schedule), len(weeks), len(phases), start, end, len(zones)))
 
 
 if __name__ == "__main__":

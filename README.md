@@ -1,7 +1,7 @@
-# Training Log — Continuous Run + Kettlebell Plan
+# Training Log — 12-Month Run + Kettlebell Plan
 
-A tiny, dependency-free web app that shows **today's workout** from a repeating
-weekly training template, lets you **log RPE / distance / notes** afterwards, and
+A tiny, dependency-free web app that shows **today's workout** from a dated
+12-month training progression, lets you **log RPE / distance / notes** afterwards, and
 **exports your journal** as JSON or CSV. It runs entirely in the browser and is
 hosted for free on GitHub Pages.
 
@@ -9,7 +9,7 @@ hosted for free on GitHub Pages.
 - **Week / Calendar** — any date, past or future; colour-coded by intensity.
 - **Journal** — every logged session in one list.
 - **Progress** — completion %, time/distance logged, weekly planned-vs-logged volume, RPE trend, adherence by session type.
-- **Plan** — the weekly template, zones & paces.
+- **Plan** — the phases, the full 12-month week-by-week schedule, and zones & paces.
 - **Data** — export/import JSON (backup / move devices) and export CSV.
 
 No build step, no frameworks, no accounts. Your logs live in this browser's
@@ -20,21 +20,24 @@ No build step, no frameworks, no accounts. Your logs live in this browser's
 
 ---
 
-## The training template
+## The training plan
 
-A continuous **Sun → Sat** week that repeats forever. Weeks alternate **A** and
-**B** (A/B is decided by week parity, so it just alternates).
+A **dated 12-month progression** (Oct 2026 → Oct 2027) across six phases, with a
+down week roughly every 4th. Session content lives in the workbook's
+**Daily Schedule** sheet; the app shows the exact session for any date in the
+window. Dates outside the window fall back to a repeating Sun → Sat template.
 
 | Day | Session |
 |-----|---------|
 | **Sun** | Rest from running + **KB A** (hinge & press) |
-| **Mon** | Quality 1: **Threshold** |
-| **Tue** | Easy Zone 2 (+ strides on A weeks) + **KB B** (upper & core) |
-| **Wed** | Quality 2: **VO2 Max** (A weeks) or **Sprints/Strides** (B weeks) — no kettlebell |
+| **Mon** | Quality 1: **Threshold** (progresses over the plan) |
+| **Tue** | Easy Zone 2 (+ strides some weeks) + **KB B** (upper & core) |
+| **Wed** | Quality 2: **VO2 Max** or **Sprints/Strides** — no kettlebell |
 | **Thu** | No running + **KB C** (squat / single-leg / carry) |
 | **Fri** | Easy Zone 2 + strides |
-| **Sat** | **Long run**, easy |
+| **Sat** | **Long run**, easy (ramps up over the plan) |
 
+Maintenance weeks (Nov–Dec) drop to one quality day; holiday/race weeks go light.
 Paces come from the 20-min time-trial reference. Effort/RPE always wins over the
 watch on hot, hilly, or tired days.
 
@@ -45,18 +48,17 @@ watch on hot, hilly, or tired days.
 ```
 index.html              # app shell
 css/styles.css          # styling (light + dark)
-js/app.js               # all app logic (generates any date from the template)
-data/plan.js            # generated: the weekly template + zones
+js/app.js               # all app logic (resolves any date's session)
+data/plan.js            # generated: dated schedule + phases + zones
 data/plan.json          # same data as JSON
-scripts/build_plan.py   # regenerates data/plan.* (zones read from the workbook)
+scripts/build_plan.py   # parses the workbook's Daily Schedule into data/plan.*
 scripts/build_history.py# distills a Strava/SmashRun CSV into a history digest
 docs/                   # how-to-use.md, training-context.md (+ personal history)
-Training Plan (1).xlsx  # original source workbook (reference)
+Training Plan (1).xlsx  # original source workbook (source of session content)
 ```
 
 `data/plan.js` / `data/plan.json` are **generated** — don't hand-edit them.
-Edit the template in `scripts/build_plan.py` (or the zones in the workbook),
-then rebuild.
+Edit session content in the workbook (or the zones), then rebuild.
 
 ---
 
