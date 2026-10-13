@@ -65,8 +65,8 @@
   --glow-3: color-mix(in srgb, var(--terrain) 34%, transparent);
 
   /* contour field */
-  --terrain-line: color-mix(in srgb, var(--terrain) 60%, transparent);
-  --terrain-gold: color-mix(in srgb, var(--gold) 44%, transparent);
+  --terrain-line: color-mix(in srgb, var(--terrain) 80%, transparent);
+  --terrain-gold: color-mix(in srgb, var(--gold) 66%, transparent);
 
   /* central node (polished digital object) */
   --node-hi: #FFFFFF;
@@ -139,8 +139,8 @@
     --glow-2: color-mix(in srgb, var(--copper) 13%, transparent);
     --glow-3: color-mix(in srgb, var(--terrain) 16%, transparent);
 
-    --terrain-line: color-mix(in srgb, var(--terrain) 52%, transparent);
-    --terrain-gold: color-mix(in srgb, var(--gold) 26%, transparent);
+    --terrain-line: color-mix(in srgb, var(--terrain) 64%, transparent);
+    --terrain-gold: color-mix(in srgb, var(--gold) 38%, transparent);
 
     --node-hi: color-mix(in srgb, var(--light) 34%, var(--surface));
     --node-mid: color-mix(in srgb, var(--gold) 22%, var(--surface));
@@ -242,6 +242,7 @@ input, select, textarea { font-family: inherit; }
   color: #3A2410;
   background: linear-gradient(140deg, var(--gold), var(--copper));
   box-shadow: var(--gloss-strong), var(--rim),
+              0 0 0 1px color-mix(in srgb, var(--chrome) 70%, transparent),
               0 10px 22px -12px color-mix(in srgb, var(--copper) 80%, transparent);
 }
 .brand-mark .ico { width: 19px; height: 19px; }
@@ -301,11 +302,12 @@ input, select, textarea { font-family: inherit; }
 .tabs button .ico { width: 15px; height: 15px; opacity: .85; }
 .tabs button:hover { color: var(--text); background: var(--surface-2); }
 .tabs button.active {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--deep) 92%, #000), var(--deep));
-  color: var(--light);
-  box-shadow: var(--gloss), var(--rim), 0 12px 24px -14px rgba(42, 48, 36, .9);
+  background: linear-gradient(150deg, #FFFFFF 0%, var(--chrome) 34%,
+    color-mix(in srgb, var(--chrome) 55%, var(--gold)) 74%, var(--gold) 100%);
+  color: #2C3328;
+  box-shadow: var(--gloss-strong), var(--rim), 0 12px 24px -14px color-mix(in srgb, var(--deep) 70%, transparent);
 }
-.tabs button.active .ico { opacity: 1; color: var(--energy); }
+.tabs button.active .ico { opacity: 1; color: var(--copper); }
 
 /* ---------------------------------------------------------- layout */
 main {
@@ -322,10 +324,14 @@ main {
 
 .card {
   position: relative;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--surface) 88%, #FFFFFF), var(--surface));
-  border: 1px solid var(--border-soft);
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--surface) 74%, transparent),
+    color-mix(in srgb, var(--surface) 86%, transparent));
+  border: 1px solid color-mix(in srgb, var(--chrome) 46%, var(--border-soft));
   border-radius: var(--radius);
   box-shadow: var(--shadow), var(--gloss);
+  backdrop-filter: blur(14px) saturate(1.35);
+  -webkit-backdrop-filter: blur(14px) saturate(1.35);
   padding: 22px;
   animation: rise var(--dur) var(--ease) both;
 }
@@ -405,10 +411,12 @@ main {
   -webkit-mask-image: radial-gradient(closest-side at 50% 42%, transparent 30%, #000 78%);
   mask-image: radial-gradient(closest-side at 50% 42%, transparent 30%, #000 78%);
 }
-.hero-orbit .ring { fill: none; stroke: var(--terrain-line); stroke-width: 1; }
-.hero-orbit .ring.chrome { stroke: color-mix(in srgb, var(--chrome) 70%, transparent); }
-.hero-orbit .ring.gold { stroke: var(--terrain-gold); stroke-width: 1.5; }
-.hero-orbit .arc { fill: none; stroke: url(#orbit-grad); stroke-width: 2; stroke-linecap: round; }
+.hero-orbit .ring { fill: none; stroke: var(--terrain-line); stroke-width: 1.1; }
+.hero-orbit .ring.chrome { stroke: color-mix(in srgb, var(--chrome) 85%, transparent); }
+.hero-orbit .ring.gold { stroke: var(--terrain-gold); stroke-width: 1.7; }
+.hero-orbit .arc { fill: none; stroke: url(#orbit-grad); stroke-width: 2.2; stroke-linecap: round; }
+.hero-orbit .node-dot { fill: var(--gold); }
+.hero-orbit .node-dot.chrome { fill: color-mix(in srgb, var(--chrome) 90%, #FFFFFF); }
 
 .hero-node {
   position: relative;
@@ -426,15 +434,27 @@ main {
     radial-gradient(132% 116% at 32% 14%, var(--node-hi) 0%,
       color-mix(in srgb, var(--node-hi) 70%, var(--node-mid)) 26%,
       var(--node-mid) 66%, var(--node-lo) 100%);
-  border: 1px solid color-mix(in srgb, var(--chrome) 80%, transparent);
-  box-shadow: var(--gloss-strong), var(--rim),
+  box-shadow: var(--gloss-strong),
               0 28px 54px -26px color-mix(in srgb, var(--deep) 65%, transparent);
+}
+/* chrome / liquid-gold bezel that follows the liquid radius */
+.hero-node::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  padding: 2px; pointer-events: none; opacity: .95;
+  background: conic-gradient(from 205deg,
+    color-mix(in srgb, var(--chrome) 90%, #FFFFFF), #FFFFFF,
+    var(--chrome), var(--gold), #FFFFFF, var(--chrome),
+    var(--copper), var(--chrome), color-mix(in srgb, var(--chrome) 90%, #FFFFFF));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
 }
 .hero-node::after {
   content: ""; position: absolute; left: 15%; top: 7%; width: 42%; height: 30%;
   border-radius: 50%; pointer-events: none;
-  background: radial-gradient(closest-side, rgba(255, 255, 255, .82), transparent 76%);
-  filter: blur(1.5px); opacity: .72;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, .85), transparent 76%);
+  filter: blur(1.5px); opacity: .75;
 }
 .hero-node .node-kicker {
   position: relative;
@@ -539,7 +559,7 @@ kbd.zone { font-family: inherit; }
               color var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 .status-row button:hover { transform: translateY(-1px); }
-.status-row button.active { border-color: transparent; background: linear-gradient(180deg, color-mix(in srgb, var(--deep) 92%, #000), var(--deep)); color: var(--light); box-shadow: var(--gloss), var(--rim); }
+.status-row button.active { border-color: transparent; background: linear-gradient(150deg, #FFFFFF, var(--chrome) 45%, var(--gold)); color: #2C3328; box-shadow: var(--gloss-strong), var(--rim); }
 
 .rpe-row { display: flex; align-items: center; gap: 14px; }
 .rpe-row input[type="range"] { flex: 1; accent-color: var(--accent); }

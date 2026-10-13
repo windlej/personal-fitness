@@ -162,8 +162,9 @@
       }
     });
     // a soft racing-line flowing across the field
-    paths += '<path class="flow" d="M-40 520 C 220 440, 380 610, 640 520 S 1080 380, 1480 470" opacity="0.5"/>';
-    paths += '<path class="flow" d="M-40 585 C 240 505, 400 665, 660 585 S 1100 455, 1480 540" opacity="0.3"/>';
+    paths += '<path class="flow" d="M-40 520 C 220 440, 380 610, 640 520 S 1080 380, 1480 470" opacity="0.6"/>';
+    paths += '<path class="flow" d="M-40 585 C 240 505, 400 665, 660 585 S 1100 455, 1480 540" opacity="0.4"/>';
+    paths += '<path class="flow" d="M-40 300 C 260 240, 420 400, 700 320 S 1120 200, 1480 280" opacity="0.32"/>';
     return '<svg viewBox="0 0 1120 900" preserveAspectRatio="xMidYMid slice">' + paths + "</svg>";
   }
 
@@ -180,6 +181,9 @@
       '<ellipse class="ring" cx="450" cy="150" rx="214" ry="68" transform="rotate(-3 450 150)"/>' +
       '<path class="arc" d="M120 196 C 300 250, 620 250, 800 150"/>' +
       '<path class="arc" d="M150 96 C 330 40, 600 46, 780 130" opacity="0.5"/>' +
+      '<circle class="node-dot" cx="196" cy="243" r="4"/>' +
+      '<circle class="node-dot chrome" cx="712" cy="72" r="3.4"/>' +
+      '<circle class="node-dot" cx="822" cy="168" r="3"/>' +
       "</svg>";
   }
 

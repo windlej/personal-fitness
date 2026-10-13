@@ -133,7 +133,11 @@ text below 12px.
 - **Elevation:** light and warm, never heavy. `--shadow` (cards), `--shadow-sm`
   (hover lift), `--gloss` / `--gloss-strong` — inset highlights that read as
   **soft gloss / specular** rather than plastic; `--rim` is the chrome hairline.
-  The central node combines all three.
+  The central node combines all three plus a **conic chrome↔gold bezel** (`::before`
+  with `mask-composite: exclude`). Cards are **translucent warm glass**
+  (`backdrop-filter: blur(14px)`) so the contour terrain reads through them — the
+  "objects resting in a landscape" effect. The active tab and status pills are
+  chrome→gold gradients with deep ink.
 - **Motion:** `--ease: cubic-bezier(.22,.61,.36,1)`, `--dur: .28s`. Gliding, not
   springy. Cards `rise` in on render; hover translates `-1px`; modals fade +
   rise. Always honor `prefers-reduced-motion` (wired).
@@ -168,13 +172,15 @@ sets, no filled shapes.
 - **Topbar** — translucent warm glass (`backdrop-filter`), hairline border;
   brand mark = liquid-edged gold→copper chip with the activity glyph.
 - **Tabs** — scrolling pill row; active = deep-ink pill, chrome rim, energy icon.
-- **Central node (hero)** — the focus of the day view: a `min(440px,100%)`
-  liquid-edged, glossy "pebble" (`--node-hi/mid/lo` radial + specular `::after`)
-  containing the kicker, h1 session title, and date. Encircled by
-  `orbitLines()` — three irregular `ellipse` orbit rings + two gold racing-line
-  arcs. Chips + pace target sit centered beneath it.
-- **Card** — pearl-tinted top gradient, `--radius`, `--shadow + --gloss`; `pad-0`
-  removes padding for list cards. `.card-title` carries the gradient tick.
+- **Central node (hero)** — the focus of the day view: a `min(400px,100%)`
+  liquid-edged, glossy "pebble" (`--node-hi/mid/lo` radial + specular `::after`
+  + **chrome/gold conic bezel**) containing the kicker, h1 session title, and
+  date. Encircled by `orbitLines()` — three irregular `ellipse` orbit rings,
+  orbiting node dots, and two gold racing-line arcs. Chips + pace target sit
+  centered beneath it.
+- **Card** — **translucent warm glass** (`backdrop-filter: blur(14px)`, chrome
+  hairline border, pearl top gradient), `--radius`, `--shadow + --gloss`;
+  `pad-0` removes padding for list cards. `.card-title` carries the gradient tick.
 - **Week** — days ride a vertical **contour spine** (`.week-grid::before`
   gold→copper→terrain); each `.week-row` is a node with a connector stub, an
   irregular radius, and a chrome `status-dot`.
@@ -255,5 +261,9 @@ light.)
   Burnt Copper / Chrome / Cool Contrast); single-family Work Sans; the day hero
   is now a glossy, liquid-edged **central node** inside irregular orbit rings; a
   generated **topographic contour field** sits behind everything; week becomes a
-  contour spine of nodes; calendar cells are irregular pebbles; Lucide icons
+  contour   spine of nodes; calendar cells are irregular pebbles; Lucide icons
   moved to a medium 1.75 stroke; all kind colors re-tuned to ≥ 4.5:1.
+- **2026-10-12** — Pushed the "objects in a landscape" read: cards became
+  translucent warm glass so the contour field shows through; the central node
+  gained a conic chrome↔gold bezel and orbiting node dots; the active tab and
+  status pills became chrome→gold Y2K gradients; contour/flows made more visible.
