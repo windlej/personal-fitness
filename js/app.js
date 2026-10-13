@@ -128,19 +128,58 @@
     "file-spreadsheet": '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/>'
   };
   function icon(name) {
-    return '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || "") + "</svg>";
+    return '<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (ICONS[name] || "") + "</svg>";
   }
-  // Two racing lines sweeping through the hero — motion with intent, kept faint.
-  function raceLines() {
-    return '<svg class="hero-race" viewBox="0 0 900 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
-      '<defs><linearGradient id="racegrad" x1="0" y1="0" x2="1" y2="0">' +
+
+  /* --------------------------------------------------------- contour
+     The topographic field. Nested, slightly irregular closed rings are
+     generated around a few peaks (never perfect circles) so the page
+     ground reads as living terrain rather than a flat fill. */
+  function wobblyRing(cx, cy, r, phase) {
+    var pts = [], N = 14;
+    for (var i = 0; i < N; i++) {
+      var t = (i / N) * Math.PI * 2;
+      var rad = r * (1 + 0.13 * Math.sin(3 * t + phase)
+                       + 0.07 * Math.cos(5 * t + phase * 1.7)
+                       + 0.05 * Math.sin(2 * t - phase * 0.6));
+      pts.push([cx + rad * Math.cos(t), cy + rad * Math.sin(t)]);
+    }
+    return "M" + pts.map(function (p) { return p[0].toFixed(1) + " " + p[1].toFixed(1); }).join(" L") + " Z";
+  }
+  function terrainField() {
+    var peaks = [
+      { cx: 190, cy: 150, r: 150, phase: 0.4, n: 6, gold: true },
+      { cx: 880, cy: 250, r: 170, phase: 2.2, n: 6 },
+      { cx: 640, cy: 760, r: 210, phase: 4.1, n: 7, gold: true },
+      { cx: 70, cy: 620, r: 130, phase: 1.1, n: 5 }
+    ];
+    var paths = "";
+    peaks.forEach(function (p) {
+      for (var k = 0; k < p.n; k++) {
+        var r = p.r * (0.34 + 0.15 * k);
+        var cls = (p.gold && k % 3 === 0) ? "contour gold" : "contour";
+        paths += '<path class="' + cls + '" d="' + wobblyRing(p.cx, p.cy, r, p.phase + k * 0.35) + '"/>';
+      }
+    });
+    // a soft racing-line flowing across the field
+    paths += '<path class="flow" d="M-40 520 C 220 440, 380 610, 640 520 S 1080 380, 1480 470" opacity="0.5"/>';
+    paths += '<path class="flow" d="M-40 585 C 240 505, 400 665, 660 585 S 1100 455, 1480 540" opacity="0.3"/>';
+    return '<svg viewBox="0 0 1120 900" preserveAspectRatio="xMidYMid slice">' + paths + "</svg>";
+  }
+
+  // Irregular orbit rings + a gold racing-line arc circling the central node.
+  function orbitLines() {
+    return '<svg class="hero-orbit" viewBox="0 0 900 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">' +
+      '<defs><linearGradient id="orbit-grad" x1="0" y1="0" x2="1" y2="0">' +
       '<stop offset="0" stop-color="var(--energy)" stop-opacity="0"/>' +
-      '<stop offset="0.45" stop-color="var(--energy)" stop-opacity="0.85"/>' +
-      '<stop offset="0.8" stop-color="var(--accent)" stop-opacity="0.5"/>' +
+      '<stop offset="0.5" stop-color="var(--energy)" stop-opacity="0.9"/>' +
       '<stop offset="1" stop-color="var(--accent)" stop-opacity="0"/>' +
       "</linearGradient></defs>" +
-      '<path d="M-20 128 C 150 40, 320 150, 470 88 S 760 12, 920 76" fill="none" stroke="url(#racegrad)" stroke-width="2.5" stroke-linecap="round"/>' +
-      '<path d="M-20 150 C 160 72, 330 166, 490 112 S 770 48, 920 112" fill="none" stroke="url(#racegrad)" stroke-width="1.2" stroke-linecap="round" opacity="0.55"/>' +
+      '<ellipse class="ring" cx="450" cy="150" rx="360" ry="118" transform="rotate(-6 450 150)"/>' +
+      '<ellipse class="ring chrome" cx="450" cy="150" rx="286" ry="92" transform="rotate(4 450 150)"/>' +
+      '<ellipse class="ring" cx="450" cy="150" rx="214" ry="68" transform="rotate(-3 450 150)"/>' +
+      '<path class="arc" d="M120 196 C 300 250, 620 250, 800 150"/>' +
+      '<path class="arc" d="M150 96 C 330 40, 600 46, 780 130" opacity="0.5"/>' +
       "</svg>";
   }
 
@@ -311,16 +350,19 @@
     html += '<div class="card">' + dayNav(iso) + "</div>";
 
     var details = day.details ? day.details.split("|").map(trim).filter(Boolean) : [];
+    var isToday = iso === todayISO();
     html += '<div class="card hero">';
     html += '<div class="hero-stripe" style="--c:' + colorVar(day) + '"></div>';
-    html += raceLines();
-    html += '<div class="hero-top"><div><h1>' + esc(day.session) + "</h1>";
-    html += '<div class="sub">' + esc(weekLabel(iso)) + " · " + esc(day.weekday) + " · " + esc(fmtLong(iso).split(",")[0]) + "</div></div></div>";
+    html += orbitLines();
+    html += '<div class="hero-node">';
+    html += '<span class="node-kicker">' + (isToday ? "Today · " : "") + esc(weekLabel(iso)) + "</span>";
+    html += "<h1>" + esc(day.session) + "</h1>";
+    html += '<div class="sub">' + esc(fmtLong(iso).split(",").slice(1).join(",").trim()) + "</div>";
+    html += "</div>";
 
-    html += '<div class="chips">';
+    html += '<div class="chips hero-chips">';
     if (day.intensity && day.intensity !== "—") html += '<span class="chip ' + chipClass(day) + '"><span class="dot"></span>' + esc(day.intensity) + "</span>";
     if (day.runMin) html += '<span class="chip">' + icon("clock") + esc(fmtMin(day.runMin)) + " run</span>";
-    html += '<span class="chip ghost">' + esc(weekLabel(iso)) + "</span>";
     html += "</div>";
     var paceText = paceTextFor(day);
     if (paceText) html += '<div class="pace-target">' + icon("target") + "Target " + esc(paceText) + "</div>";
@@ -958,6 +1000,8 @@
       if (["day", "week", "calendar", "journal", "progress", "plan"].indexOf(kv[0]) >= 0) state.view = kv[0];
     });
   })();
+  var terrainEl = document.getElementById("terrain");
+  if (terrainEl) terrainEl.innerHTML = terrainField();
   render();
   window.__tp = { store: store, state: state, render: render, dayFor: dayFor };
 })();
