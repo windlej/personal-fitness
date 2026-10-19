@@ -60,6 +60,7 @@ SPRINT = "Sprint / neuromuscular (RPE 8–9, full recovery)"
 
 # Session kind -> zone code (drives the app's colour chips).
 ZONE_BY_KIND = {
+    "subthreshold": "Z3",
     "threshold": "Z4",
     "vo2": "Z5",
     "speed": "SPD",
@@ -68,6 +69,18 @@ ZONE_BY_KIND = {
     "test": "TEST",
     "rest": "",
 }
+
+# Offsets documented in the "Zones & Sessions" sheet (seconds per mile vs. the
+# 20-min TT pace). Only used to re-derive the pace text when the sheet's formula
+# cache is empty — openpyxl drops cached values whenever the workbook is edited
+# programmatically, so the "yellow edit me" cell B4 still works after a scripted
+# edit. Edit the rule text in the sheet and mirror it here if you change them.
+PACE_OFFSETS = [
+    ("easy", 100, 150),
+    ("sub-threshold", 25, 35),
+    ("lactate threshold", 15, 20),
+    ("vo2", -10, -5),
+]
 
 
 def clean(value):
@@ -166,11 +179,15 @@ def classify(session):
         return "test"
     if "time trial" in s:
         return "test"
+    # Norwegian singles: sub-threshold is *moderate*, so it gets its own kind and
+    # must be tested before the plain "threshold" match below.
+    if "sub-threshold" in s or "subthreshold" in s:
+        return "subthreshold"
     if "threshold" in s:
         return "threshold"
     if "vo2" in s:
         return "vo2"
-    if "sprint" in s or "stride" in s:
+    if "hill" in s or "sprint" in s or "stride" in s:
         return "speed"
     if s.startswith("long"):
         return "long"
@@ -179,6 +196,23 @@ def classify(session):
     if s.startswith("rest"):
         return "rest"
     return "easy"
+
+
+def fmt_pace(seconds):
+    seconds = int(round(seconds))
+    return "%d:%02d" % (seconds // 60, seconds % 60)
+
+
+def derive_pace(name, tt_secs):
+    """Pace text for a zone, derived from the 20-min TT pace when the sheet's
+    cached formula result is unavailable."""
+    if tt_secs is None:
+        return None
+    key = (name or "").lower()
+    for prefix, lo, hi in PACE_OFFSETS:
+        if key.startswith(prefix):
+            return "%s – %s" % (fmt_pace(tt_secs + lo), fmt_pace(tt_secs + hi))
+    return None
 
 
 def split_kb(text):
@@ -278,7 +312,12 @@ def parse_schedule(wb):
     return schedule, weeks, phases
 
 
-def parse_zones(wb):
+def parse_zones(wb, tt_miles=None):
+    try:
+        tt_secs = 1200.0 / float(tt_miles) if tt_miles else None
+    except (TypeError, ValueError):
+        tt_secs = None
+
     ws = wb["Zones & Sessions"]
     rows = list(ws.iter_rows(values_only=True))
     zones = []
@@ -296,7 +335,7 @@ def parse_zones(wb):
             "name": c0,
             "purpose": clean(row[1]),
             "rpe": clean(row[2]),
-            "pace": clean(row[3]),
+            "pace": clean(row[3]) or derive_pace(c0, tt_secs),
             "rule": clean(row[4]),
             "sessions": clean(row[5]),
             "frequency": clean(row[6]),
@@ -327,14 +366,16 @@ def parse_footer(wb):
 
 def main():
     wb = openpyxl.load_workbook(XLSX, data_only=True)
-    zones = parse_zones(wb)
     tt_miles, _rotation, zones_note = parse_footer(wb)
+    zones = parse_zones(wb, tt_miles)
 
     # The workbook's "frequency" text predates the current layout; keep it in
     # sync with the authoritative schedule (see AGENTS.md).
     freq_override = {
+        "easy": "Most of the week (3–4 runs + long run)",
+        "sub-threshold": "1–2×/week (Monday) in the base + sharpen blocks",
         "lactate threshold": "Most weeks (Monday)",
-        "vo2": "Most weeks (Wednesday, or Tuesday in maintenance weeks)",
+        "vo2": "Most weeks (Wednesday)",
         "short sprints": "Every other week (Wednesday) + weekly strides",
     }
     for z in zones:
@@ -350,13 +391,14 @@ def main():
 
     plan = {
         "meta": {
-            "title": "12-Month Running + Kettlebell Plan",
-            "goal": "General fitness and fun — stay ready to run anything from 5K to "
-                    "the half marathon. Train by effort; let RPE win over the watch.",
-            "note": "A dated 12-month progression (Oct 2026 – Oct 2027) across six phases, "
-                    "with a down week roughly every 4th. Dates outside the plan fall back "
-                    "to a repeating A/B weekly template. Log how each session felt and adjust "
-                    "as life demands.",
+            "title": "2027 Racing Season — Running + Kettlebell Plan",
+            "goal": "Two races in 2027: St Paddy's 5 Miler (Mar 7 — sub-31:00 for Bloomsday "
+                    "second seed) and the Bloomsday 12K (May 2). Lydiard conditioning plus "
+                    "Norwegian singles, built around family and work.",
+            "note": "A dated progression (Oct 2026 – Oct 2027): light reset → base build → hills "
+                    "+ sharpen → 5-mile peak → Bloomsday 12K → general/half-marathon block. "
+                    "Sub-threshold singles (RPE 5–6) are MODERATE, not hard. Dates outside the "
+                    "plan fall back to a repeating A/B weekly template.",
             "timeTrialMiles": tt_miles,
             "zonesNote": zones_note,
             "anchor": start,

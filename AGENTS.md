@@ -6,11 +6,12 @@ web app for viewing today's session and logging how it felt. Read this file, the
 
 ## What this is
 
-- **Dated 12-month progression** — Oct 1 2026 → Oct 3 2027, across six phases,
-  with a down week roughly every 4th. Session content lives in the workbook's
-  **Daily Schedule** sheet and is parsed into `data/plan.*`.
-- **80/20-ish polarized** toward easy running, with two quality days, one long
-  run, three kettlebell-only days, and strides. Dates outside the window fall
+- **Dated 12-month progression** — Oct 1 2026 → Oct 3 2027, across six phases
+  (see below), with a down week roughly every 4th. Session content lives in the
+  workbook's **Daily Schedule** sheet and is parsed into `data/plan.*`.
+- **Lydiard conditioning + Norwegian singles** — mostly easy running, one long
+  run, weekly strides, three kettlebell-only days. Two hard days a week in
+  build/peak blocks; the light block has none. Dates outside the window fall
   back to a repeating sun→sat A/B template, so the app can still resolve *any*
   date.
 - Hosted free on GitHub Pages (static, no build). Live at
@@ -21,20 +22,33 @@ web app for viewing today's session and logging how it felt. Read this file, the
 > labeled "Mon"). The **Date** column is correct; `build_plan.py` trusts dates
 > and derives the weekday from them.
 
-## Weekly template (build weeks)
+## Phases
+
+| Phase | Dates | Shape |
+|-------|-------|-------|
+| 1 Re-Entry / Reset | 2026-09-30 → 2026-11-30 | 3–4 **easy** runs, no quality. Nov stays ~110–155 min/wk |
+| 2 Base Build | 2026-12-01 → 2027-01-17 | All easy, volume-led (185 → 235 min/wk). Dec 13 indoor mile; Jan 17 5K TT (the sub-31 gate) |
+| 3 Hills + Sharpen | 2027-01-18 → 2027-02-07 | Sub-threshold singles + hill repeats |
+| 4 5-Mile Peak | 2027-02-08 → 2027-03-07 | Goal-pace threshold/VO2, taper, **St Paddy's 5 Miler** |
+| 5 Bloomsday 12K | 2027-03-08 → 2027-05-02 | Rebuild + Doomsday Hill sessions, **Bloomsday 12K** |
+| 6 General / Half-Marathon | 2027-05-03 → 2027-10-02 | Back to the two-quality template |
+
+## Weekly template (build/peak weeks)
 
 | Day | Session | Kind |
 |-----|---------|------|
 | Sun | Rest from running + **KB A** (hinge & press) | rest |
-| Mon | **Quality 1: Threshold** (progresses: 3×5' → 3×6' → 2×10' → 20–25' tempo) | threshold |
+| Mon | **Quality 1**: sub-threshold single (RPE 5–6) or threshold | subthreshold / threshold |
 | Tue | Easy Z2 + **KB B** (upper & core); strides some weeks | easy |
-| Wed | **Quality 2**: VO2 / hill sprints / flat accelerations | vo2 / speed |
+| Wed | **Quality 2**: hills / VO2 / flat accelerations | speed / vo2 |
 | Thu | No running + **KB C** (squat, single-leg, carry) | rest |
 | Fri | Easy Z2 + strides | easy |
-| Sat | **Long run**, easy (ramps to 90') | long |
+| Sat | **Long run**, easy (75' in the 5-mile peak, up to 90' in the Bloomsday block) | long |
 
 Kettlebell days are Sun (A), Tue (B), Thu (C). Wednesday has **no** kettlebell.
-Maintenance weeks (Nov–Dec) drop to one quality day; holiday/race weeks go light.
+**Sub-threshold singles (`kind: subthreshold`, zone Z3) are MODERATE, not hard** —
+they do not count toward the two-quality-days-per-week budget. Race/taper weeks
+drop the long run and all quality.
 
 ## File map
 
