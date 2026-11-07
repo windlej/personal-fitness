@@ -4,7 +4,8 @@
 and moves. When you change the design, change this file too. The implemented
 tokens live in `css/styles.css` (`:root`); everything below mirrors them. The
 component vocabulary is built in `js/app.js` (`section()`, `facts()`, `table()`,
-`kindToken()`, `charBar()`), and the static shell is `index.html`.
+`kindToken()`, `barMarkup()`, `columnChart()`, `figure()`), and the static
+shell is `index.html`.
 
 > Changing the plan content is a different job — see
 > `.opencode/skills/modify-training-plan/SKILL.md`. This doc is about the visual
@@ -173,11 +174,24 @@ Every section is:
 - **Comparison tables** — phases, the 53-week schedule, anchors, zones. On a
   phone each row becomes stacked `label value` lines via `td::before`
   (`data-k`); no horizontal scrolling.
-- **Character bars** — `[######....]`, always 10 characters, from real
-  `store.logs` / `PLAN` values.
-- **ASCII column chart** — the RPE trend, `#` columns, 10 RPE levels, last 14
-  logged sessions; a text summary (`n`, range, average) carries the data for
-  assistive tech.
+- **Figures** — one chart vocabulary, three primitives, all drawn from
+  `store.logs` / `PLAN`:
+  - **Bullet bar** — `[#####|...]`, 10 cells. Fill = value, `|` = target,
+    dim dots = the rest. Used for completion / split / adherence and the
+    12-week volume rows (fill = logged, `|` = planned).
+  - **Column plot** — `<pre class="chart">` with a 3ch axis, `|` spine, `+`
+    origin, `---` baseline and one-character columns at 2-cell pitch. Week
+    load uses filled columns whose character is the real status
+    (`# done`, `+ modified`, `! skipped`, `: planned`); the RPE trend uses
+    `dots: true` so each session is a single mark at its value.
+  - **Figure wrapper** — `<figure>` + `figcaption` (window/units) + plot
+    (`aria-hidden`) + one-line note (legend/summary). The caption and note are
+    the text alternative.
+  - Rules: zero baseline; round the scale up to a friendly minute step; no
+    figure under three data points; ASCII glyphs only; one figure per idea.
+- **Tables with a figure column** — the phases table carries a load bullet per
+  phase (`Planned load`), so a comparison table can visualise one column
+  without a second, redundant chart.
 
 ---
 
@@ -194,8 +208,10 @@ Every section is:
   selected states are reverse video in the status colour. Duration, distance,
   RPE range (with `<output>` and hint), feel, notes. Save is a filled green
   control; Clear is red-outlined.
-- **Week** — one row per day: `DOW DATE` | token + session + metadata |
-  status token. Phone stacks the session and tags under the date line.
+- **Week** — the load figure (7 planned-minute columns, status characters,
+  `S M T W T F S` labels) above one row per day: `DOW DATE` | token + session +
+  metadata | status token. Phone stacks the session and tags under the date
+  line.
 - **Calendar** — 7 equal columns at 320px, cells ≥56px tall. Each cell is a
   button: day number, a bracketed kind character (`[2] [L] [3] [4] [5] [S] [R]
   [·]`), and a status mark (`[ ] [x] [~] [!]`). A two-line legend explains both,
@@ -203,10 +219,11 @@ Every section is:
 - **Journal** — monospaced log lines as real buttons: date, session, kind and
   status tokens, then RPE · time · distance · pace · feel and a `-` note.
 - **Progress** — totals as fact rows with a real 10-character completion bar,
-  a completed/skipped/not-logged split, 12-week logged-vs-planned volume bars,
-  the RPE column chart, and adherence by session type.
-- **Plan** — title, `>` goal quote, phases table, full week-by-week schedule,
-  then either the computed anchor/zone tables or the static zone reference.
+  a completed/skipped/not-logged split, the 12-week volume bullets (logged
+  fill, planned tick), the RPE dot plot, and adherence by session type.
+- **Plan** — title, `>` goal quote, phases table (with a load bullet per
+  phase), full week-by-week schedule, then either the computed anchor/zone
+  tables or the static zone reference.
 - **Dialogs** — full-screen on phone with a sticky header and scrollable body;
   centered square panel on desktop. Real actions: export/import JSON, export
   CSV, unit select, erase, add/remove effort, save paces. Close is `[x]`
@@ -278,7 +295,7 @@ There is no icon system: functional glyphs are text (`[<]`, `[>]`, `[x]`, `[+]`,
 |------|------|
 | `css/styles.css` | Tokens, `@font-face`, commands, components, motion, reduced motion. **Start here.** |
 | `index.html` | Wordmark, masthead, menu, footer, dialog shell, toast, theme colour. |
-| `js/app.js` | View markup helpers (`section`, `facts`, `table`, `kindToken`, `charBar`), the wordmark is static in HTML. |
+| `js/app.js` | View markup helpers (`section`, `facts`, `table`, `kindToken`) and the chart vocabulary (`barModel`, `barMarkup`, `columnChart`, `figure`); the wordmark is static in HTML. |
 
 **Workflow for a visual change:** edit the token in `css/styles.css`; every
 component follows. Update the tables above if a token value changes. Re-check
@@ -317,3 +334,9 @@ the page loaded inside a fixed-width iframe (or device emulation).
   border token; `--dp-typography-small` replaces 27 literals; dropped the
   duplicate `today` kicker and the duplicate empty status token; added a plan
   data guard and a font preconnect.
+- **2026-11-07** — Data figures. One chart grammar (`barModel`, `barMarkup`,
+  `columnChart`, `figure`): bullet bars with a planned tick, a `<pre>` column
+  plot with a real axis and zero baseline, and a caption/note wrapper. Added
+  the Week load chart, 12-week volume bullets (replacing the old bar rows), an
+  RPE dot plot, and a per-phase load column in the Plan table. Captions carry
+  the window and units; every plot is `aria-hidden` with a text alternative.

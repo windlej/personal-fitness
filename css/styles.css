@@ -772,6 +772,9 @@ main:focus { outline: none; }
 }
 .bar-val { grid-area: val; justify-self: end; color: var(--dp-color-ink-muted); white-space: nowrap; }
 .bar-count { color: var(--dp-color-dim); }
+.bar-empty { color: var(--dp-color-rule); }
+.bar-tick { color: var(--dp-color-emphasis); }
+.bar-edge { color: var(--dp-color-dim); }
 @media (min-width: 640px) {
   .bar-row {
     grid-template-columns: 14ch auto minmax(0, 1fr);
@@ -779,14 +782,31 @@ main:focus { outline: none; }
   }
 }
 
+/* A figure is a caption, a plot, and a one-line note — never a card. */
+.figure { margin: 0; }
+.fig-cap {
+  font-size: var(--dp-typography-small);
+  letter-spacing: .02em;
+  color: var(--dp-color-ink-muted);
+}
+.fig-note {
+  margin-top: 6px;
+  font-size: var(--dp-typography-small);
+  color: var(--dp-color-dim);
+}
+.figure .bars { margin-top: 9px; }
+
 .chart {
-  margin: 0;
+  margin: 9px 0 0;
   font-family: inherit;
   font-size: 16px;
   line-height: 1.25;
   color: var(--dp-color-ink-muted);
+  white-space: pre;
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0;
 }
-.chart-note { margin-top: 9px; font-size: var(--dp-typography-small); color: var(--dp-color-dim); }
+.chart .axis { color: var(--dp-color-dim); }
 
 /* -------------------------------------------------------- tables
    Desktop: aligned columns. Phone: one label/value pair per line —

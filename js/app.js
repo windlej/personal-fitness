@@ -103,12 +103,12 @@
     return h + "h" + (m ? " " + m + "m" : "");
   }
   function fmtDuration(n) { return n ? fmtMin(Math.round(n)) : ""; }
-  // Compact minutes for bar labels: 55m, 3h12m, 3h.
+  // Compact minutes for bar labels: 55m, 3h05m, 3h.
   function fmtMinShort(min) {
     if (!min) return "0";
     if (min < 60) return Math.round(min) + "m";
     var h = Math.floor(min / 60), m = Math.round(min % 60);
-    return h + "h" + (m ? m + "m" : "");
+    return h + "h" + (m ? pad(m) + "m" : "");
   }
   function logFor(iso) { return store.logs[iso] || null; }
   function status(iso) { var l = logFor(iso); return l ? l.status : null; }
@@ -210,23 +210,77 @@
   function kbToken(code) { return '<span class="tok tok--kb">[KB ' + esc(code) + "]</span>"; }
   function timeToken(min) { return '<span class="tok tok--muted">[' + esc(fmtMin(min)) + "]</span>"; }
 
-  // 10-character bar, the same width on every screen. ASCII only so the
-  // character cells stay identical in any fallback font.
-  var BAR_FULL = "#", BAR_EMPTY = ".";
-  function charBar(val, max) {
-    var W = 10, n = max ? Math.round((val / max) * W) : 0;
-    n = Math.max(0, Math.min(W, n));
-    var out = "";
-    for (var i = 0; i < W; i++) out += i < n ? BAR_FULL : BAR_EMPTY;
-    return "[" + out + "]";
+  /* ------------------------------------------------------------- figures
+     One chart vocabulary for every view: 10-cell bullets and a <pre> column
+     plot with a real axis and a zero baseline. ASCII only, fixed cell widths,
+     drawn from PLAN / store.logs — never invented. */
+  var BAR_W = 10;
+  function barModel(val, max, target) {
+    var n = max ? Math.round((val / max) * BAR_W) : 0;
+    n = Math.max(0, Math.min(BAR_W, n));
+    var t = null;
+    if (target != null && max) {
+      t = Math.round((target / max) * BAR_W);
+      t = Math.max(0, Math.min(BAR_W - 1, t)); // the tick always lands in a cell
+    }
+    return { n: n, t: t };
   }
-  function barRow(label, val, max, cls) {
+  // Same bar, toned: fill inherits the caller's colour, empty cells are quiet,
+  // the target tick is white.
+  function barMarkup(val, max, target) {
+    var m = barModel(val, max, target), out = "";
+    for (var i = 0; i < BAR_W; i++) {
+      if (m.t === i) out += '<span class="bar-tick">|</span>';
+      else if (i < m.n) out += "#";
+      else out += '<span class="bar-empty">.</span>';
+    }
+    return '<span class="bar-edge">[</span>' + out + '<span class="bar-edge">]</span>';
+  }
+  function barRow(label, val, max, cls, target) {
     var pct = max ? Math.round((val / max) * 100) : 0;
     return '<div class="bar-row">' +
       '<span class="bar-key">' + esc(label) + "</span>" +
-      '<code class="bar tok--' + (cls || "dim") + '">' + charBar(val, max) + "</code>" +
+      '<code class="bar tok--' + (cls || "dim") + '">' + barMarkup(val, max, target) + "</code>" +
       '<span class="bar-val">' + pct + '%<span class="bar-count"> ' + val + "/" + max + "</span></span>" +
       "</div>";
+  }
+  function padLeft(s, n) { s = String(s); while (s.length < n) s = " " + s; return s; }
+  // 3-4 rows, rounded up to a friendly minute step.
+  function minuteScale(maxVal) {
+    var steps = [10, 15, 20, 30, 45, 60, 90, 120];
+    for (var i = 0; i < steps.length; i++) {
+      var rows = Math.ceil(maxVal / steps[i]);
+      if (rows <= 4) return { step: steps[i], rows: Math.max(1, rows) };
+    }
+    return { step: 120, rows: Math.ceil(maxVal / 120) };
+  }
+  // cols: [{ v, ch }] — one character per column, two cells of pitch.
+  // `dots` marks the value instead of filling from zero (better for trends).
+  function columnChart(cols, opts) {
+    var step = opts.step, rows = opts.rows, axis = 3, out = [];
+    for (var r = rows; r >= 1; r--) {
+      var level = r * step, plot = "";
+      cols.forEach(function (c) {
+        var on = opts.dots ? Math.round(c.v / step) === r : c.v >= level;
+        plot += (on ? c.ch : " ") + " ";
+      });
+      out.push('<span class="axis">' + padLeft(level, axis) + " |</span>" + plot.replace(/\s+$/, ""));
+    }
+    out.push('<span class="axis">' + padLeft(0, axis) + " +" + new Array(cols.length * 2 + 1).join("-") + "</span>");
+    if (opts.labels) {
+      var labels = opts.labels.slice(0, cols.length);
+      while (labels.length < cols.length) labels.push(" ");
+      out.push('<span class="axis">' + padLeft("", axis) + "  " + labels.join(" ").replace(/\s+$/, "") + "</span>");
+    }
+    return out.join("\n");
+  }
+  function figure(title, body, note, bars) {
+    return '<figure class="figure">' +
+      '<figcaption class="fig-cap">' + esc(title) + "</figcaption>" +
+      (bars ? '<div class="bars">' + body + "</div>"
+            : '<pre class="chart" aria-hidden="true">' + body + "</pre>") +
+      (note ? '<p class="fig-note">' + note + "</p>" : "") +
+      "</figure>";
   }
 
   /* --------------------------------------------------------- pace model
@@ -530,6 +584,9 @@
         '<button type="button" class="nav-btn" data-action="week-next" aria-label="Next week">[&gt;]</button>' +
       "</div>");
 
+    var load = weekLoadFigure(start);
+    if (load) html += section("load", load);
+
     var rows = "";
     for (var i = 0; i < 7; i++) {
       var iso = addDays(start, i);
@@ -552,6 +609,24 @@
     }
     html += section("days", '<div class="day-list">' + rows + "</div>");
     document.getElementById("app").innerHTML = html;
+  }
+  // Seven planned-minute columns; the character encodes the real status.
+  function weekLoadFigure(start) {
+    var cols = [], labels = [], maxVal = 0, total = 0;
+    for (var i = 0; i < 7; i++) {
+      var iso = addDays(start, i), d = dayFor(iso), st = status(iso);
+      var mins = d.runMin || 0;
+      maxVal = Math.max(maxVal, mins);
+      total += mins;
+      var ch = st === "done" ? "#" : st === "modified" ? "+" : st === "skipped" ? "!" : ":";
+      cols.push({ v: mins, ch: ch });
+      labels.push(d.weekday.charAt(0));
+    }
+    if (!maxVal) return "";
+    var sc = minuteScale(maxVal);
+    return figure("planned running minutes · " + esc(fmtMin(total)) + " total",
+      columnChart(cols, { step: sc.step, rows: sc.rows, labels: labels }),
+      "# done · + modified · ! skipped · : planned");
   }
   function isQuality(kind) { return kind === "threshold" || kind === "vo2" || kind === "speed"; }
 
@@ -683,7 +758,7 @@
     var html = '<p class="view-note">since ' + esc(fmtShort(startISO)) + " · " + esc(weekLabel(today)) + "</p>";
 
     html += section("totals", facts([
-      ["completion", '<span class="stat-v">' + completion + '%</span> <code class="bar tok--done">' + charBar(completed, trainable) + '</code> <span class="fact-note">' + completed + "/" + trainable + " trainable</span>"],
+      ["completion", '<span class="stat-v">' + completion + '%</span> <code class="bar tok--done">' + barMarkup(completed, trainable) + '</code> <span class="fact-note">' + completed + "/" + trainable + " trainable</span>"],
       ["sessions", '<span class="stat-v">' + (done + mod) + "</span> logged" + (skipped ? ' · <span class="tok tok--skipped">[!]</span> ' + skipped + " skipped" : " · none skipped")],
       ["time", '<span class="stat-v">' + esc(fmtMin(Math.round(totalTime)) || "0") + "</span> logged"],
       ["distance", '<span class="stat-v">' + totalDist.toFixed(1) + " " + esc(store.settings.unit) + "</span> logged" + (rpeN ? ' · <span class="fact-note">avg RPE ' + (rpeSum / rpeN).toFixed(1) + "</span>" : "")]
@@ -725,34 +800,28 @@
       return { start: start, planned: planned, actual: actual };
     });
     if (!maxVal) return "";
-    var html = '<div class="bars">';
+    var html = "";
     data.forEach(function (r) {
       html += '<div class="bar-row">' +
         '<span class="bar-key">' + esc(fmtShort(r.start)) + "</span>" +
-        '<code class="bar tok--done">' + charBar(r.actual, maxVal) + "</code>" +
+        '<code class="bar tok--done">' + barMarkup(r.actual, maxVal, r.planned) + "</code>" +
         '<span class="bar-val">' + esc(fmtMinShort(r.actual)) +
           '<span class="bar-count">/' + esc(fmtMinShort(r.planned)) + "</span></span></div>";
     });
-    return html + '</div><p class="out-note">last 12 weeks · bar = logged minutes · right = logged / planned</p>';
+    return figure("last 12 weeks · minutes", html, "fill = logged · | = planned", true);
   }
   function renderRpeTrend() {
     var pts = Object.keys(store.logs).filter(function (k) { return store.logs[k].rpe; })
       .map(function (k) { return { date: k, rpe: +store.logs[k].rpe }; }).sort(function (a, b) { return a.date < b.date ? -1 : 1; });
-    if (pts.length < 2) return "";
-    var shown = pts.slice(-14), width = shown.length;
-    var chart = "";
-    for (var lvl = 10; lvl >= 1; lvl--) {
-      var line = "";
-      for (var i = 0; i < width; i++) line += shown[i].rpe >= lvl ? "#" : " ";
-      chart += (lvl < 10 ? " " + lvl : "10") + " |" + line + "\n";
-    }
-    chart += "   +" + new Array(width + 1).join("-");
+    if (pts.length < 3) return "";
+    var shown = pts.slice(-10);
+    var cols = shown.map(function (p) { return { v: p.rpe, ch: "#" }; });
     var values = shown.map(function (p) { return p.rpe; });
     var avg = values.reduce(function (s, v) { return s + v; }, 0) / values.length;
-    return '<pre class="chart" aria-hidden="true">' + chart + "</pre>" +
-      '<p class="chart-note">last ' + shown.length + " logged · " + esc(fmtShort(shown[0].date)) + " → " +
-      esc(fmtShort(shown[shown.length - 1].date)) + " · avg " + avg.toFixed(1) +
-      " · range " + Math.min.apply(null, values) + "–" + Math.max.apply(null, values) + "</p>";
+    return figure("last " + shown.length + " logged · avg " + avg.toFixed(1),
+      columnChart(cols, { step: 1, rows: 10, dots: true }),
+      esc(fmtShort(shown[0].date)) + " → " + esc(fmtShort(shown[shown.length - 1].date)) +
+      " · range " + Math.min.apply(null, values) + "–" + Math.max.apply(null, values));
   }
   function renderAdherence(startISO, today) {
     var kinds = {};
@@ -773,6 +842,14 @@
   }
 
   /* ----------------------------------------------------------- plan view */
+  // Planned running minutes inside a phase, summed from the dated schedule.
+  function phaseRunMin(phase) {
+    var total = 0;
+    Object.keys(PLAN.schedule || {}).forEach(function (iso) {
+      if (iso >= phase.start && iso <= phase.end) total += (PLAN.schedule[iso].runMin || 0);
+    });
+    return total;
+  }
   function renderPlan() {
     beginView();
     var html = "";
@@ -783,8 +860,15 @@
       '<p class="out-note">' + esc(PLAN.meta.note) + "</p>");
 
     if (PLAN.phases && PLAN.phases.length) {
-      html += section("phases", table(["Phase", "Dates"], PLAN.phases.map(function (p) {
-        return [esc(p.name), esc(fmtShort(p.start)) + " – " + esc(fmtShort(p.end))];
+      var phaseMin = PLAN.phases.map(phaseRunMin);
+      var phaseMax = Math.max.apply(null, phaseMin);
+      html += section("phases", table(["Phase", "Dates", "Planned load"], PLAN.phases.map(function (p, i) {
+        return [
+          esc(p.name),
+          esc(fmtShort(p.start)) + " – " + esc(fmtShort(p.end)),
+          '<code class="bar tok--done">' + barMarkup(phaseMin[i], phaseMax) + '</code> ' +
+            '<span class="meta-text">' + esc(fmtMinShort(phaseMin[i])) + "</span>"
+        ];
       })));
     }
 
