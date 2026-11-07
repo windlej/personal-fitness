@@ -1,10 +1,10 @@
-# Design system — "Orbital Contour Map" (chrome-tinged Y2K × Nature)
+# Design system — "Terminal"
 
 **Living document.** This is the source of truth for how the app looks, feels,
 and moves. When you change the design, change this file too. The implemented
-tokens live in `css/styles.css` (`:root` + dark-mode block); everything below
-mirrors them. Icons and inline SVG live in `js/app.js` (the `ICONS` map,
-`icon()`, `orbitLines()`, `terrainField()`) and `index.html` (tabs / topbar).
+tokens live in `css/styles.css` (`:root`); everything below mirrors them. The
+component vocabulary is built in `js/app.js` (`section()`, `facts()`, `table()`,
+`kindToken()`, `charBar()`), and the static shell is `index.html`.
 
 > Changing the plan content is a different job — see
 > `.opencode/skills/modify-training-plan/SKILL.md`. This doc is about the visual
@@ -14,215 +14,249 @@ mirrors them. Icons and inline SVG live in `js/app.js` (the `ICONS` map,
 
 ## 1. Core feeling
 
-**Orbital Contour Map.** Today is the **central focal node** — a soft, slightly
-glossy, liquid-edged digital object resting in a topographic terrain. The days
-and context around it ride **organic, slightly irregular orbits**, joined by
-smooth racing-line curves. The ground is a **soft contour field**.
+**A useful session manual, rendered as a terminal.** One continuous black page in
+green IBM Plex Mono, arranged as **commands and their output**. Every view is a
+stack of numbered commands — `01 today`, `02 session`, `03 steps` — with a
+character-aligned command gutter beside a wider output column. Thin green rules
+separate commands; white is strong emphasis; a small ANSI palette marks real
+session and status semantics.
 
-**Aesthetic: chrome-tinged Y2K × Nature.** Nature gives earthy terrain, contour
-language, organic irregularity, mountain-trail quiet. Y2K gives soft gloss,
-pearl and chrome accents, gentle specular highlights, higher contrast, and
-subtle digital optimism. The centerpiece should feel like a polished digital
-object set down in a natural landscape.
+The identity is a **character wordmark** (`TLOG`, derived from "Training Log")
+plus the real name, the current date, and the week/phase that frames the page.
 
-**Not** a typical fitness app, **not** a SaaS dashboard. No generic radial
-charts, no perfect geometric orbits, no flat card stacks, no default
-component-library UI.
+**It is not** a shell emulator: there is no prompt, no typed input, no fake
+logs, no invented file paths, flags, statuses, or metrics. Every
+command-shaped control is a real button or link that does the real thing. The
+labels name content (`01 week`, `02 days`, `03 markers`), they do not claim
+functionality the app lacks.
 
----
-
-## 2. Palette (strict)
-
-Eight colors. No foreign hues — build tints, shades, and washes by mixing these
-with each other or with near-neutral anchors (`#FFFFFF`, deep ink) and
-`transparent`. Raw hex is allowed only for the palette itself, the anchors, and
-their dark-mode counterparts.
-
-| Token | Hex | Name | Role |
-|-------|-----|------|------|
-| `--deep` | `#3F4738` | Deep Structure | Ground, ink, rest, dark-mode base |
-| `--terrain` | `#6F7A62` | Mid Terrain | Structure, long / easy growth |
-| `--earth` | `#C9A07A` | Warm Earth | Warmth, speed / strides |
-| `--light` | `#F5EDDF` | Light Surface | Paper, dark-mode ink |
-| `--gold` | `#E6B84D` | Liquid Gold | **Primary energy** — active, glow, VO2 |
-| `--copper` | `#C67B4A` | Burnt Copper | **Primary interactive** — buttons, threshold |
-| `--chrome` | `#C8CDC7` | Chrome / Metallic | Rims, specular, neutral, rest |
-| `--cool` | `#A8B5A0` | Cool Contrast | Calm green counterpoint, easy / Z2 |
-
-Rule of thumb: terrain colors stay **dominant**; **Liquid Gold + Soft Chrome**
-are for energy, active states, and highlights. When in doubt, less gold.
+**Mobile first.** The phone layout is the default: one column, label above
+output, output indented two characters. Desktop only widens the gutter and moves
+output to the right.
 
 ---
 
-## 3. Semantic tokens
+## 2. Palette (13 colours, ANSI/neofetch style)
 
-Components use these names (not raw palette names). Defined in
-`css/styles.css :root`, overridden in the `prefers-color-scheme: dark` block.
+The page chrome is green and white. Accents are **only** for semantic
+session/status data — never borders, page furniture, or decorative headings.
+No colored backgrounds except reverse video for selection.
 
-### Surfaces & ink
+| Token | Hex | Role |
+|-------|-----|------|
+| `--dp-color-ground` | `#000000` | Page ground |
+| `--dp-color-ink` | `#66ff66` | Primary green: chrome, labels, active |
+| `--dp-color-ink-muted` | `#58ca58` | Supporting text |
+| `--dp-color-rule` | `#255325` | Quiet rules and separators |
+| `--dp-color-emphasis` | `#ffffff` | Strong emphasis, selected text |
+| `--dp-color-dim` | `#8a8a8a` | Rest, disabled, tertiary |
+| `--dp-color-cyan` | `#5fd7ff` | Easy / Z2, informational |
+| `--dp-color-blue` | `#5f87ff` | Long run |
+| `--dp-color-teal` | `#5fd7af` | Sub-threshold / Z3 |
+| `--dp-color-yellow` | `#ffd75f` | Threshold / Z4 |
+| `--dp-color-orange` | `#ff875f` | VO2 / Z5 |
+| `--dp-color-magenta` | `#d787ff` | Speed / strides |
+| `--dp-color-red` | `#ff5f5f` | Race / test / skipped |
 
-| Token | Light | Dark | Use |
-|-------|-------|------|-----|
-| `--bg` | `--light` | `#2A3024` | Page ground (warm paper / deep olive) |
-| `--surface` | light 42% + white | `#363D2D` | Cards, modals (pearl tint) |
-| `--surface-2` | terrain 9% wash | `#414A37` | Fills, inputs, hover rows |
-| `--surface-3` | terrain 15% wash | `#4A5340` | Recessed blocks (KB) |
-| `--border` / `--border-soft` | deep 24% / 13% | `#5C6449` / `#464F3A` | Structural / hairline lines |
-| `--text` | `--deep` | `--light` | Primary ink |
-| `--muted` | deep 62% + terrain | `#B9C0AC` | Secondary text |
-| `--faint` | terrain 72% + light | `#8A9280` | Tertiary / footer |
+No `color-mix`, no `rgba`, no gradients, no second hue. `transparent` is the only
+other value used.
 
-### Accent, chrome, terrain
+### Session-kind mapping
 
-| Token | Light | Dark | Use |
-|-------|-------|------|-----|
-| `--accent` | `--copper` | `#D89060` | Primary interactive fills/graphics |
-| `--accent-ink` | copper 62% + `#3A1C0C` | `#EEB98C` | Readable accent **text** |
-| `--accent-soft` | copper 15% wash | copper 22% | Tints, focus rings |
-| `--energy` | `--gold` | `#F0C963` | Glow / highlight / active |
-| `--energy-soft` | gold 30% wash | gold 20% | Energy backgrounds |
-| `--chrome-soft` | chrome 62% + white | chrome 24% | Rims, specular neutral |
-| `--node-hi/mid/lo` | white → gold → earth/copper | dark sheen | Central node gradient |
-| `--glow-1..3` | earth / gold / terrain | low-alpha | Ambient body light |
-| `--terrain-line` / `--terrain-gold` | terrain / gold, low alpha | lower alpha | Contour field strokes |
+| Kind | Token | Class | Prefix |
+|------|-------|-------|--------|
+| easy / Z2 | `[Z2]` cyan | `.tok--easy` | — |
+| long | `[LONG]` blue | `.tok--long` | — |
+| sub-threshold / Z3 | `[Z3]` teal | `.tok--z3` | — |
+| threshold / Z4 | `[Z4]` yellow | `.tok--z4` | — |
+| VO2 / Z5 | `[Z5]` orange | `.tok--z5` | — |
+| speed / strides | `[SPD]` magenta | `.tok--spd` | `>>` |
+| race / test | `[RACE]` red (title white) | `.tok--race` | `!!` |
+| rest | `[REST]` dim | `.tok--rest` | — |
+| kettlebell | `[KB A/B/C]` green | `.tok--kb` | — |
 
-### Session kinds (drive chips, calendar sparks, bars, legends)
+Status tokens: `[DONE]` green, `[MODIFIED]` yellow, `[SKIPPED]` red,
+`[ ]` dim. Calendar also uses `[x]`, `[~]`, `[!]`.
 
-| Kind | Token pair | Maps from | Color family |
-|------|-----------|-----------|--------------|
-| Easy / Z2 | `--z2` / `--z2-bg` | `kind: easy`, `zone: Z2`, template `easy` | Cool contrast green |
-| Threshold / Z4 | `--z4` / `--z4-bg` | `kind: threshold`, `zone: Z4` | Burnt Copper |
-| VO2 / Z5 | `--z5` / `--z5-bg` | `kind: vo2`, `zone: Z5` | Liquid Gold |
-| Speed / strides | `--spd` / `--spd-bg` | `kind: speed`, `zone: SPD` | Warm Earth |
-| Race / TT | `--test` / `--test-bg` | `kind: test`, `zone: TEST` | Deep + Copper |
-| Long run | `--long` / `--long-bg` | `kind: long` | Mid Terrain |
-| Rest | `--rest` / `--rest-bg` | `kind: rest` | Terrain / chrome |
-
-`js/app.js` maps a day to one of these via `chipClass()` and `colorVar()` —
-**keep those class names and the paired `-bg` tokens in sync**. All kind
-foregrounds are tuned to ≥ 4.5:1 against their own `-bg` in both themes.
+`js/app.js` owns the mapping (`KIND`, `ZONE_CLS`, `STATUS_TEXT`, `CAL_KIND`);
+keep token text and class names in sync when adding a kind. Colour is never the
+only signal — every token carries a bracketed word or symbol plus a legend.
 
 ---
 
-## 4. Typography
+## 3. Typography
 
-- **Everything:** `Work Sans` (weights 300–800), `--font` / `--font-display`.
-  Base **15px / 1.55**. No second family — display is simply Work Sans at
-  weight 700–800 with tighter tracking (`-.015em` / `-.03em`). One coherent
-  voice, less default-library feel.
-- Loaded from Google Fonts via `<link>` in `index.html` (static, no build).
-
-Scale in use: central node h1 `27px → 22px` on mobile; stat value `28px`; card
-title `12.5px` uppercase `0.12em` tracking; node kicker `11.5px` uppercase
-`0.16em`; body `15px`; small `12.5px`; labels `12px` uppercase. Never set body
-text below 12px.
-
----
-
-## 5. Space, radius, elevation, motion
-
-- **Spacing:** deliberate, breathing rhythm around a 4px base — card padding
-  `22px` (`18px` mobile), main gap `18px`, section gap `14px`, control padding
-  `11–13px`. Favor negative space over density.
-- **Radius:** `--radius-lg: 30px` (hero node/modal), `--radius: 22px` (cards),
-  `--radius-sm: 15px` (controls), `--radius-xs: 11px`, `--pill: 999px`. Organic,
-  **irregular** radii are the signature: the node, brand mark, nav buttons and
-  calendar cells use asymmetric liquid-edges (e.g.
-  `47% 53% 45% 55% / 55% 46% 54% 45%`), week rows use
-  `16px 20px 16px 20px / 20px 16px 20px 16px`.
-- **Elevation:** light and warm, never heavy. `--shadow` (cards), `--shadow-sm`
-  (hover lift), `--gloss` / `--gloss-strong` — inset highlights that read as
-  **soft gloss / specular** rather than plastic; `--rim` is the chrome hairline.
-  The central node combines all three plus a **conic chrome↔gold bezel** (`::before`
-  with `mask-composite: exclude`). Cards are **translucent warm glass**
-  (`backdrop-filter: blur(14px)`) so the contour terrain reads through them — the
-  "objects resting in a landscape" effect. The active tab and status pills are
-  chrome→gold gradients with deep ink.
-- **Motion:** `--ease: cubic-bezier(.22,.61,.36,1)`, `--dur: .28s`. Gliding, not
-  springy. Cards `rise` in on render; hover translates `-1px`; modals fade +
-  rise. Always honor `prefers-reduced-motion` (wired).
-- **Interactive minimums:** tap targets ≥ 40–42px; focus-visible ring uses
-  `--accent`.
+- **One family:** IBM Plex Mono, loaded from Google Fonts via `@font-face` in
+  `css/styles.css` and bound to the CSS family name **`TerminalPlex`**
+  (`--dp-typography-face: "TerminalPlex", monospace`), weights 400 and 500.
+- All text, controls, and numbers are monospaced. No second family, no serif, no
+  sans fallback as a design choice.
+- Body `18px`, phone `clamp(16px, 4.2vw, 18px)`; labels `16px` (nav labels are
+  `14px` at ≥900px so all eight fit one row); headings `24px`; display `40px`
+  (session title) with `--dp-typography-display-narrow: 32px` below 900px.
+- Leading: body/list `1.5` (`--dp-typography-list-leading: 27px`), display `1.2`
+  (`1.25` narrow).
+- Emphasis comes from **weight, white, punctuation, and indentation** — not from
+  a second font or oversized type.
+- Inputs are `16px` minimum so iOS does not zoom on focus. Nothing essential is
+  below `14px`.
 
 ---
 
-## 6. Icons — Lucide only
+## 4. Space, rules, and shape
 
-One system: **Lucide** (ISC), inline SVG, **`stroke-width: 1.75`** (medium,
-slightly rounded), round caps/joins, `currentColor`. No emoji, no other icon
-sets, no filled shapes.
-
-- Static (tabs, topbar, brand): inline `<svg class="ico">` in `index.html`.
-- Dynamic (nav chevrons, `+`, `✕`, clock, dumbbell, target, file/upload/trash):
-  the `ICONS` map + `icon(name)` helper in `js/app.js`.
-- Size via `.ico` (`18px`, context overrides to `13–16px`). Color inherits; the
-  active tab tints its icon `--energy`.
-- To add one: fetch the glyph from <https://lucide.dev/icons/>, paste its inner
-  markup into `ICONS`, and use `icon("name")`.
-
----
-
-## 7. Components (patterns to reuse)
-
-- **Contour terrain** — a fixed, `z-index: 0` layer (`#terrain` in
-  `index.html`) filled by `terrainField()` in `js/app.js`: nested, slightly
-  irregular closed rings (`wobblyRing`, never perfect circles) around a few
-  peaks, plus two soft racing-line flows. Strokes use `--terrain-line` /
-  `--terrain-gold`. It sits behind `main` (`z-index: 1`).
-- **Topbar** — translucent warm glass (`backdrop-filter`), hairline border;
-  brand mark = liquid-edged gold→copper chip with the activity glyph.
-- **Tabs** — scrolling pill row; active = deep-ink pill, chrome rim, energy icon.
-- **Central node (hero)** — the focus of the day view: a `min(400px,100%)`
-  liquid-edged, glossy "pebble" (`--node-hi/mid/lo` radial + specular `::after`
-  + **chrome/gold conic bezel**) containing the kicker, h1 session title, and
-  date. Encircled by `orbitLines()` — three irregular `ellipse` orbit rings,
-  orbiting node dots, and two gold racing-line arcs. Chips + pace target sit
-  centered beneath it.
-- **Card** — **translucent warm glass** (`backdrop-filter: blur(14px)`, chrome
-  hairline border, pearl top gradient), `--radius`, `--shadow + --gloss`;
-  `pad-0` removes padding for list cards. `.card-title` carries the gradient tick.
-- **Week** — days ride a vertical **contour spine** (`.week-grid::before`
-  gold→copper→terrain); each `.week-row` is a node with a connector stub, an
-  irregular radius, and a chrome `status-dot`.
-- **Calendar** — cells are **irregular pebbles** with pearl gloss; today = gold
-  ring + glow; each cell carries its day kind spark plus a status spark / RPE tag.
-- **Chips** — pearl pills; `.dot` for intensity, Lucide glyph for duration;
-  semantic kind classes (`.z2/.z4/.z5/.spd/.test/.long/.rest/.ghost`).
-- **Detail list** — recessed rows with a gold→copper bullet.
-- **KB block** — dashed recess with dumbbell glyph + chrome `KB A/B/C` badge.
-- **Bars / charts** — pill tracks with a recessed inset; `.bar-fill.actual` is a
-  gold→copper gradient. (JS passes explicit `var(--kind)` fills for adherence.)
-- **Stat** — airy, not boxed: a gold→copper rule (border-image) + Work Sans
-  number + label.
-- **Modal / toast** — `--radius-lg`, blurred backdrop, `rise`/`pop` motion.
+- **Characters, not pixels, define horizontal rhythm:** `1ch` cell, `2ch`
+  gutter (phone indent), `3ch` column gap, `4ch` wide column gap.
+- Vertical rhythm: `9px` inset, `18px` compact row, `27px` row, `36px` compact
+  section, `54px` section.
+- **Rules:** one hairline (`1px`) in `--dp-color-rule` separates commands, fact
+  rows, table rows, bar groups, and the menu. No card backgrounds, no shadows,
+  no gradients, no blur, no texture, no CRT curvature.
+- **Shape:** `--dp-radius-control: 0`. Every field, button, cell, panel, and
+  modal is square. No pills.
+- Layout measure: content `94ch` max (`18ch` gutter + `4ch` gap + `72ch` output
+  on desktop), centered.
+- Safe areas: `env(safe-area-inset-*)` on masthead, modal header, toast, footer.
 
 ---
 
-## 8. Layout
+## 5. Layout
 
-- Max width `--maxw: 920px`, centered, generous gutters (`18px`).
-- **Stacked, breathing sections** — not a dense grid of KPI cards.
-- Single-column on mobile; `grid-2` / `grid-3` collapse to one column ≤ 520px.
-- Safe areas respected (topbar `padding-top`, body/footer `env(safe-area-inset)`).
-- No horizontal scroll except intentional `.scroll-x`.
+### Shell
+
+1. **Masthead** — character wordmark (`TLOG`, ASCII, `aria-hidden`), the real
+   name `training log` as the `h1`, a single blinking cursor, and two fact lines
+   (date, current week/phase). Not sticky.
+2. **Menu** — eight real targets in one `nav` with a numbered gutter:
+   `01 today  02 week  03 calendar  04 journal  05 progress  06 plan
+   07 paces  08 data`. Phone/tablet: two columns, four rows, each ≥44px tall.
+   Desktop (≥900px): one row, sticky, 14px labels.
+   Active view: reverse video plus `aria-current="page"`.
+   `paces` and `data` are real buttons that open their dialogs.
+3. **`main#app`** — the current view, built from commands.
+4. **Footer** — a directory-style list of real facts (storage, backup, schedule)
+   with a real `[open data]` button.
+
+### Command gutter
+
+Every section is:
+
+```html
+<section class="cmd">
+  <h2 class="cmd-label"><span class="cmd-num">01</span>today</h2>
+  <div class="cmd-out">…output…</div>
+</section>
+```
+
+- **Desktop (≥900px):** `18ch | minmax(0, 72ch)`, gap `4ch`.
+- **Tablet (540–899px):** `14ch | 1fr`, gap `3ch`. The gutter fits the longest
+  label (`02 kettlebell`), so labels never break mid-word.
+- **Phone (<540px):** one column; the label sits above its output and the output
+  is indented `2ch` (calendar opts out with `.cmd--flush`).
+- The first command has no top rule (the menu's bottom rule is the separator).
+- Gap between commands (`27px` padding + rule) is larger than the gap between
+  lines of output.
+
+### Output patterns in use
+
+- **Aligned fact rows** — `dt` 12ch (`10ch` at tablet) + value: session facts,
+  progress totals, footer directory.
+- **Numbered steps** — `01` gutter + instruction, for a session's warm-up /
+  main set / cool-down.
+- **`-` line lists** — kettlebell sets.
+- **`>` quoted statements** — the plan goal and per-session notes.
+- **Comparison tables** — phases, the 53-week schedule, anchors, zones. On a
+  phone each row becomes stacked `label value` lines via `td::before`
+  (`data-k`); no horizontal scrolling.
+- **Character bars** — `[######....]`, always 10 characters, from real
+  `store.logs` / `PLAN` values.
+- **ASCII column chart** — the RPE trend, `#` columns, 10 RPE levels, last 14
+  logged sessions; a text summary (`n`, range, average) carries the data for
+  assistive tech.
+
+---
+
+## 6. Components
+
+- **Day navigator** — `[<]` date input `[>]`, weekday + week beneath, and a real
+  `[jump to today]` when off today.
+- **Session panel** — `TODAY` kicker, display-size white session title, then an
+  aligned fact table: DATE, WEEK, TYPE (token + kind word), TIME, INTENSITY,
+  PACE, STATUS.
+- **Kettlebell block** — a `1px` bordered section headed by `[KB A]` + real name,
+  with `-` set lines. No background.
+- **Log form** — status buttons show `[ ]`/`[x]` + label and `aria-pressed`;
+  selected states are reverse video in the status colour. Duration, distance,
+  RPE range (with `<output>` and hint), feel, notes. Save is a filled green
+  control; Clear is red-outlined.
+- **Week** — one row per day: `DOW DATE` | token + session + metadata |
+  status token. Phone stacks the session and tags under the date line.
+- **Calendar** — 7 equal columns at 320px, cells ≥56px tall. Each cell is a
+  button: day number, a bracketed kind character (`[2] [L] [3] [4] [5] [S] [R]
+  [·]`), and a status mark (`[ ] [x] [~] [!]`). A two-line legend explains both,
+  so colour is never the only signal. Today gets a white border.
+- **Journal** — monospaced log lines as real buttons: date, session, kind and
+  status tokens, then RPE · time · distance · pace · feel and a `-` note.
+- **Progress** — totals as fact rows with a real 10-character completion bar,
+  a completed/skipped/not-logged split, 12-week logged-vs-planned volume bars,
+  the RPE column chart, and adherence by session type.
+- **Plan** — title, `>` goal quote, phases table, full week-by-week schedule,
+  then either the computed anchor/zone tables or the static zone reference.
+- **Dialogs** — full-screen on phone with a sticky header and scrollable body;
+  centered square panel on desktop. Real actions: export/import JSON, export
+  CSV, unit select, erase, add/remove effort, save paces. Close is `[x]`
+  (`aria-label="Close"`); Escape closes; Tab is trapped; focus returns to the
+  opener.
+- **Toast** — a single bottom status line prefixed with `>`, `role="status"`,
+  safe-area aware.
+- **Controls** — rectangular, flat, monospaced. Default: rule border + green
+  text. Hover: inversion or underline. Focus: `2px` white outline, `2px` offset.
+  Tap targets ≥44px.
+
+There is no icon system: functional glyphs are text (`[<]`, `[>]`, `[x]`, `[+]`,
+`[open data]`), with accessible names where the glyph alone is ambiguous.
+
+---
+
+## 7. Motion
+
+- **One animation:** the masthead cursor blinks at `--dp-motion-cursor` (1.2s)
+  with discrete steps.
+- `prefers-reduced-motion: reduce` stops the blink; the cursor stays solid.
+- Everything else is still and immediate: no rise, hover lift, modal pop,
+  transitions, gradient shifts, or background motion. Nothing types itself out
+  and no invented log streams play.
+
+---
+
+## 8. Accessibility
+
+- Real `button` / `input` / `select` / `textarea` / `a` elements with accessible
+  names; the command labels are real `h2`s, session title an `h3`.
+- Reading order equals DOM order; the skip link reaches `main#app`
+  (`tabindex="-1"`).
+- `aria-current="page"` on the active view, `aria-pressed` on status buttons,
+  `aria-label` on calendar cells (date, session, kind, status, RPE), `role="status"`
+  on the toast, `aria-labelledby` on the dialog.
+- Focus is always visible (white outline). Dialogs trap Tab and restore focus.
+- ASCII art (wordmark, RPE chart) is `aria-hidden="true"`; the real text version
+  is adjacent or in the chart note.
+- Accents were checked for contrast against black; body green/white is well above
+  4.5:1.
+- No information is hover-only.
 
 ---
 
 ## 9. Anti-patterns — do not do
 
-- A typical fitness app: neon, black/red, aggressive angles, "beast mode".
-- SaaS dashboard: dense card grids, heavy sidebars, metric walls, generic data
-  tables as the primary surface — or anything that could belong to Strava, Whoop,
-  Notion, or a stock component library.
-- Generic radial charts, perfect geometric orbits, flat card stacks.
-- Over-glossy plastic Y2K that reads dated rather than refined; heavy neon.
-- Flat earthy-minimal with no digital/highlight life.
-- Cool hues from outside the palette — verify a rendered screenshot has ~0%
-  cool pixels (blue-dominant).
-- Emoji as icons; mixed icon sets; mixed corner radii; one duration for every
-  transition; animating width/height.
-- Cramped density, hard rectangular boxes, text under 12px, gray-on-gray,
-  sub-4.5:1 kind-chip contrast.
+- Fake shell prompts, commands, logs, file paths, flags, statuses, or metrics.
+- Gradients, glow, gloss, backdrop blur, textures, CRT curvature, scan lines.
+- Rounded cards, pills, chips with backgrounds, colored page furniture.
+- Lucide/SVG icon sets, emoji icons, mixed families.
+- Colour as the only signal; accent colour on borders or headings.
+- Animating typing, layout, or invented output.
+- Horizontal scrolling at any width; ASCII art that doesn't fit 320px.
+- Tables that require sideways scrolling on a phone.
 
 ---
 
@@ -230,40 +264,37 @@ sets, no filled shapes.
 
 | File | Owns |
 |------|------|
-| `css/styles.css` | All tokens, components, motion, dark mode. **Start here.** |
-| `index.html` | Font links, theme-color, favicon, `#terrain` container, static icons |
-| `js/app.js` | `ICONS` + `icon()`, `orbitLines()`, `terrainField()`, semantic kinds |
+| `css/styles.css` | Tokens, `@font-face`, commands, components, motion, reduced motion. **Start here.** |
+| `index.html` | Wordmark, masthead, menu, footer, dialog shell, toast, theme colour. |
+| `js/app.js` | View markup helpers (`section`, `facts`, `table`, `kindToken`, `charBar`), the wordmark is static in HTML. |
 
-**Workflow for a visual change:** edit the token in `css/styles.css`, then any
-component using it updates automatically; update this doc's tables if a token
-value changes. Re-check both light and dark. Quick visual QA (no build needed):
+**Workflow for a visual change:** edit the token in `css/styles.css`; every
+component follows. Update the tables above if a token value changes. Re-check
+320 / 540 / 800 / 1100 / 1440 and a keyboard pass. Quick visual QA (no build):
 
 ```bash
 # renders each view; headless Chrome, no install
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-"$CHROME" --headless=new --hide-scrollbars --window-size=1000,1500 \
+"$CHROME" --headless=new --hide-scrollbars --window-size=1100,1500 \
   --virtual-time-budget=5000 --screenshot=/tmp/day.png \
   "file://$PWD/index.html#day"
 ```
 
-(Headless defaults to dark; add `--blink-settings=preferredColorScheme=1` for
-light.)
+Headless Chrome clamps its window to a minimum width, so true 320px shots need
+the page loaded inside a fixed-width iframe (or device emulation).
 
 ---
 
 ## Changelog
 
-- **2026-10-12** — Initial system. Replaced the blue/slate UI with the strict
-  Y2K × Nature palette, Work Sans + Montserrat, Lucide icons, rounded/gloss
-  tokens, racing-line accents, and a full light/dark pass.
-- **2026-10-12** — Re-cut as **Orbital Contour Map**. New strict 8-color palette
-  (Deep Structure / Mid Terrain / Warm Earth / Light Surface / Liquid Gold /
-  Burnt Copper / Chrome / Cool Contrast); single-family Work Sans; the day hero
-  is now a glossy, liquid-edged **central node** inside irregular orbit rings; a
-  generated **topographic contour field** sits behind everything; week becomes a
-  contour   spine of nodes; calendar cells are irregular pebbles; Lucide icons
-  moved to a medium 1.75 stroke; all kind colors re-tuned to ≥ 4.5:1.
-- **2026-10-12** — Pushed the "objects in a landscape" read: cards became
-  translucent warm glass so the contour field shows through; the central node
-  gained a conic chrome↔gold bezel and orbiting node dots; the active tab and
-  status pills became chrome→gold Y2K gradients; contour/flows made more visible.
+- **2026-10-12** — Initial chilled Y2K × Nature system (Work Sans, Lucide,
+  light/dark).
+- **2026-10-12** — Re-cut as **Orbital Contour Map** (8-colour palette, glossy
+  central node, contour field, orbit rings).
+- **2026-11-07** — Re-cut as **Terminal**. Dark only (single black theme), IBM
+  Plex Mono everywhere, 13-colour ANSI palette used only for session/status
+  semantics, numbered command gutter, character-aligned rows and tables,
+  10-character bars, ASCII wordmark and RPE chart, square corners, no gradients,
+  blur, glow, pills, or icons. Removed the terrain field, orbit rings, glossy
+  node, Lucide system, and the light theme. Logging, exports, imports, unit
+  switch, and the critical-speed pace engine are unchanged.
