@@ -59,7 +59,11 @@ No colored backgrounds except reverse video for selection.
 | `--dp-color-red` | `#ff5f5f` | Race / test / skipped |
 
 No `color-mix`, no `rgba`, no gradients, no second hue. `transparent` is the only
-other value used.
+other value used. Form controls borrow `--dp-color-dim` through
+`--dp-control-border` because their 1px boundary is the only thing showing the
+hit area: it measures 6.08:1 against black, where `--dp-color-rule` (the quiet
+separator, 2.34:1) would fail WCAG 1.4.11. That keeps the count at 13 colours —
+no fourteenth token was added.
 
 ### Session-kind mapping
 
@@ -91,9 +95,10 @@ only signal — every token carries a bracketed word or symbol plus a legend.
   (`--dp-typography-face: "TerminalPlex", monospace`), weights 400 and 500.
 - All text, controls, and numbers are monospaced. No second family, no serif, no
   sans fallback as a design choice.
-- Body `18px`, phone `clamp(16px, 4.2vw, 18px)`; labels `16px` (nav labels are
-  `14px` at ≥900px so all eight fit one row); headings `24px`; display `40px`
-  (session title) with `--dp-typography-display-narrow: 32px` below 900px.
+- Body `18px`, phone `clamp(16px, 4.2vw, 18px)`; labels `16px`; support text
+  `14px` (`--dp-typography-small`, used by nav labels at ≥900px, every meta line
+  and caption); headings `24px`; display `40px` (session title) with
+  `--dp-typography-display-narrow: 32px` below 900px.
 - Leading: body/list `1.5` (`--dp-typography-list-leading: 27px`), display `1.2`
   (`1.25` narrow).
 - Emphasis comes from **weight, white, punctuation, and indentation** — not from
@@ -180,9 +185,9 @@ Every section is:
 
 - **Day navigator** — `[<]` date input `[>]`, weekday + week beneath, and a real
   `[jump to today]` when off today.
-- **Session panel** — `TODAY` kicker, display-size white session title, then an
-  aligned fact table: DATE, WEEK, TYPE (token + kind word), TIME, INTENSITY,
-  PACE, STATUS.
+- **Session panel** — display-size white session title, then an aligned fact
+  table: DATE, WEEK, TYPE (token + kind word), TIME, INTENSITY, PACE, STATUS.
+  The masthead and the DATE row already say "today", so there is no kicker.
 - **Kettlebell block** — a `1px` bordered section headed by `[KB A]` + real name,
   with `-` set lines. No background.
 - **Log form** — status buttons show `[ ]`/`[x]` + label and `aria-pressed`;
@@ -244,6 +249,13 @@ There is no icon system: functional glyphs are text (`[<]`, `[>]`, `[x]`, `[+]`,
 - Accents were checked for contrast against black; body green/white is well above
   4.5:1.
 - No information is hover-only.
+- **Re-renders keep focus.** Views are template strings written into `#app`, so
+  `captureFocus()` records a stable selector (`#id`, `data-action`, `data-status`,
+  `data-date`) before the write and `restoreFocus()` re-focuses it after. If the
+  control no longer exists (a view switch), focus moves to `main#app` instead of
+  falling to `<body>`.
+- `data/plan.js` failing to load renders a one-line message in `#app` rather than
+  a blank page.
 
 ---
 
@@ -298,3 +310,10 @@ the page loaded inside a fixed-width iframe (or device emulation).
   blur, glow, pills, or icons. Removed the terrain field, orbit rings, glossy
   node, Lucide system, and the light theme. Logging, exports, imports, unit
   switch, and the critical-speed pace engine are unchanged.
+- **2026-11-07** — Hardening pass after an accessibility/UX audit: focus is
+  restored by selector across in-place re-renders (day steps, status, save,
+  month nav) and moves to `main` on view switches; journal RPE/distance values
+  are escaped; the unit switch repaints immediately; form controls use a 6.08:1
+  border token; `--dp-typography-small` replaces 27 literals; dropped the
+  duplicate `today` kicker and the duplicate empty status token; added a plan
+  data guard and a font preconnect.

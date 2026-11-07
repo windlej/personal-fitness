@@ -64,10 +64,16 @@
   --dp-color-magenta: #d787ff;
   --dp-color-red: #ff5f5f;
 
+  /* Field boundaries need 3:1 against black (WCAG 1.4.11). `--dp-color-rule`
+     is deliberately quiet (2.34:1) and stays a separator, so form controls
+     borrow the existing dim grey (6.08:1) instead of adding a 14th colour. */
+  --dp-control-border: var(--dp-color-dim);
+
   /* ---- type ---- */
   --dp-typography-face: "TerminalPlex", monospace;
   --dp-typography-body: 18px;
   --dp-typography-label: 16px;
+  --dp-typography-small: 14px;
   --dp-typography-heading: 24px;
   --dp-typography-display: 40px;
   --dp-typography-display-narrow: 32px;
@@ -179,7 +185,7 @@ input, select, textarea { font-family: inherit; }
   letter-spacing: 0;
 }
 .wordmark-name {
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
   font-weight: 500;
   line-height: 1.4;
   letter-spacing: .22em;
@@ -201,7 +207,7 @@ input, select, textarea { font-family: inherit; }
   grid-template-columns: max-content minmax(0, 1fr);
   gap: 2px 1ch;
   min-width: 0;
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
   color: var(--dp-color-ink-muted);
 }
 .factline { display: contents; }
@@ -267,8 +273,8 @@ input, select, textarea { font-family: inherit; }
     grid-template-columns: repeat(8, minmax(0, 1fr));
   }
   .menu button {
-    padding: 10px 8px;
-    font-size: 14px;
+    padding: 10px 6px;
+    font-size: var(--dp-typography-small);
     white-space: nowrap;
     border-bottom: 0;
   }
@@ -330,16 +336,7 @@ main:focus { outline: none; }
   font-weight: 500;
   color: var(--dp-color-emphasis);
 }
-.log-head {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0 1ch;
-  margin-bottom: var(--dp-spacing-row-compact);
-}
-.log-head .out-title { min-width: 0; }
-.log-head .tok { flex: 0 0 auto; padding-top: 4px; }
+.log-head { margin-bottom: var(--dp-spacing-row-compact); }
 .out-note { color: var(--dp-color-ink-muted); }
 .out-meta { color: var(--dp-color-ink-muted); }
 .out-head {
@@ -355,15 +352,8 @@ main:focus { outline: none; }
   font-size: var(--dp-typography-label);
 }
 .meta-text { color: var(--dp-color-ink-muted); }
-.fact-note { color: var(--dp-color-dim); font-size: 14px; }
+.fact-note { color: var(--dp-color-dim); font-size: var(--dp-typography-small); }
 
-.session-kicker {
-  margin-bottom: 6px;
-  font-size: 14px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--dp-color-ink-muted);
-}
 .session-title {
   font-size: var(--dp-typography-display-narrow);
   line-height: var(--dp-typography-display-leading-narrow);
@@ -514,7 +504,7 @@ main:focus { outline: none; }
   color: var(--dp-color-ground);
   border-color: var(--dp-color-red);
 }
-.btn--sm { padding: 6px 10px; font-size: 14px; }
+.btn--sm { padding: 6px 10px; font-size: var(--dp-typography-small); }
 .btn--outline {
   background: transparent;
   color: var(--dp-color-ink);
@@ -562,7 +552,7 @@ main:focus { outline: none; }
   align-items: center;
   gap: 9px var(--dp-spacing-column-gap);
 }
-.actions-note { color: var(--dp-color-dim); font-size: 14px; }
+.actions-note { color: var(--dp-color-dim); font-size: var(--dp-typography-small); }
 
 /* -------------------------------------------------------- day + week nav */
 .ctl {
@@ -580,7 +570,7 @@ main:focus { outline: none; }
   color: var(--dp-color-emphasis);
   text-wrap: balance;
 }
-.ctl-sub { margin-top: 6px; font-size: 14px; color: var(--dp-color-ink-muted); }
+.ctl-sub { margin-top: 6px; font-size: var(--dp-typography-small); color: var(--dp-color-ink-muted); }
 .ctl-jump { margin-top: 12px; text-align: center; }
 .ctl input[type="date"] {
   width: 100%;
@@ -595,6 +585,7 @@ main:focus { outline: none; }
   text-align: center;
 }
 .ctl input[type="date"]:focus-visible { outline: 2px solid var(--dp-color-emphasis); outline-offset: 2px; }
+.ctl input[type="date"]::-webkit-calendar-picker-indicator { margin-left: 6px; }
 
 /* Week and month: on a phone the title takes the full width and the
    [<] / [>] pair sits beneath it, so long phase names never hyphen-split
@@ -627,9 +618,9 @@ main:focus { outline: none; }
   cursor: pointer;
 }
 .day-row:last-child { border-bottom: var(--dp-border-hairline) solid var(--dp-color-rule); }
-.day-date { grid-area: date; min-width: 0; font-size: 14px; color: var(--dp-color-dim); }
+.day-date { grid-area: date; min-width: 0; font-size: var(--dp-typography-small); color: var(--dp-color-dim); }
 .day-dow { color: var(--dp-color-ink-muted); }
-.day-status { grid-area: status; justify-self: end; font-size: 14px; }
+.day-status { grid-area: status; justify-self: end; font-size: var(--dp-typography-small); }
 .day-main { grid-area: main; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .day-title { color: var(--dp-color-emphasis); }
 .day-meta {
@@ -637,7 +628,7 @@ main:focus { outline: none; }
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0 1ch;
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
   color: var(--dp-color-ink-muted);
 }
 .day-row:hover .day-title,
@@ -664,7 +655,7 @@ main:focus { outline: none; }
 .cal-dow {
   padding: 4px 0;
   text-align: center;
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
   color: var(--dp-color-dim);
 }
 .cal-cell {
@@ -679,14 +670,14 @@ main:focus { outline: none; }
   border: var(--dp-border-hairline) solid var(--dp-color-rule);
   border-radius: 0;
   color: var(--dp-color-ink);
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
   line-height: 1.1;
   cursor: pointer;
 }
 .cal-cell--empty { border-color: transparent; cursor: default; }
-.cal-num { font-size: 14px; color: var(--dp-color-emphasis); }
-.cal-kind { font-size: 14px; }
-.cal-cell .tok { font-size: 14px; }
+.cal-num { font-size: var(--dp-typography-small); color: var(--dp-color-emphasis); }
+.cal-kind { font-size: var(--dp-typography-small); }
+.cal-cell .tok { font-size: var(--dp-typography-small); }
 .cal-cell.is-today { border-color: var(--dp-color-emphasis); }
 .cal-cell.is-today .cal-num { font-weight: 500; }
 .cal-cell:hover { border-color: var(--dp-color-ink); }
@@ -696,7 +687,7 @@ main:focus { outline: none; }
   display: flex;
   flex-wrap: wrap;
   gap: 6px var(--dp-spacing-column-gap);
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
   color: var(--dp-color-ink-muted);
 }
 .legend + .legend { margin-top: 9px; }
@@ -725,7 +716,7 @@ main:focus { outline: none; }
   gap: 2px var(--dp-spacing-gutter);
   align-items: baseline;
 }
-.logline-date { grid-area: date; font-size: 14px; color: var(--dp-color-dim); }
+.logline-date { grid-area: date; font-size: var(--dp-typography-small); color: var(--dp-color-dim); }
 .logline-title { grid-area: title; color: var(--dp-color-emphasis); }
 .logline-tags {
   grid-area: tags;
@@ -733,9 +724,9 @@ main:focus { outline: none; }
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0 1ch;
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
 }
-.logline-meta { font-size: 14px; color: var(--dp-color-ink-muted); }
+.logline-meta { font-size: var(--dp-typography-small); color: var(--dp-color-ink-muted); }
 .logline-notes {
   position: relative;
   padding-left: 2ch;
@@ -795,7 +786,7 @@ main:focus { outline: none; }
   line-height: 1.25;
   color: var(--dp-color-ink-muted);
 }
-.chart-note { margin-top: 9px; font-size: 14px; color: var(--dp-color-dim); }
+.chart-note { margin-top: 9px; font-size: var(--dp-typography-small); color: var(--dp-color-dim); }
 
 /* -------------------------------------------------------- tables
    Desktop: aligned columns. Phone: one label/value pair per line —
@@ -809,7 +800,7 @@ main:focus { outline: none; }
   vertical-align: top;
 }
 .tbl th {
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
   font-weight: 500;
   letter-spacing: .06em;
   text-transform: uppercase;
@@ -838,7 +829,7 @@ main:focus { outline: none; }
   .tbl td::before {
     content: attr(data-k) " ";
     color: var(--dp-color-dim);
-    font-size: 14px;
+    font-size: var(--dp-typography-small);
   }
 }
 
@@ -851,7 +842,7 @@ main:focus { outline: none; }
   text-transform: uppercase;
   color: var(--dp-color-ink-muted);
 }
-.field-hint { font-size: 14px; color: var(--dp-color-dim); }
+.field-hint { font-size: var(--dp-typography-small); color: var(--dp-color-dim); }
 
 input,
 select,
@@ -859,7 +850,7 @@ textarea {
   width: 100%;
   padding: 9px 10px;
   background: transparent;
-  border: var(--dp-border-hairline) solid var(--dp-color-rule);
+  border: var(--dp-border-hairline) solid var(--dp-control-border);
   border-radius: var(--dp-radius-control);
   color: var(--dp-color-ink);
   font-family: inherit;
@@ -896,7 +887,7 @@ textarea:focus-visible {
   border: var(--dp-border-hairline) solid var(--dp-color-rule);
   border-radius: 0;
   color: var(--dp-color-ink-muted);
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
   text-align: left;
   cursor: pointer;
 }
@@ -914,7 +905,7 @@ textarea:focus-visible {
   background: var(--dp-color-red);
   border-color: var(--dp-color-red);
 }
-.status-box { font-size: 14px; }
+.status-box { font-size: var(--dp-typography-small); }
 
 .rpe-row { display: flex; align-items: center; gap: var(--dp-spacing-gutter); }
 .rpe-row input[type="range"] {
@@ -1050,7 +1041,7 @@ body.is-modal { overflow: hidden; }
 .footer {
   border-top: var(--dp-border-hairline) solid var(--dp-color-rule);
   color: var(--dp-color-ink-muted);
-  font-size: 14px;
+  font-size: var(--dp-typography-small);
 }
 .dir {
   display: grid;

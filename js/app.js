@@ -10,6 +10,11 @@
   "use strict";
 
   var PLAN = window.PLAN;
+  if (!PLAN || !PLAN.meta || !PLAN.template) {
+    document.getElementById("app").innerHTML =
+      '<p class="empty-state">Plan data did not load. Check that <code>data/plan.js</code> is present, then reload.</p>';
+    return;
+  }
   var LS_LOGS = "tp.logs.v1";
   var LS_SETTINGS = "tp.settings.v1";
   var LS_PACES = "tp.paces.v1";
@@ -387,7 +392,6 @@
     var iso = state.selectedDate;
     var day = dayFor(iso);
     var log = logFor(iso);
-    var isToday = iso === todayISO();
     var details = day.details ? day.details.split("|").map(trim).filter(Boolean) : [];
     var pt = paceTextFor(day);
     var html = "";
@@ -395,7 +399,6 @@
     html += section("today", dayNav(iso));
 
     var hero = '<div class="session">';
-    hero += (isToday ? '<p class="session-kicker">today</p>' : "");
     hero += '<h3 class="session-title">' + esc(day.session) + "</h3>";
     hero += facts([
       ["date", esc(fmtLong(iso))],
@@ -454,7 +457,7 @@
   function renderLog(day, log) {
     var s = log || {};
     var st = s.status || "";
-    var html = '<div class="log-head"><h3 class="out-title">Log this session</h3>' + statusToken(st) + "</div>";
+    var html = '<div class="log-head"><h3 class="out-title">Log this session</h3></div>';
 
     html += '<div class="field"><p class="field-label" id="status-label">Status</p>' +
       '<div class="status-row" role="group" aria-labelledby="status-label">' +
@@ -634,9 +637,9 @@
     entries.forEach(function (iso) {
       var l = store.logs[iso], d = dayFor(iso), pace = paceStr(l.duration, l.distance);
       var meta = [];
-      if (l.rpe) meta.push("RPE " + l.rpe);
+      if (l.rpe) meta.push("RPE " + esc(l.rpe));
       if (l.duration) meta.push(esc(fmtDuration(l.duration)));
-      if (l.distance) meta.push(l.distance + " " + esc(store.settings.unit));
+      if (l.distance) meta.push(esc(l.distance) + " " + esc(store.settings.unit));
       if (pace) meta.push(esc(pace));
       if (l.feel) meta.push(esc(feelLabel(l.feel)));
       rows += '<button type="button" class="logline" data-action="open-day" data-date="' + iso + '">' +
@@ -848,7 +851,39 @@
       else b.removeAttribute("aria-current");
     });
   }
-  function go(view) { state.view = view; document.getElementById("app").scrollIntoView({ block: "start" }); render(); }
+
+  /* Re-rendering replaces the node the user was on, which would drop focus to
+     <body>. Capture a stable selector before the write and restore it after;
+     if the control no longer exists (view change), focus the new view. */
+  function captureFocus() {
+    var el = document.activeElement;
+    if (!el || !el.closest || !el.closest("#app")) return "";
+    var sel = el.id ? "#" + el.id : "";
+    if (el.dataset) {
+      if (el.dataset.action) sel += '[data-action="' + el.dataset.action + '"]';
+      if (el.dataset.status) sel += '[data-status="' + el.dataset.status + '"]';
+      if (el.dataset.date) sel += '[data-date="' + el.dataset.date + '"]';
+    }
+    return sel;
+  }
+  function restoreFocus(sel) {
+    if (!sel) return;
+    var el = document.querySelector(sel), app = document.getElementById("app");
+    if (el && el.focus) el.focus({ preventScroll: true });
+    else if (app && app.focus) app.focus({ preventScroll: true });
+  }
+  function refresh() {
+    var keep = captureFocus();
+    render();
+    restoreFocus(keep);
+  }
+  function go(view) {
+    var keep = captureFocus();
+    state.view = view;
+    document.getElementById("app").scrollIntoView({ block: "start" });
+    render();
+    restoreFocus(keep);
+  }
   function selectDate(iso, view) { state.selectedDate = iso; state.calMonth = iso.slice(0, 7); go(view || state.view); }
 
   /* --------------------------------------------------------- log save */
@@ -1113,7 +1148,7 @@
   document.addEventListener("input", function (e) {
     if (e.target.id === "log-rpe") { document.getElementById("rpe-value").textContent = e.target.value; document.getElementById("rpe-hint").textContent = rpeHint(e.target.value); }
     if (e.target.id === "date-input" && /^\d{4}-\d{2}-\d{2}$/.test(e.target.value)) selectDate(e.target.value, "day");
-    if (e.target.id === "unit-select") { store.settings.unit = e.target.value; save(); }
+    if (e.target.id === "unit-select") { store.settings.unit = e.target.value; save(); render(); }
   });
   document.addEventListener("change", function (e) { if (e.target.id === "import-file" && e.target.files[0]) importJSON(e.target.files[0]); });
   document.getElementById("tabs").addEventListener("click", function (e) { var b = e.target.closest("button[data-view]"); if (b) go(b.dataset.view); });
@@ -1139,20 +1174,20 @@
   function setStatus(val) {
     var iso = state.selectedDate, log = store.logs[iso] || {};
     if (log.status === val) return;
-    log.status = val; log.updatedAt = new Date().toISOString(); store.logs[iso] = log; save(); renderDay();
+    log.status = val; log.updatedAt = new Date().toISOString(); store.logs[iso] = log; save(); refresh();
   }
   function saveLog() {
     var iso = state.selectedDate, log = store.logs[iso] || {}, fresh = collectLog();
     Object.keys(fresh).forEach(function (k) { log[k] = fresh[k]; });
     Object.keys(log).forEach(function (k) { if (k !== "status" && !(k in fresh) && k !== "updatedAt") delete log[k]; });
     if (!log.status) log.status = "done";
-    log.updatedAt = new Date().toISOString(); store.logs[iso] = log; save(); renderDay(); toast("Saved");
+    log.updatedAt = new Date().toISOString(); store.logs[iso] = log; save(); refresh(); toast("Saved");
   }
-  function clearLog() { delete store.logs[state.selectedDate]; save(); renderDay(); toast("Cleared"); }
+  function clearLog() { delete store.logs[state.selectedDate]; save(); refresh(); toast("Cleared"); }
   function shiftMonth(n) {
     var base = state.calMonth || state.selectedDate.slice(0, 7), y = +base.slice(0, 4), m = +base.slice(5, 7) - 1 + n;
     var d = new Date(y, m, 1);
-    state.calMonth = d.getFullYear() + "-" + pad(d.getMonth() + 1); renderCalendar();
+    state.calMonth = d.getFullYear() + "-" + pad(d.getMonth() + 1); refresh();
   }
 
   /* -------------------------------------------------------------- init */
