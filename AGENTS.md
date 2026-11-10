@@ -26,8 +26,8 @@ web app for viewing today's session and logging how it felt. Read this file, the
 
 | Phase | Dates | Shape |
 |-------|-------|-------|
-| 1 Re-Entry / Reset | 2026-09-30 → 2026-11-30 | 3–4 **easy** runs, no quality. Nov stays ~110–155 min/wk |
-| 2 Base Build | 2026-12-01 → 2027-01-17 | All easy, volume-led (185 → 235 min/wk). Dec 13 indoor mile; Jan 17 5K TT (the sub-31 gate) |
+| 1 Re-Entry / Reset | 2026-09-30 → 2026-11-22 | 3–4 **easy** runs, no quality. Two on-ramp weeks (~100 → 120 min/wk) at the end |
+| 2 Base Build — Singles Ramp | 2026-11-23 → 2027-01-17 | **Norwegian singles**: 4 → 6 running days, ~120 → 180 min/wk, 1 → 3 sub-threshold sessions. **No hard days at all.** Jan 17 5K TT (the sub-31 gate). Dec indoor mile dropped |
 | 3 Hills + Sharpen | 2027-01-18 → 2027-02-07 | Sub-threshold singles + hill repeats |
 | 4 5-Mile Peak | 2027-02-08 → 2027-03-07 | Goal-pace threshold/VO2, taper, **St Paddy's 5 Miler** |
 | 5 Bloomsday 12K | 2027-03-08 → 2027-05-02 | Rebuild + Doomsday Hill sessions, **Bloomsday 12K** |
@@ -50,6 +50,21 @@ Kettlebell days are Sun (A), Tue (B), Thu (C). Wednesday has **no** kettlebell.
 they do not count toward the two-quality-days-per-week budget. Race/taper weeks
 drop the long run and all quality.
 
+### Inside the singles ramp (Nov 23 – Jan 17)
+
+Monday carries the **longest** sub-threshold session and Saturday stays the long
+easy run — an inversion of the published example week, so the anchor session
+gets the freshest legs (Sunday is off running). The three qualities run
+**longest Monday → medium Wednesday → shortest Friday**, because Saturday's long
+run follows Friday. Thursday becomes a short easy run only in the peak week,
+when the sixth running day is earned.
+
+This block is **generated in `scripts/build_plan.py`** (`SINGLES_WEEKS`,
+`build_singles_block`, `RAMP_WEEKS`, and the `PHASES` list) rather than read from
+the workbook — the one deliberate exception to "the workbook is the source of
+truth for dated sessions". Its sessions carry `effortOnly: true`, so the app
+shows the HR guardrail but suppresses the pace target until the time trial.
+
 ## File map
 
 - `index.html`, `css/styles.css`, `js/app.js` — the web app. `js/app.js` resolves
@@ -65,11 +80,16 @@ drop the long run and all quality.
   notes) into `schedule`/`weeks`/`phases`, reads zones/paces from
   `Zones & Sessions`, and keeps an A/B `build_week()` template as the
   out-of-range fallback. **Edit session content in the workbook; edit the
-  fallback template / parsing here.**
+  fallback template / parsing here.** The **singles ramp is the exception** —
+  it is generated here (`SINGLES_WEEKS`, `RAMP_WEEKS`, `PHASES`).
 - `docs/training-principles.md` — the athlete's **authoritative training
   philosophy**. Loaded into every session via `opencode.json` `instructions`;
   the coach follows it over generic advice. Edit it to change how the coach
   thinks, not just what it knows.
+- `docs/norwegian-singles.md` — the **distilled method reference** (week shape,
+  rep/pace table, HR guardrails, progression, terms). Also loaded via
+  `opencode.json` `instructions`. `docs/reference/norwegian-singles-guide.md`
+  is the full upstream guide, saved verbatim and **not** auto-loaded.
 - `docs/training-context.md` — the athlete's goals, constraints, and preferences.
   Update this when life changes; the coach reads it.
 - `docs/how-to-use.md` — plain-language usage guide for the app + coach.

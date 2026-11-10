@@ -1,0 +1,360 @@
+# Norwegian Singles — full reference
+
+Verbatim copy of the community guide at <https://norwegiansingles.run/llms-full.txt>,
+saved 2026-11-10 for offline use. **Not auto-loaded** (it is ~32 KB) — see
+`docs/norwegian-singles.md` for the distilled working version the coach uses by
+default, and read this one when you need the primary source.
+
+Content is by the guide's authors (bart6114/contributors, summarising James
+Copeland's method). Kept unmodified below.
+
+---
+
+# Norwegian Singles
+
+The complete guide, in reading order. Source references and qualifications remain part of the text.
+
+---
+
+Source: https://norwegiansingles.run/
+
+# Norwegian Singles
+
+An Approach To Running
+
+An introduction to Norwegian Singles training: core principles, weekly structure, interval examples, training load, and background resources.
+
+# Introduction
+
+This guide introduces the “Norwegian Singles” training approach, adapted from the high-volume Norwegian model often associated with double threshold sessions. This “singles” variant emphasizes frequent, *single* sub-threshold workouts per day, suitable for runners seeking sustainable improvement in aerobic capacity and performance over the long term, particularly those training 5-9 hours per week. The core idea is maximizing repeatable training load while managing fatigue.
+
+For help turning this guide into a personal training plan, see [Let AI help you](https://norwegiansingles.run/section8_ai_assistance.html#let-ai-help-you).
+
+## Read offline
+
+Prefer to read offline? Download a PDF or EPUB using the download icon in the sidebar.
+
+## Contributing
+
+Please read up on how to contribute to this guide over at our [GitHub repo](https://github.com/bart6114/norwegian-singles).
+
+**Repository Contributors**
+
+## Background & conceptualization
+
+The method combines principles of Norwegian threshold training with a schedule suited to recreational runners: three controlled sub-threshold sessions, separated by easy running. Pace and heart rate make it possible to train without a lactate meter; testing remains optional.
+
+James Copeland, known online as “sirpoc,” helped popularize this approach through Letsrun, Strava and Reddit. Drawing on his cycling background and Kristoffer Ingebrigtsen’s running, he experimented with a repeatable weekly structure. His 2025 book reports progress from roughly 19-minute 5k fitness to 15:01 for 5k, 30:41 for 10k, 1:08:51 for the half marathon and a 2:24 marathon at age 41. These are his results, rather than a forecast for other runners.
+
+Further discussion and details can be found in the following resources:
+
+- **Copeland’s Book:** [Norwegian Singles Method: Subthreshold Running Kept Simple](https://mybook.to/XzwWbK3) (2025), with a foreword by Marius Bakken MD, explains his framework, pacing guidelines and experience in detail. This community guide summarizes practical principles in its own words and includes other sources and adaptations.
+- **Marius Bakken’s Book:** [The Norwegian Method Applied](https://www.amazon.com/dp/8269471100) covers threshold training and intensity control. [Sample pages](https://online.fliphtml5.com/loping/TheNorwegianMethodApplied/) are available online.
+- **Original Letsrun Thread:** A very long but often informative thread detailing the development and discussion of the method. Sirpoc’s early posts and a summary on page 80 are particularly relevant. <https://www.letsrun.com/forum/flat_read.php?thread=12130781> (Note: The user suggests skipping posts by certain individuals for a more focused read).
+- **Strava Group:** A dedicated group for discussion and community around the training method. <https://strava.app.link/QyAqunp07Pb> (Sirpoc is an admin).
+- **Reddit Sub:** A very active subreddit for support, success stories, and other topics related to this training. [r/NorwegianSinglesRun](https://www.reddit.com/r/NorwegianSinglesRun/) (Sirpoc is a moderator).
+- **Pace Guide:** Lactrace.com now hosts a pace guide based on sirpoc’s recommendations. <https://lactrace.com/norwegian-singles>
+- **Executive Summary Document:** “The Norwegian single approach” - <https://docs.google.com/document/d/1OUk4lHlMzLkYzJAhlJAeaoj9OQNJH6g7uS31fl1To4Q/edit?tab=t.0>
+- **Training Calculator:** Spreadsheet for calculating reps, times, paces - <https://docs.google.com/spreadsheets/d/1Ah9qBF5zBvXh0-eWefJKUQUbWS6IWfrXm4D3dfvXuBA/edit?gid=0#gid=0>
+- **Summary Website:** <https://sites.google.com/view/sub-threshold/home>
+
+---
+
+Source: https://norwegiansingles.run/section1_core_principles.html
+
+# 1  Core Principles
+
+## 1.1 Sub-Threshold Focus
+
+The aim is to improve the speed you can sustain at a manageable effort. Quality sessions target an intensity below the second lactate threshold (LT2), with short recoveries between repetitions. Most weekly training remains easy, below the first threshold (LT1); roughly 20-25% of training time is sub-threshold work. Zone numbers vary between watches and training systems, so a label such as “Zone 3” is not enough to set the effort.
+
+For 5k through half-marathon runners, this can be an ongoing training framework. It does not require a later block of VO2max workouts. Occasional races supply higher-intensity efforts, while most training stays repeatable.
+
+## 1.2 Intensity Control
+
+Start conservatively and judge a session by how well you recover for the next one. Use several observations together:
+
+- **Pace:** Set targets from current race fitness, not a past personal best or goal time. The appropriate pace depends on repetition duration and recovery. Adjust for heat, humidity, wind and terrain before starting. The [workout examples](https://norwegiansingles.run/section2_implementing_the_method.html#quality-workouts-sub-threshold) give starting ranges; slow down further if they are too demanding.
+- **Heart rate:** Use an individual lactate threshold heart rate (LTHR) estimate as a guardrail. One field estimate is the average HR during the final 20 minutes of a well-paced, solo 30-minute maximum effort after warming up. A chest strap helps avoid measurement errors. Copeland describes early repetitions finishing about 10-15 beats below LTHR, with later ones approaching it from below. This is a useful pattern, not a target to chase: HR lags and drifts, and repeatedly exceeding LTHR suggests the pace needs reducing.
+- **Perceived effort:** Breathing should be controlled and the work manageable, with enough left for another repetition. Finish the planned session rather than testing that reserve. If effort feels unusually high, reduce pace even when the watch numbers look normal.
+- **Optional measurements:** Lactate testing can help establish your own response, but a fixed reading of 2, 3 or 4 mmol/L does not guarantee the right intensity. Interpret readings against your individual curve and their trend through the session. Running power can provide another consistent reference on familiar routes, but neither a device estimate nor a percentage of critical power directly measures lactate.
+
+## 1.3 Easy Recovery
+
+Easy runs should leave room to recover between quality days. Copeland uses an average of no more than about 70% of measured maximum HR as a conservative cap, often running below it. This is a ceiling, not a goal. He now prefers HR to his earlier 65%-of-maximal-aerobic-speed guideline, which can still lead runners to push too hard.
+
+In mild conditions, look for fairly steady HR after warming up. Slow down or walk hills as needed. Heat can cause drift even at easy effort, so also check breathing and how you feel. Keep the [long run](https://norwegiansingles.run/section4_individualization_considerations.html#long-run) easy too.
+
+## 1.4 Consistency & Repeatability
+
+Improvement comes from months of training you can absorb. Controlled intensity makes frequent sessions more manageable, but does not remove injury risk or guarantee progress. Persistent fatigue is a reason to adjust the load, not to force another successful-looking week.
+
+---
+
+Source: https://norwegiansingles.run/section2_implementing_the_method.html
+
+# 2  Implementing the Method
+
+## 2.1 Weekly Structure
+
+The established framework uses three quality sessions, three easy runs and one longer easy run. An example week is:
+
+| Day       | Session                           |
+|:----------|:----------------------------------|
+| Monday    | Easy                              |
+| Tuesday   | Longer sub-threshold repetitions  |
+| Wednesday | Easy                              |
+| Thursday  | Medium sub-threshold repetitions  |
+| Friday    | Easy                              |
+| Saturday  | Shorter sub-threshold repetitions |
+| Sunday    | Longer easy run                   |
+
+These are session slots, not an instruction to immediately run seven days. Preserve existing rest days when starting. For a six-day version, one ordinary easy day can become rest. If new to structured intensity, begin with two quality sessions, making the third slot easy or rest. At lower volumes, an eventual third session can be shorter and gentler while you assess recovery.
+
+Keep the long run easy rather than adding another demanding session. A race replaces a quality slot; see [racing and time trials](https://norwegiansingles.run/section4_individualization_considerations.html#racingtime-trials) for adjustments around it. If you miss a workout, resume the schedule without cramming it into the following easy day.
+
+## 2.2 Quality Workouts (Sub-Threshold)
+
+**Work and recovery:** Break the work into repetitions, with standing, walking or very slow jogging between them. The breaks help limit accumulated fatigue and make pacing mistakes easier to correct. Shortening recovery or jogging faster is not a progression target.
+
+The following summarizes the original duration-based ranges discussed in [Copeland’s book](https://norwegiansingles.run/index.html#background-conceptualization), in “The Method.” Use equivalent race paces from current fitness and start at the slower end. The book also provides a newer 5k-based pace table for different abilities.
+
+| Repetition       | Starting pace guide             | Recovery       |
+|:-----------------|:--------------------------------|:---------------|
+| About 3 minutes  | 12-15k race pace                | 60 seconds     |
+| About 6 minutes  | Around 20k / half-marathon pace | 60-90 seconds  |
+| About 10 minutes | 25-30k race pace                | 90-120 seconds |
+
+These are estimates, not proof that you are below LT2. Use the [intensity checks](https://norwegiansingles.run/section1_core_principles.html#intensity-control), and allow slower paces in difficult conditions. Short, faster repetitions at 10k pace or above are not a default part of this framework, even if the recoveries keep lactate low.
+
+**How much work:** Around 20-25% of weekly training time is a useful starting range for sub-threshold work once established. Count only the repetitions as quality minutes. Include warm-ups, recoveries and cool-downs when budgeting the full session and weekly time. For example, three sessions of 24 minutes of work total 72 quality minutes, not three entire hours of quality training. Do not force this proportion while adapting to two sessions.
+
+**A complete session:** Allow about 10 minutes of easy warm-up, run the first repetition slightly conservatively, complete the planned repetitions and recoveries, then jog easily for 7-10 minutes. Eight 3-minute repetitions with seven 1-minute recoveries therefore take about 48-51 minutes in total. Reduce the repetition count to fit your current training; this is an example, not a minimum.
+
+**Distance alternatives:** Choose distances that take approximately the intended time. A 3-minute repetition might be 600m for one runner and close to 1km for another. Keep short repetitions within roughly half a minute of the intended duration, and medium or long ones within about a minute. Avoid copying a faster runner’s kilometre session and unintentionally extending every repetition.
+
+## 2.3 Getting Started & Progression
+
+1.  **Start from recent training.** Keep total weekly time near what you already sustain, replacing existing hard sessions rather than adding quality on top. Establish easy running and recovery before pursuing three sessions.
+2.  **Consolidate before increasing.** Copeland’s “The Plans” chapter suggests at least a month at a manageable level, then a small intermediate increase held for another two or three weeks. Readiness matters more than completing a calendar block.
+3.  **Add time gradually.** Increase easy running alongside quality work. For example, adding one 3-minute repetition across the whole week could be paired with about 12 extra easy minutes, distributed across existing runs. Change one small part of the week, then reassess.
+4.  **Let the proportions evolve.** As volume rises, quality may settle nearer 20-22% of weekly time. Do not keep extending workouts just to preserve 25%. Around eight hours on singles, consider easy doubles if more volume is appropriate and practical.
+5.  **Earn faster paces through fitness.** Reassess using races or time trials, often every 4-8 weeks. Update targets when performance supports it, not simply because another week has passed. Hold or reduce load when recovery deteriorates.
+
+---
+
+Source: https://norwegiansingles.run/section3_training_load.html
+
+# 3  Training Load (CTL/TSS)
+
+## 3.1 Concept
+
+Training Stress Score (TSS) and similar metrics estimate workout load from duration and intensity relative to threshold. Chronic Training Load (CTL) averages daily scores, usually with a 42-day weighting favouring recent training. Apps often call it “fitness,” but it measures accumulated load.
+
+Acute Training Load (ATL) typically covers seven days. Training Stress Balance (TSB), or “form,” compares chronic and acute load to estimate freshness. These models cannot measure recovery directly or override persistent soreness, poor sleep or unusually difficult easy runs.
+
+## 3.2 Application & Correlation with Performance
+
+Copeland tracks sustained load alongside race results. Use that comparison yourself: does a manageable training increase eventually accompany better performance? CTL alone cannot establish this, and scores are not directly comparable between runners or calculation methods.
+
+Progress can occur at steady load. Follow the [progression guidance](https://norwegiansingles.run/section2_implementing_the_method.html#getting-started-progression), reviewing recovery and performance over several weeks, rather than adding sessions to reach an app’s coloured zone.
+
+Different interval formats can produce similar scores without equal recovery demands. Faster running, longer uninterrupted efforts and unfamiliar terrain may feel different the next day. Use that response when judging whether a substitution works.
+
+## 3.3 Tracking Tools
+
+Intervals.icu, TrainingPeaks and Runalyze offer load tracking. Choose a consistent metric and update its threshold settings as fitness changes. Pace-based estimates suit comparable routes and conditions, but heat, wind and hills can make them understate effort. HR and power estimates have their own limitations. Read trends alongside running time, perceived effort and race results.
+
+---
+
+Source: https://norwegiansingles.run/section4_individualization_considerations.html
+
+# 4  Individualization & Considerations
+
+## 4.1 Pace Setting & Tools
+
+Use current fitness and treat calculated paces as starting estimates. A recent race or time trial, ideally under comparable conditions, is more useful than a watch prediction or an old personal best. The [Lactrace pace guide](https://lactrace.com/norwegian-singles) is one available reference. Check its suggestions against repetition duration, heart rate and perceived effort.
+
+If the first few sessions feel too demanding, slow down. Individual responses differ, and the ability to recover between sessions matters more than matching someone else’s pace or inferred muscle-fibre type. Use familiar, reasonably flat routes while learning the effort. Treadmill speeds may need calibration; do not assume the display matches outdoor pace or another machine.
+
+## 4.2 Heat/Humidity
+
+Heat, humidity, hills, wind and softer surfaces can all require slower paces. Set realistic targets before starting, then adjust to the effort you actually experience. Headwinds and tailwinds, or uphill and downhill sections, do not necessarily cancel out. Avoid chasing an average pace through a difficult section.
+
+HR can drift in the heat even at a steady effort. Use breathing and perceived effort alongside it, and shorten or abandon a session if conditions make controlled work impractical. Comparable conditions also matter when interpreting a slower race result.
+
+## 4.3 Racing/Time Trials
+
+A 5k race or time trial replaces one quality session. It supplies a fitness check and practice at racing effort; it should not become a fourth hard day. Testing every 4-8 weeks is a useful option, with frequency adjusted to recovery and your race calendar.
+
+For an ordinary Saturday 5k, Copeland generally keeps the surrounding week familiar and skips a dedicated taper. Keep Sunday easy, shortening it if needed. A priority race can justify more freshening up.
+
+For a Sunday 10k, a practical pattern is a normal Tuesday workout, a lighter Thursday session, then shorter easy runs before racing. A half marathon usually warrants easing back earlier in the week. After either race, begin with easy running and make the first workout gentler; resume the full schedule only when recovery supports it. Do not make up the omitted quality work. This captures the book’s short-taper approach without prescribing the same recovery timetable for everyone.
+
+Race at a pace supported by current fitness and the day’s conditions. A controlled start leaves room to increase effort later. Poor pacing can obscure improvements that the training has produced.
+
+## 4.4 Adaptation Time, Stagnation & Consistency
+
+Allow several weeks to settle into the routine, and assess progress over months. A plateau alone does not mean you need faster intervals. First review consistency, pacing, sleep and whether the current load is manageable.
+
+On a tired day, try the slower pace intended for longer repetitions, reduce the repetition count, or replace the session with easy running or rest. Persistent fatigue calls for a reduction in load. Illness or pain that alters your running is a reason to pause and reassess. Resume from what you can currently manage, preserving space between demanding days.
+
+## 4.5 Long Run
+
+Keep this an extension of easy running. Copeland suggests approximately 1.7 times the duration of an ordinary easy run as a starting point: a 45-minute easy run implies roughly 75-80 minutes on Sunday. Higher-volume examples reach about 95-105 minutes. Adjust to your established longest run and recovery, rather than immediately adopting a new duration.
+
+Before a half marathon, occasional modest extensions can help with time on your feet, but matching a slower runner’s entire race duration is unnecessary. Marathon preparation needs a [separate adaptation](https://norwegiansingles.run/section5_applicability_distances.html#marathon).
+
+## 4.6 Speed Work/Strides/Strength
+
+Strides, hills and strength work are optional additions to the framework. Copeland does not routinely include them; that personal choice does not establish that they are unhelpful for everyone. Keep prescribed rehabilitation or strength work, and account for its fatigue when planning running. If adding something new, introduce a small amount and assess its effect before also increasing running volume.
+
+## 4.7 Fueling
+
+Eat enough to support the weekly load. Include carbohydrate and protein after quality sessions, and make recovery food practical around work and other commitments. Increased training can require increased overall intake. Longer marathon sessions also provide opportunities to practise fueling and hydration while running.
+
+## 4.8 Cross-Training
+
+Cycling or an elliptical can replace some running when impact, recovery or preference makes that useful. Preserve the separation between easy and demanding days, and use effort or thresholds appropriate to that activity. Equal duration or HR does not necessarily mean equal training load across sports. When running performance is the goal, retain running-specific practice as circumstances allow.
+
+## 4.9 Alternative Monitoring Methods
+
+Extra devices are optional. A [lactate curve](https://lactate.barts.space/) can help interpret tests; power or breathing measurements can add context. None removes the need to check repeatability and recovery.
+
+Critical power is a model-based estimate and should not be treated as identical to LT2 or a lactate reading. [Research in runners](https://link.springer.com/article/10.1007/s00421-021-04780-8) found different critical-speed and maximal-lactate-steady-state values. Avoid assuming that one percentage of CP suits every runner and repetition format. Keep the device and testing method consistent when tracking changes over time.
+
+[Suunto’s ZoneSense guidance](https://www.suunto.com/en-us/sports/News-Articles-container-page/zonesense-faq/) describes a beat-to-beat chest-strap requirement, no readings in the first ten minutes, and a delayed response to intensity changes. It is better suited to steady efforts and longer repetitions. Live-watch compatibility differs from post-run analysis support. Treat its zones as additional estimates rather than direct lactate measurements.
+
+---
+
+Source: https://norwegiansingles.run/section5_applicability_distances.html
+
+# 5  Applicability to Different Distances
+
+The standard framework is intended for ongoing training across 5k to half marathon. It builds aerobic capacity while keeping runners ready to race, with adjustments around individual events. Other distances may require changes to the balance of endurance, speed and recovery.
+
+## 5.1 5k to Half Marathon
+
+These distances are the main application of Copeland’s approach. The usual week can continue throughout the year, with gradual progression and occasional races or time trials. A separate speed or VO2max phase is optional, rather than an expected next step. Consider additional specificity only when it addresses a clear need and the recovery cost fits your week.
+
+## 5.2 1500m/Mile
+
+The aerobic development can be useful, but these races also require comfort at substantially faster speeds. Depending on experience and goals, race-pace practice or other speed work may replace a quality session. Adding it on top of the full week changes the training load and recovery balance.
+
+## 5.3 800m
+
+Speed, power and anaerobic demands become more prominent. Sub-threshold work can contribute to preparation, but this framework alone is unlikely to cover the needs of an 800m-focused runner.
+
+## 5.4 Marathon
+
+Copeland’s “Marathon Adaptations” chapter describes an extension of an established training base. His own build followed about two years of consistent training; he suggests considering the adaptation after sustained training around or above seven hours weekly. This is context for his approach, not a universal qualification rule or a standalone beginner marathon plan. See [the book reference](https://norwegiansingles.run/index.html#background-conceptualization) for the full progression.
+
+The main changes are:
+
+- **Extend easy endurance gradually.** Build from the long run you already tolerate. Copeland works toward expected race duration, capped at about three hours for slower runners. This is a ceiling to approach selectively, not a weekly minimum.
+- **Scale longer repetitions by time.** His 5km repetitions correspond to roughly 15-18 minutes, with three-minute recoveries, at about 1-2% faster than current marathon speed. A slower runner copying the distance would do substantially more work. These sessions replace standard workouts and require a separate volume allowance; simply extending every repetition in a normal session can be a large jump.
+- **Introduce specific work selectively.** Longer repetitions and some marathon-pace running enter later in the build. If quality goes into the long run, reduce or replace another quality session. The final demanding block is temporary and followed by a taper, rather than repeated indefinitely.
+- **Practise race logistics.** Test fueling, hydration, clothing and carrying supplies during appropriate longer sessions. Set race pace from demonstrated fitness and conditions, not an aspirational finish time.
+
+The marathon adaptation has a smaller experience base than the standard 5k-HM framework. Individual recovery, particularly after the largest workouts and the race, should determine the return to normal training.
+
+## 5.5 Ultramarathons
+
+Sub-threshold work can contribute aerobic fitness, but the standard week does not address all the demands of an ultra. Terrain, elevation, much longer time on your feet, fueling and equipment need event-specific preparation. Extra threshold sessions are not a substitute for those requirements.
+
+## 5.6 Cadence/Form
+
+Cadence and running form vary between runners. Another runner’s high cadence is not a target to copy. Focus on controlled effort and comfortable mechanics; investigate pain or a specific limitation individually rather than forcing a universal stride pattern.
+
+---
+
+Source: https://norwegiansingles.run/section6_benefits_monitoring.html
+
+# 6  Benefits and Monitoring
+
+## 6.1 Pros
+
+- **Aerobic development:** Frequent controlled sessions can improve sustainable running speed.
+- **Repeatability:** Limiting intensity can make recovery between quality days more manageable.
+- **Practicality:** A familiar routine suits runners with roughly 5-9 training hours.
+- **Reported results:** Recreational runners, including masters athletes, report substantial improvements. Individual outcomes vary.
+
+## 6.2 Cons
+
+The approach requires restraint, can feel repetitive, and gives less attention to faster race-specific running. Progress takes time and can stall. It is not established that this exact schedule prevents injuries or outperforms every alternative.
+
+Around eight weekly hours or more, extending each single run can become harder to recover from. Easy doubles may help distribute additional volume if appropriate. Holding a manageable volume is also valid; no particular number of hours or kilometres defines a universal injury threshold.
+
+## 6.3 Monitoring
+
+Assess repeatability, recovery and performance together. Races or time trials, often every 4-8 weeks, help recalibrate paces. Compare similar courses and conditions before interpreting a disappointing result as a plateau.
+
+Track weekly time and, if useful, [training-load trends](https://norwegiansingles.run/section3_training_load.html#concept). Persistent soreness, poor sleep, low motivation or unusually hard easy runs can justify reducing training even when app scores look normal.
+
+---
+
+Source: https://norwegiansingles.run/section7_comparative_analysis.html
+
+# 7  Norwegian Singles vs. Other Training Methodologies
+
+Norwegian Singles concentrates quality work into three controlled sub-threshold sessions, separated by easy running. The comparisons below describe broad differences in structure; individual plans and coaching approaches vary. They do not establish that one method is best for every runner.
+
+## 7.1 vs. Daniels’ Running Formula
+
+Norwegian Singles concentrates on consistent sub-threshold work (3x weekly) with minimal intensity variation, while Daniels prescribes multiple intensity zones (Easy, Marathon, Threshold, Interval, Repetition) with scheduled workouts that often exceed LT2. Daniels uses distinct training phases with changing workout types, whereas Norwegian Singles maintains the same workout structure year-round with gradual progression.
+
+## 7.2 vs. Lydiard Method
+
+Norwegian Singles employs a consistent year-round approach with sub-threshold as the primary quality intensity, while Lydiard uses sequential training phases (aerobic base → hills → speed → race-specific). Norwegian Singles scales an easy long run to the rest of the week, whereas Lydiard emphasizes very long aerobic runs during base phase followed by increasing anaerobic work in later phases.
+
+## 7.3 vs. Pfitzinger Method
+
+Norwegian Singles distributes quality evenly through the week (E-Q-E-Q-E-Q-LR) focusing primarily on sub-threshold work, while Pfitzinger incorporates medium-long midweek runs and uses more varied intensities (including VO2max and specific race-pace work). Pfitzinger’s marathon plans build toward a target race through distinct phases; the standard Singles week can continue across a season of 5k-HM racing.
+
+## 7.4 vs. Palladino Power Project
+
+Palladino’s power-based plans include work above threshold and use critical-power estimates to set training intensities. Norwegian Singles concentrates ordinary workouts below LT2 and can be followed using pace, HR and perceived effort. Power can support either approach, but CP is not interchangeable with LT2 or a lactate measurement. Testing and recalibration should follow the chosen device and protocol; see [monitoring limitations](https://norwegiansingles.run/section4_individualization_considerations.html#alternative-monitoring-methods).
+
+## 7.5 vs. 80/20 Running (Polarized Training)
+
+Both approaches devote most training time to easy running. Norwegian Singles places roughly 20-25% of time in controlled sub-threshold work, often decreasing that share as volume rises. A strictly polarized distribution concentrates its harder work above the second threshold, with relatively little between thresholds. The popular “80/20” label also covers plans with a mixture of moderate and high intensities, so it should not be treated as a single exact prescription. The useful comparison is where the harder minutes occur and how much recovery they require.
+
+## 7.6 vs. Double Threshold
+
+The [Norwegian model described by Marius Bakken](https://www.mariusbakken.com/the-norwegian-model.html) distributes substantial controlled threshold work across paired morning and afternoon sessions. Elite schedules commonly include two such days, much more easy volume, and sometimes additional faster work. Their requirements differ considerably from a recreational schedule.
+
+Singles spreads three standalone workouts across the week. Moving to double threshold is more than splitting or duplicating those workouts: intensity, session volume and recovery need reconsideration. Adding easy doubles is one possible intermediate step for runners who have already absorbed a sustained increase in weekly volume.
+
+## 7.7 Key Differentiating Factors of Norwegian Singles
+
+The defining combination is frequent controlled quality, genuinely easy days and a stable week that progresses gradually. Strides, strength work and event-specific sessions can be included for a clear purpose, with their recovery cost accounted for. The method offers a practical framework for long-term development; its value depends on whether the individual can sustain it and improve.
+
+---
+
+Source: https://norwegiansingles.run/section8_ai_assistance.html
+
+# 8  Let AI help you
+
+Copy this prompt into an AI agent that can open links. It points to the [complete guide](https://norwegiansingles.run/llms-full.txt):
+
+``` default
+Read https://norwegiansingles.run/llms-full.txt and help me build a
+sustainable training plan for the coming weeks and months.
+
+First ask about my goals, race dates, availability, experience, and
+recovery. Ask what activity data I already have, such as watch/app
+history or a training log, and review it with me. Use recent weeks
+and months to understand my consistency, weekly running time,
+longest runs, harder sessions, and recovery. Ask about gaps rather
+than guessing.
+
+Agree a manageable starting week that fits this foundation,
+preserves my rest days, and initially keeps total running time
+stable. Then outline how to progress, when to reassess together
+using new activity data and how I feel, and when to hold or reduce
+training.
+
+Give complete workouts and effort guidance, plus adjustments for
+fatigue, missed runs, and races. Treat the guide's calendars as
+examples and explain unfamiliar terms.
+```

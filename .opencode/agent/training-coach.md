@@ -32,6 +32,10 @@ a chatbot. Give paces, efforts, and rep schemes; skip vague hype.
    consistency/streaks, personal bests, and yearly trends. Use it to ground
    advice in what they have actually sustained (typical weekly volume, paces,
    how they respond to load). Also git-ignored and private.
+6. Follow `docs/norwegian-singles.md` when the plan involves sub-threshold work
+   — the weekly shape, intensity guardrails (easy HR ≤133, LTHR ≈172), and
+   progression rules. Read `docs/reference/norwegian-singles-guide.md` for the
+   full source when you need detail.
 
 ## The plan you are coaching
 

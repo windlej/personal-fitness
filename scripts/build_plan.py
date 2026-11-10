@@ -22,6 +22,12 @@ website always matches the spreadsheet.
   * Out-of-range dates (before the plan starts or after it ends) fall back to a
     repeating Sun -> Sat A/B weekly template so the app can resolve *any* date.
 
+  * ONE EXCEPTION: the Norwegian singles ramp (2026-11-23 -> 2027-01-17) is
+    generated here instead of read from the sheet, and its phase boundary is
+    defined in PHASES below rather than in the sheet's Phase column. It is a
+    progressive ramp that is easier to reason about as code, so the sheet is no
+    longer the source of truth for those dates. See AGENTS.md.
+
 Zones/paces still come from the workbook's "Zones & Sessions" sheet.
 Run: python3 scripts/build_plan.py
 """
@@ -172,6 +178,241 @@ def build_week(variant):
     return entries
 
 
+# --- Norwegian singles ramp, 2026-11-23 -> 2027-01-17 ------------------------
+# Generated here rather than in the workbook: it is a progressive ramp whose
+# shape is easier to reason about (and adjust) as code. It replaces the sheet's
+# session content for those dates only, and it inverts the guide's example
+# calendar to protect the athlete's preferred week:
+#
+#   Sun  rest + KB A
+#   Mon  LONGEST sub-threshold   (freshest day: Sunday is off running)
+#   Tue  easy + KB B             (rest + KB B in the four-run weeks)
+#   Wed  medium sub-threshold
+#   Thu  rest + KB C             (a short shuffle in the six-day week)
+#   Fri  easy, or the week's shortest sub-threshold
+#   Sat  long run, easy          (HR <= 133 is a ceiling)
+#
+# Sub-threshold is MODERATE, so this block uses NONE of the two-hard-days budget:
+# it contains no threshold or VO2 sessions at all. Paces are deliberately absent
+# for weeks 1-5 (effort only); they are set from the 2027-01-17 time trial.
+
+SINGLES_START = "2026-11-23"
+SINGLES_END = "2027-01-17"
+
+PHASES = [
+    ("1 Re-Entry / Reset", "2026-09-30", "2026-11-22"),
+    ("2 Base Build — Singles Ramp", "2026-11-23", "2027-01-17"),
+    ("3 Hills + Sharpen", "2027-01-18", "2027-02-07"),
+    ("4 5-Mile Peak", "2027-02-08", "2027-03-07"),
+    ("5 Bloomsday 12K", "2027-03-08", "2027-05-02"),
+    ("6 General / Half-Marathon", "2027-05-03", "2027-10-02"),
+]
+
+EASY_HR = "Zone 2 – easy (RPE 3–4; HR ≤133)"
+SUB_HR = "Sub-threshold – RPE 5–6; HR ≤165 (moderate, not hard)"
+
+# start (Mon), Mon quality, Tue easy, Wed, Thu, Fri, Sat long, is down week.
+# Tue/Thu = 0 means a KB-only rest day. Wed/Fri = an int means an easy run, a
+# (reps, rep-minutes) tuple means a sub-threshold session.
+SINGLES_WEEKS = [
+    ("2026-11-23", (3, 4), 0, 30, 0, 20, 40, False),
+    ("2026-11-30", (3, 5), 0, 30, 0, 20, 42, False),
+    ("2026-12-07", (3, 5), 20, (4, 3), 0, 16, 40, False),
+    ("2026-12-14", (3, 4), 0, 29, 0, 16, 32, True),
+    ("2026-12-21", (3, 5), 24, (4, 3), 0, 20, 44, False),
+    ("2026-12-28", (2, 8), 24, (4, 3), 0, (3, 3), 46, False),
+    ("2027-01-04", (2, 10), 16, (5, 3), 15, (3, 3), 42, False),
+    ("2027-01-11", (2, 8), 20, 28, 0, 18, 28, False),
+]
+
+SUB_SLOTS = {
+    # slot: (warm-up min, cool-down min, session name, notes)
+    "long": (10, 9, "Quality 1: Sub-Threshold (long)",
+             "Longest sub-threshold of the week — you are freshest here. "
+             "Effort only: no pace target until the Jan 17 time trial."),
+    "medium": (8, 8, "Quality 2: Sub-Threshold (medium)",
+               "Medium session: short reps, controlled. The last rep should feel "
+               "like the first — if it doesn't, you went too fast."),
+    "short": (8, 6, "Quality 3: Sub-Threshold (short)",
+              "Shortest session of the week. Stop at the planned reps even if you "
+              "feel good — the recovery is the point."),
+}
+
+
+def sub_session(reps, rep_min, slot, cool_down=None, notes=None):
+    wu, cd, name, slot_notes = SUB_SLOTS[slot]
+    cd = cd if cool_down is None else cool_down
+    rec = 2 if rep_min >= 10 else 1
+    run_min = wu + reps * rep_min + (reps - 1) * rec + cd
+    return {
+        "session": name,
+        "kind": "subthreshold",
+        "zone": "Z3",
+        "runMin": run_min,
+        "intensity": SUB_HR,
+        "details": ("WU %d' easy jog + drills | %d×%d' @ sub-threshold — effort only, "
+                    "no pace target (RPE 5–6, HR ≤165; %d' easy jog between) | CD %d' easy"
+                    % (wu, reps, rep_min, rec, cd)),
+        "kb": None, "kbCode": None,
+        "effortOnly": True,
+        "notes": notes or slot_notes,
+    }
+
+
+def rest_session(kb_code, kb_text, details=None):
+    return {
+        "session": "Rest (KB only)" if kb_text else "Rest",
+        "kind": "rest", "zone": "", "runMin": 0, "intensity": "—",
+        "details": details or ("No running — kettlebell session only." if kb_text else "No running."),
+        "kb": kb_text, "kbCode": kb_code,
+        "notes": None,
+    }
+
+
+def easy_session(minutes, strides=False, kb=None, kb_code=None, notes=None):
+    details = ("Easy aerobic run %d' (Zone 2, talk-test pace; HR ≤133 — a ceiling, "
+               "not a target)" % minutes)
+    if strides:
+        details += (" | finish with 4×15s strides (relaxed-fast, 45–60s walk/jog between)")
+    return {
+        "session": "Easy Run", "kind": "easy", "zone": "Z2", "runMin": minutes,
+        "intensity": EASY_HR, "details": details,
+        "kb": kb, "kbCode": kb_code, "notes": notes,
+    }
+
+
+def long_session(minutes, notes=None):
+    return {
+        "session": "Long Run", "kind": "long", "zone": "Z2", "runMin": minutes,
+        "intensity": EASY_HR,
+        "details": ("Long run %d' easy (Zone 2; HR ≤133). Steady and relaxed — finish "
+                    "feeling you could run 10–15' more." % minutes),
+        "kb": None, "kbCode": None,
+        "notes": notes or ("Easy means easy. Walk the hills; HR ≤133 is a ceiling, "
+                           "not a target."),
+    }
+
+
+def build_singles_block():
+    """Return {iso: entry} for every day of the singles ramp, closed by the 5K TT."""
+    block = {}
+    for start, mon, tue, wed, thu, fri, sat, down in SINGLES_WEEKS:
+        monday = datetime.date.fromisoformat(start)
+        for offset in range(7):
+            day = monday + datetime.timedelta(days=offset)
+            iso = day.isoformat()
+            dow = js_dow(day)
+
+            if dow == 0:                      # Sun — rest from running
+                entry = rest_session("A", KB_A)
+            elif dow == 1:                    # Mon — longest sub-threshold
+                notes = None
+                if down:
+                    notes = ("Down week: ~30% less volume than last week. Keep it honest."
+                             "\nLongest sub-threshold of the week — you are freshest here.")
+                elif start == "2026-12-21":
+                    notes = ("Benchmark: repeat week 1's session and compare your heart "
+                             "rate at the same effort. Lower HR = fitter.")
+                elif start >= "2026-12-28":
+                    notes = ("Longest session of the week. Set the pace from the Dec 21 "
+                             "benchmark; slower is always fine.")
+                entry = sub_session(mon[0], mon[1], "long",
+                                    cool_down=6 if down else None, notes=notes)
+            elif dow == 2:                    # Tue — easy, or KB-only rest
+                if tue:
+                    entry = easy_session(
+                        tue, kb=KB_B, kb_code="B",
+                        notes=("KB B after the run, at lunch, or split into desk-break "
+                               "blocks. Keep the run genuinely easy after Monday."))
+                else:
+                    entry = rest_session("B", KB_B)
+            elif dow == 3:                    # Wed — medium quality, or easy
+                if isinstance(wed, tuple):
+                    entry = sub_session(wed[0], wed[1], "medium",
+                                        cool_down=6 if down else None)
+                else:
+                    entry = easy_session(
+                        wed, notes="Easy and flat. Nothing fast by accident.")
+            elif dow == 4:                    # Thu — rest, or the 6th-day shuffle
+                if thu:
+                    entry = easy_session(
+                        thu, kb=KB_C, kb_code="C",
+                        notes=("First six-day week: a 15' shuffle only. Trim KB C to two "
+                               "sets, not three."))
+                else:
+                    entry = rest_session("C", KB_C)
+            elif dow == 5:                    # Fri — easy, or shortest quality
+                if isinstance(fri, tuple):
+                    entry = sub_session(fri[0], fri[1], "short")
+                else:
+                    entry = easy_session(
+                        fri, strides=True,
+                        notes="Shakeout before tomorrow's long run.")
+            else:                             # Sat — the long easy run
+                entry = long_session(sat)
+
+            entry["dow"] = dow
+            entry["weekday"] = day.strftime("%a")
+            block[iso] = entry
+
+    # The block closes on the 5K time trial — the fitness gate for the sub-31:00
+    # 5-mile build. It replaces the long run that week.
+    block["2027-01-17"] = {
+        "session": "5K Time Trial",
+        "kind": "test", "zone": "TEST", "runMin": 45,
+        "intensity": "Time trial – flat out (RPE 9)",
+        "details": ("WU 20' easy + drills + 4×20s strides | 3.1 mi time trial, flat out | "
+                    "CD 15' easy. Use a flat, measured route or the track."),
+        "kb": None, "kbCode": None,
+        "notes": ("This is the gate and the pace-setter: it resets every pace target for "
+                  "the St Paddy's build. Start controlled, finish empty."),
+    }
+    return block
+
+
+# Two on-ramp weeks before the block. As of Nov 2026 the athlete is at ~2-3
+# runs and ~100 min/week, so the ramp starts there — not at the sheet's
+# optimistic 150 — and adds exactly one run per week before any quality appears.
+RAMP_WEEKS = [
+    # start (Mon), Mon, Tue, Wed, Thu, Fri, Sat long   (0 = rest day for that slot)
+    ("2026-11-09", 32, 0, 30, 0, 0, 38),
+    ("2026-11-16", 30, 0, 30, 0, 18, 42),
+]
+
+
+def build_ramp_block():
+    """Easy-only on-ramp weeks: no quality, one added run per week."""
+    block = {}
+    for start, mon, tue, wed, thu, fri, sat in RAMP_WEEKS:
+        for offset in range(7):
+            day = datetime.date.fromisoformat(start) + datetime.timedelta(days=offset)
+            iso, dow = day.isoformat(), js_dow(day)
+            if dow == 0:
+                entry = rest_session("A", KB_A)
+            elif dow == 1:
+                entry = easy_session(mon, notes="On-ramp week: easy only, no quality yet.")
+            elif dow == 2:
+                entry = easy_session(tue, kb=KB_B, kb_code="B") if tue else rest_session("B", KB_B)
+            elif dow == 3:
+                entry = easy_session(wed, notes="Easy and flat. Nothing fast by accident.")
+            elif dow == 4:
+                entry = easy_session(thu, kb=KB_C, kb_code="C") if thu else rest_session("C", KB_C)
+            elif dow == 5:
+                entry = easy_session(fri, strides=True, notes="Shakeout before tomorrow's long run.") if fri else rest_session(None, None)
+            else:
+                entry = long_session(sat)
+            entry["dow"], entry["weekday"] = dow, day.strftime("%a")
+            block[iso] = entry
+    return block
+
+
+def phase_for(iso):
+    for name, start, end in PHASES:
+        if start <= iso <= end:
+            return name
+    return None
+
+
 def classify(session):
     """Map a sheet session name to an app 'kind'."""
     s = (session or "").lower()
@@ -250,8 +491,6 @@ def parse_schedule(wb):
         raise RuntimeError("Daily Schedule: header row not found")
 
     schedule = {}
-    week_agg = {}
-    phases = []
 
     for row in rows[header + 1:]:
         dt = row[1]
@@ -286,30 +525,48 @@ def parse_schedule(wb):
             "weekday": dt.strftime("%a"),
         }
 
-        agg = week_agg.get(week)
+    return schedule
+
+
+def aggregate(schedule):
+    """Recompute per-week totals and the phase list from a finished schedule."""
+    weeks = {}
+    for iso in sorted(schedule):
+        e = schedule[iso]
+        phase = phase_for(iso)
+        if phase:
+            e["phase"] = phase
+
+        agg = weeks.get(e["week"])
         if agg is None:
-            agg = week_agg[week] = {
-                "week": week, "phase": phase,
+            agg = weeks[e["week"]] = {
+                "week": e["week"], "phase": e.get("phase"),
                 "start": iso, "end": iso,
-                "longMin": 0, "totalRunMin": 0, "quality": 0,
+                "longMin": 0, "totalRunMin": 0, "quality": 0, "moderate": 0,
+                "_phase_counts": {},
             }
         agg["start"] = min(agg["start"], iso)
         agg["end"] = max(agg["end"], iso)
-        agg["totalRunMin"] += run_min
-        if kind == "long":
-            agg["longMin"] = max(agg["longMin"], run_min)
-        if kind in ("threshold", "vo2", "speed"):
+        if e.get("phase"):
+            agg["_phase_counts"][e["phase"]] = agg["_phase_counts"].get(e["phase"], 0) + 1
+        agg["totalRunMin"] += e.get("runMin") or 0
+        if e.get("kind") == "long":
+            agg["longMin"] = max(agg["longMin"], e.get("runMin") or 0)
+        if e.get("kind") in ("threshold", "vo2", "speed"):
             agg["quality"] += 1
+        if e.get("kind") == "subthreshold":
+            agg["moderate"] += 1
 
-        known = next((p for p in phases if p["name"] == phase), None)
-        if known is None:
-            phases.append({"name": phase, "start": iso, "end": iso})
-        else:
-            known["start"] = min(known["start"], iso)
-            known["end"] = max(known["end"], iso)
-
-    weeks = [week_agg[k] for k in sorted(week_agg)]
-    return schedule, weeks, phases
+    ordered = [weeks[k] for k in sorted(weeks)]
+    # The app's week grid is Sun -> Sat while the singles block runs Mon -> Sun,
+    # so the first block week and the week closing on the time trial straddle a
+    # phase boundary. Label each week by the phase most of its days belong to.
+    for w in ordered:
+        counts = w.pop("_phase_counts", {})
+        if counts:
+            w["phase"] = max(counts, key=counts.get)
+    phases = [{"name": n, "start": s, "end": e} for n, s, e in PHASES]
+    return ordered, phases
 
 
 def parse_zones(wb, tt_miles=None):
@@ -372,8 +629,8 @@ def main():
     # The workbook's "frequency" text predates the current layout; keep it in
     # sync with the authoritative schedule (see AGENTS.md).
     freq_override = {
-        "easy": "Most of the week (3–4 runs + long run)",
-        "sub-threshold": "1–2×/week (Monday) in the base + sharpen blocks",
+        "easy": "3–4 runs/week + the long run",
+        "sub-threshold": "2–3×/week (Mon long, Wed medium, Fri short) in the singles block",
         "lactate threshold": "Most weeks (Monday)",
         "vo2": "Most weeks (Wednesday)",
         "short sprints": "Every other week (Wednesday) + weekly strides",
@@ -385,7 +642,21 @@ def main():
                 z["frequency"] = value
                 break
 
-    schedule, weeks, phases = parse_schedule(wb)
+    schedule = parse_schedule(wb)
+
+    # Replace the sheet's content for the singles ramp. Week numbers come from
+    # the sheet so the app's week grid (Sun -> Sat) keeps its numbering; every
+    # block Sunday is a zero-minute rest day, so each app week still totals
+    # exactly one Mon -> Sat block week.
+    block = build_singles_block()
+    ramp = build_ramp_block()
+    for iso, entry in list(ramp.items()) + list(block.items()):
+        if iso not in schedule:
+            raise RuntimeError("overlay adds a date outside the schedule: %s" % iso)
+        entry["week"] = schedule[iso]["week"]
+        schedule[iso] = entry
+
+    weeks, phases = aggregate(schedule)
     start = min(schedule)
     end = max(schedule)
 
@@ -395,10 +666,12 @@ def main():
             "goal": "Two races in 2027: St Paddy's 5 Miler (Mar 7 — sub-31:00 for Bloomsday "
                     "second seed) and the Bloomsday 12K (May 2). Lydiard conditioning plus "
                     "Norwegian singles, built around family and work.",
-            "note": "A dated progression (Oct 2026 – Oct 2027): light reset → base build → hills "
-                    "+ sharpen → 5-mile peak → Bloomsday 12K → general/half-marathon block. "
-                    "Sub-threshold singles (RPE 5–6) are MODERATE, not hard. Dates outside the "
-                    "plan fall back to a repeating A/B weekly template.",
+            "note": "A dated progression (Oct 2026 – Oct 2027): light reset → singles ramp → "
+                    "hills + sharpen → 5-mile peak → Bloomsday 12K → general/half-marathon "
+                    "block. The singles ramp (Nov 23 – Jan 17) builds from ~100 to ~180 "
+                    "min/week across two or three sub-threshold sessions; it contains no hard "
+                    "days. Sub-threshold singles (RPE 5–6) are MODERATE, not hard. Dates "
+                    "outside the plan fall back to a repeating A/B weekly template.",
             "timeTrialMiles": tt_miles,
             "zonesNote": zones_note,
             "anchor": start,

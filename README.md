@@ -101,12 +101,16 @@ data/plan.json          # same data as JSON
 scripts/build_plan.py   # parses the workbook's Daily Schedule into data/plan.*
 scripts/build_history.py  # distills a Strava/SmashRun CSV into a history digest
 scripts/sync_smashrun.py  # pulls runs from the free SmashRun API into smashrun-export.csv + digest
-docs/                   # how-to-use.md, training-context.md (+ personal history)
+docs/                   # training-principles.md, norwegian-singles.md, context, how-to-use
+docs/reference/         # full upstream Norwegian singles guide (not auto-loaded)
 Training Plan (1).xlsx  # original source workbook (source of session content)
 ```
 
 `data/plan.js` / `data/plan.json` are **generated** — don't hand-edit them.
-Edit session content in the workbook (or the zones), then rebuild.
+Edit session content in the workbook (or the zones), then rebuild. The
+**Nov 2026 – Jan 2027 singles ramp** is the one block generated in
+`scripts/build_plan.py` instead of the workbook; its weeks, reps and phases live
+in `SINGLES_WEEKS` / `RAMP_WEEKS` / `PHASES` there.
 
 ---
 

@@ -2,7 +2,7 @@
   "meta": {
     "title": "2027 Racing Season \u2014 Running + Kettlebell Plan",
     "goal": "Two races in 2027: St Paddy's 5 Miler (Mar 7 \u2014 sub-31:00 for Bloomsday second seed) and the Bloomsday 12K (May 2). Lydiard conditioning plus Norwegian singles, built around family and work.",
-    "note": "A dated progression (Oct 2026 \u2013 Oct 2027): light reset \u2192 base build \u2192 hills + sharpen \u2192 5-mile peak \u2192 Bloomsday 12K \u2192 general/half-marathon block. Sub-threshold singles (RPE 5\u20136) are MODERATE, not hard. Dates outside the plan fall back to a repeating A/B weekly template.",
+    "note": "A dated progression (Oct 2026 \u2013 Oct 2027): light reset \u2192 singles ramp \u2192 hills + sharpen \u2192 5-mile peak \u2192 Bloomsday 12K \u2192 general/half-marathon block. The singles ramp (Nov 23 \u2013 Jan 17) builds from ~100 to ~180 min/week across two or three sub-threshold sessions; it contains no hard days. Sub-threshold singles (RPE 5\u20136) are MODERATE, not hard. Dates outside the plan fall back to a repeating A/B weekly template.",
     "timeTrialMiles": 2.95,
     "zonesNote": "Paces are estimates built from the assumption in B4. Always let effort/RPE win over the watch on hot, hilly, or tired days.",
     "anchor": "2026-09-30",
@@ -816,16 +816,16 @@
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 30,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 30' (Zone 2, talk-test pace)",
+      "runMin": 32,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 32' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 6,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "On-ramp week: easy only, no quality yet.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 6,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-10": {
       "session": "Rest (KB only)",
@@ -834,30 +834,45 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "Halos 2\u00d78 each way | Single-arm press 3\u00d75 each | One-arm row 3\u00d76 each | Dead bug 3\u00d76 each | Plank 3\u00d730s",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
       "kbCode": "B",
       "notes": null,
-      "week": 6,
-      "phase": "1 Re-Entry / Reset",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 6,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-11": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 + strides (RPE 3\u20134; strides ~7)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
+      "runMin": 30,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 30' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 6,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "Easy and flat. Nothing fast by accident.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 6,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-12": {
+      "session": "Rest (KB only)",
+      "kind": "rest",
+      "zone": "",
+      "runMin": 0,
+      "intensity": "\u2014",
+      "details": "No running \u2014 kettlebell session only.",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
+      "kbCode": "C",
+      "notes": null,
+      "dow": 4,
+      "weekday": "Thu",
+      "week": 6,
+      "phase": "1 Re-Entry / Reset"
+    },
+    "2026-11-13": {
       "session": "Rest",
       "kind": "rest",
       "zone": "",
@@ -867,40 +882,25 @@
       "kb": null,
       "kbCode": null,
       "notes": null,
-      "week": 6,
-      "phase": "1 Re-Entry / Reset",
-      "dow": 4,
-      "weekday": "Thu"
-    },
-    "2026-11-13": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 25,
-      "intensity": "Zone 2 + strides (RPE 3\u20134; strides ~7)",
-      "details": "Easy aerobic run 25' (Zone 2, talk-test pace) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
-      "kb": null,
-      "kbCode": null,
-      "notes": null,
-      "week": 6,
-      "phase": "1 Re-Entry / Reset",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 6,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-14": {
       "session": "Long Run",
       "kind": "long",
       "zone": "Z2",
-      "runMin": 50,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Long run 50' easy (Zone 2). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
+      "runMin": 38,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 38' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 6,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 6,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-15": {
       "session": "Rest (KB only)",
@@ -909,28 +909,28 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "KB swings (two-hand, one 25) 3\u00d712 | Double-KB deadlift 3\u00d78 | Single-arm press 3\u00d75 each | One-arm row 3\u00d76 each | Suitcase carry 3\u00d730s each",
+      "kb": "KB A \u2013 Hinge & Press (~35'): One-arm swings 4\u00d710 each | Single-leg RDL (one KB) 3\u00d78 each | Double-KB press 4\u00d75 | Renegade row 3\u00d75 each | Turkish get-up 3\u00d72 each | Double farmer carry 4\u00d740s",
       "kbCode": "A",
       "notes": null,
-      "week": 7,
-      "phase": "1 Re-Entry / Reset",
       "dow": 0,
-      "weekday": "Sun"
+      "weekday": "Sun",
+      "week": 7,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-16": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace)",
+      "runMin": 30,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 30' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 7,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "On-ramp week: easy only, no quality yet.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 7,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-17": {
       "session": "Rest (KB only)",
@@ -939,73 +939,73 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "Halos 2\u00d78 each way | Single-arm press 3\u00d75 each | One-arm row 3\u00d76 each | Dead bug 3\u00d76 each | Plank 3\u00d730s",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
       "kbCode": "B",
       "notes": null,
-      "week": 7,
-      "phase": "1 Re-Entry / Reset",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 7,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-18": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 + strides (RPE 3\u20134; strides ~7)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
+      "runMin": 30,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 30' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 7,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "Easy and flat. Nothing fast by accident.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 7,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-19": {
-      "session": "Rest",
+      "session": "Rest (KB only)",
       "kind": "rest",
       "zone": "",
       "runMin": 0,
       "intensity": "\u2014",
-      "details": "No running.",
-      "kb": null,
-      "kbCode": null,
+      "details": "No running \u2014 kettlebell session only.",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
+      "kbCode": "C",
       "notes": null,
-      "week": 7,
-      "phase": "1 Re-Entry / Reset",
       "dow": 4,
-      "weekday": "Thu"
+      "weekday": "Thu",
+      "week": 7,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-20": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 25,
-      "intensity": "Zone 2 + strides (RPE 3\u20134; strides ~7)",
-      "details": "Easy aerobic run 25' (Zone 2, talk-test pace) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
+      "runMin": 18,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 18' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 7,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "Shakeout before tomorrow's long run.",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 7,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-21": {
       "session": "Long Run",
       "kind": "long",
       "zone": "Z2",
-      "runMin": 55,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Long run 55' easy (Zone 2). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
+      "runMin": 42,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 42' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 7,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 7,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-22": {
       "session": "Rest (KB only)",
@@ -1014,28 +1014,29 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "KB swings (two-hand, one 25) 3\u00d712 | Double-KB deadlift 3\u00d78 | Single-arm press 3\u00d75 each | One-arm row 3\u00d76 each | Suitcase carry 3\u00d730s each",
+      "kb": "KB A \u2013 Hinge & Press (~35'): One-arm swings 4\u00d710 each | Single-leg RDL (one KB) 3\u00d78 each | Double-KB press 4\u00d75 | Renegade row 3\u00d75 each | Turkish get-up 3\u00d72 each | Double farmer carry 4\u00d740s",
       "kbCode": "A",
       "notes": null,
-      "week": 8,
-      "phase": "1 Re-Entry / Reset",
       "dow": 0,
-      "weekday": "Sun"
+      "weekday": "Sun",
+      "week": 8,
+      "phase": "1 Re-Entry / Reset"
     },
     "2026-11-23": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace)",
+      "session": "Quality 1: Sub-Threshold (long)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 33,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 10' easy jog + drills | 3\u00d74' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 9' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 8,
-      "phase": "1 Re-Entry / Reset",
+      "effortOnly": true,
+      "notes": "Longest sub-threshold of the week \u2014 you are freshest here. Effort only: no pace target until the Jan 17 time trial.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 8,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-11-24": {
       "session": "Rest (KB only)",
@@ -1044,73 +1045,73 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "Halos 2\u00d78 each way | Single-arm press 3\u00d75 each | One-arm row 3\u00d76 each | Dead bug 3\u00d76 each | Plank 3\u00d730s",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
       "kbCode": "B",
       "notes": null,
-      "week": 8,
-      "phase": "1 Re-Entry / Reset",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 8,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-11-25": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 + strides (RPE 3\u20134; strides ~7)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
+      "runMin": 30,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 30' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 8,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "Easy and flat. Nothing fast by accident.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 8,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-11-26": {
-      "session": "Rest",
+      "session": "Rest (KB only)",
       "kind": "rest",
       "zone": "",
       "runMin": 0,
       "intensity": "\u2014",
-      "details": "No running.",
-      "kb": null,
-      "kbCode": null,
+      "details": "No running \u2014 kettlebell session only.",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
+      "kbCode": "C",
       "notes": null,
-      "week": 8,
-      "phase": "1 Re-Entry / Reset",
       "dow": 4,
-      "weekday": "Thu"
+      "weekday": "Thu",
+      "week": 8,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-11-27": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 25,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 25' (Zone 2, talk-test pace)",
+      "runMin": 20,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 20' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 8,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "Shakeout before tomorrow's long run.",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 8,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-11-28": {
       "session": "Long Run",
       "kind": "long",
       "zone": "Z2",
-      "runMin": 55,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Long run 55' easy (Zone 2). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
+      "runMin": 40,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 40' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": "End of the light block. We decide December volume together after this week.",
-      "week": 8,
-      "phase": "1 Re-Entry / Reset",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 8,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-11-29": {
       "session": "Rest (KB only)",
@@ -1119,58 +1120,59 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "KB swings (two-hand, one 25) 3\u00d712 | Double-KB deadlift 3\u00d78 | Single-arm press 3\u00d75 each | One-arm row 3\u00d76 each | Suitcase carry 3\u00d730s each",
+      "kb": "KB A \u2013 Hinge & Press (~35'): One-arm swings 4\u00d710 each | Single-leg RDL (one KB) 3\u00d78 each | Double-KB press 4\u00d75 | Renegade row 3\u00d75 each | Turkish get-up 3\u00d72 each | Double farmer carry 4\u00d740s",
       "kbCode": "A",
       "notes": null,
-      "week": 9,
-      "phase": "1 Re-Entry / Reset",
       "dow": 0,
-      "weekday": "Sun"
+      "weekday": "Sun",
+      "week": 9,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-11-30": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace)",
+      "session": "Quality 1: Sub-Threshold (long)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 36,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 10' easy jog + drills | 3\u00d75' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 9' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 9,
-      "phase": "1 Re-Entry / Reset",
+      "effortOnly": true,
+      "notes": "Longest sub-threshold of the week \u2014 you are freshest here. Effort only: no pace target until the Jan 17 time trial.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 9,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-01": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 30,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 30' (Zone 2, talk-test pace)",
-      "kb": "Halos 3\u00d78 each way | Double-KB press 3\u00d75 | Double-KB bent-over row 3\u00d78 | Turkish get-up 2\u00d72 each | Russian twist 3\u00d720 | Plank 3\u00d740s",
+      "session": "Rest (KB only)",
+      "kind": "rest",
+      "zone": "",
+      "runMin": 0,
+      "intensity": "\u2014",
+      "details": "No running \u2014 kettlebell session only.",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
       "kbCode": "B",
       "notes": null,
-      "week": 9,
-      "phase": "2 Base Build",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 9,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-02": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace)",
+      "runMin": 30,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 30' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 9,
-      "phase": "2 Base Build",
+      "notes": "Easy and flat. Nothing fast by accident.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 9,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-03": {
       "session": "Rest (KB only)",
@@ -1179,43 +1181,43 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "Double-KB front squat 3\u00d78 | Reverse lunge (double rack) 3\u00d76 each | Single-leg glute bridge 3\u00d78 each | Calf raise (hold KB) 3\u00d712 | Suitcase carry 3\u00d740s each | Side plank 3\u00d720s each",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
       "kbCode": "C",
-      "notes": "KB C is back \u2014 but legs moderate while the long run climbs.",
-      "week": 9,
-      "phase": "2 Base Build",
+      "notes": null,
       "dow": 4,
-      "weekday": "Thu"
+      "weekday": "Thu",
+      "week": 9,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-04": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 30,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 30' (Zone 2, talk-test pace)",
+      "runMin": 20,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 20' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 9,
-      "phase": "2 Base Build",
+      "notes": "Shakeout before tomorrow's long run.",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 9,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-05": {
       "session": "Long Run",
       "kind": "long",
       "zone": "Z2",
-      "runMin": 55,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Long run 55' easy (Zone 2). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
+      "runMin": 42,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 42' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 9,
-      "phase": "2 Base Build",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 9,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-06": {
       "session": "Rest (KB only)",
@@ -1224,58 +1226,60 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "KB swings (two-hand) 4\u00d715 | Double-KB deadlift (3s lowering) 3\u00d78 | Double-KB press 3\u00d75 | One-arm row 3\u00d78 each | Turkish get-up 2\u00d72 each | Double farmer carry 3\u00d740s",
+      "kb": "KB A \u2013 Hinge & Press (~35'): One-arm swings 4\u00d710 each | Single-leg RDL (one KB) 3\u00d78 each | Double-KB press 4\u00d75 | Renegade row 3\u00d75 each | Turkish get-up 3\u00d72 each | Double farmer carry 4\u00d740s",
       "kbCode": "A",
       "notes": null,
-      "week": 10,
-      "phase": "2 Base Build",
       "dow": 0,
-      "weekday": "Sun"
+      "weekday": "Sun",
+      "week": 10,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-07": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 40,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 40' (Zone 2, talk-test pace)",
+      "session": "Quality 1: Sub-Threshold (long)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 36,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 10' easy jog + drills | 3\u00d75' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 9' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 10,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Longest sub-threshold of the week \u2014 you are freshest here. Effort only: no pace target until the Jan 17 time trial.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 10,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-08": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace)",
-      "kb": "Halos 3\u00d78 each way | Double-KB press 3\u00d75 | Double-KB bent-over row 3\u00d78 | Turkish get-up 2\u00d72 each | Russian twist 3\u00d720 | Plank 3\u00d740s",
+      "runMin": 20,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 20' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
       "kbCode": "B",
-      "notes": null,
-      "week": 10,
-      "phase": "2 Base Build",
+      "notes": "KB B after the run, at lunch, or split into desk-break blocks. Keep the run genuinely easy after Monday.",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 10,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-09": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 40,
-      "intensity": "Zone 2 + strides (RPE 3\u20134; strides ~7)",
-      "details": "Easy aerobic run 40' (Zone 2, talk-test pace) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
+      "session": "Quality 2: Sub-Threshold (medium)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 31,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 8' easy jog + drills | 4\u00d73' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 8' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 10,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Medium session: short reps, controlled. The last rep should feel like the first \u2014 if it doesn't, you went too fast.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 10,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-10": {
       "session": "Rest (KB only)",
@@ -1284,103 +1288,104 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "Double-KB front squat 3\u00d78 | Reverse lunge (double rack) 3\u00d76 each | Single-leg glute bridge 3\u00d78 each | Calf raise (hold KB) 3\u00d712 | Suitcase carry 3\u00d740s each | Side plank 3\u00d720s each",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
       "kbCode": "C",
       "notes": null,
-      "week": 10,
-      "phase": "2 Base Build",
       "dow": 4,
-      "weekday": "Thu"
+      "weekday": "Thu",
+      "week": 10,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-11": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 25,
-      "intensity": "Zone 2 + strides (RPE 3\u20134; strides ~7)",
-      "details": "Easy aerobic run 25' (Zone 2, talk-test pace) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
+      "runMin": 16,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 16' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
       "kb": null,
       "kbCode": null,
-      "notes": "Race week \u2014 legs fresh for Sunday.",
-      "week": 10,
-      "phase": "2 Base Build",
+      "notes": "Shakeout before tomorrow's long run.",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 10,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-12": {
-      "session": "Easy Run",
-      "kind": "easy",
+      "session": "Long Run",
+      "kind": "long",
       "zone": "Z2",
-      "runMin": 30,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 30' (Zone 2, talk-test pace)",
+      "runMin": 40,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 40' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": "Shakeout only. Nothing hard the day before a race.",
-      "week": 10,
-      "phase": "2 Base Build",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 10,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-13": {
-      "session": "Race: Indoor Mile",
-      "kind": "test",
-      "zone": "TEST",
-      "runMin": 45,
-      "intensity": "Race \u2013 1 Mile (indoor)",
-      "details": "WU 20' easy + drills + 3\u00d720s strides | 1 Mile race | CD 15' easy. For fun \u2014 this is a fitness marker, not a goal race.",
-      "kb": null,
-      "kbCode": null,
-      "notes": "Mini-taper done. Start conservative, wind it up in the last 400. Log the time \u2014 it predicts the January 5K TT.",
-      "week": 11,
-      "phase": "2 Base Build",
+      "session": "Rest (KB only)",
+      "kind": "rest",
+      "zone": "",
+      "runMin": 0,
+      "intensity": "\u2014",
+      "details": "No running \u2014 kettlebell session only.",
+      "kb": "KB A \u2013 Hinge & Press (~35'): One-arm swings 4\u00d710 each | Single-leg RDL (one KB) 3\u00d78 each | Double-KB press 4\u00d75 | Renegade row 3\u00d75 each | Turkish get-up 3\u00d72 each | Double farmer carry 4\u00d740s",
+      "kbCode": "A",
+      "notes": null,
       "dow": 0,
-      "weekday": "Sun"
+      "weekday": "Sun",
+      "week": 11,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-14": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
+      "session": "Quality 1: Sub-Threshold (long)",
+      "kind": "subthreshold",
+      "zone": "Z3",
       "runMin": 30,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 30' (Zone 2, talk-test pace)",
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 10' easy jog + drills | 3\u00d74' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 6' easy",
       "kb": null,
       "kbCode": null,
-      "notes": "Recovery. A mile race costs more than it looks.",
-      "week": 11,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Down week: ~30% less volume than last week. Keep it honest.\nLongest sub-threshold of the week \u2014 you are freshest here.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 11,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-15": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 25,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 25' (Zone 2, talk-test pace)",
-      "kb": null,
-      "kbCode": null,
+      "session": "Rest (KB only)",
+      "kind": "rest",
+      "zone": "",
+      "runMin": 0,
+      "intensity": "\u2014",
+      "details": "No running \u2014 kettlebell session only.",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
+      "kbCode": "B",
       "notes": null,
-      "week": 11,
-      "phase": "2 Base Build",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 11,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-16": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 30,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 30' (Zone 2, talk-test pace)",
+      "runMin": 29,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 29' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 11,
-      "phase": "2 Base Build",
+      "notes": "Easy and flat. Nothing fast by accident.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 11,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-17": {
       "session": "Rest (KB only)",
@@ -1389,43 +1394,43 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "Double-KB front squat 3\u00d78 | Reverse lunge (double rack) 3\u00d76 each | Single-leg glute bridge 3\u00d78 each | Calf raise (hold KB) 3\u00d712 | Suitcase carry 3\u00d740s each | Side plank 3\u00d720s each",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
       "kbCode": "C",
       "notes": null,
-      "week": 11,
-      "phase": "2 Base Build",
       "dow": 4,
-      "weekday": "Thu"
+      "weekday": "Thu",
+      "week": 11,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-18": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 25,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 25' (Zone 2, talk-test pace)",
+      "runMin": 16,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 16' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 11,
-      "phase": "2 Base Build",
+      "notes": "Shakeout before tomorrow's long run.",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 11,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-19": {
       "session": "Long Run",
       "kind": "long",
       "zone": "Z2",
-      "runMin": 45,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Long run 45' easy (Zone 2). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
+      "runMin": 32,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 32' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 11,
-      "phase": "2 Base Build",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 11,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-20": {
       "session": "Rest (KB only)",
@@ -1434,103 +1439,105 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "KB swings (two-hand) 4\u00d715 | Double-KB deadlift (3s lowering) 3\u00d78 | Double-KB press 3\u00d75 | One-arm row 3\u00d78 each | Turkish get-up 2\u00d72 each | Double farmer carry 3\u00d740s",
+      "kb": "KB A \u2013 Hinge & Press (~35'): One-arm swings 4\u00d710 each | Single-leg RDL (one KB) 3\u00d78 each | Double-KB press 4\u00d75 | Renegade row 3\u00d75 each | Turkish get-up 3\u00d72 each | Double farmer carry 4\u00d740s",
       "kbCode": "A",
       "notes": null,
-      "week": 12,
-      "phase": "2 Base Build",
       "dow": 0,
-      "weekday": "Sun"
+      "weekday": "Sun",
+      "week": 12,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-21": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 30,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 30' (Zone 2, talk-test pace)",
+      "session": "Quality 1: Sub-Threshold (long)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 36,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 10' easy jog + drills | 3\u00d75' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 9' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 12,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Benchmark: repeat week 1's session and compare your heart rate at the same effort. Lower HR = fitter.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 12,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-22": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 25,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 25' (Zone 2, talk-test pace)",
-      "kb": "Halos 3\u00d78 each way | Double-KB press 3\u00d75 | Double-KB bent-over row 3\u00d78 | Turkish get-up 2\u00d72 each | Russian twist 3\u00d720 | Plank 3\u00d740s",
+      "runMin": 24,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 24' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
       "kbCode": "B",
-      "notes": null,
-      "week": 12,
-      "phase": "2 Base Build",
+      "notes": "KB B after the run, at lunch, or split into desk-break blocks. Keep the run genuinely easy after Monday.",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 12,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-23": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 30,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 30' (Zone 2, talk-test pace)",
+      "session": "Quality 2: Sub-Threshold (medium)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 31,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 8' easy jog + drills | 4\u00d73' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 8' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 12,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Medium session: short reps, controlled. The last rep should feel like the first \u2014 if it doesn't, you went too fast.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 12,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-24": {
-      "session": "Rest",
+      "session": "Rest (KB only)",
       "kind": "rest",
       "zone": "",
       "runMin": 0,
       "intensity": "\u2014",
-      "details": "No running.",
-      "kb": null,
-      "kbCode": null,
+      "details": "No running \u2014 kettlebell session only.",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
+      "kbCode": "C",
       "notes": null,
-      "week": 12,
-      "phase": "2 Base Build",
       "dow": 4,
-      "weekday": "Thu"
+      "weekday": "Thu",
+      "week": 12,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-25": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 25,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 25' (Zone 2, talk-test pace)",
+      "runMin": 20,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 20' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
       "kb": null,
       "kbCode": null,
-      "notes": "Holiday week \u2014 light on purpose. Family first; KB optional.",
-      "week": 12,
-      "phase": "2 Base Build",
+      "notes": "Shakeout before tomorrow's long run.",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 12,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-26": {
       "session": "Long Run",
       "kind": "long",
       "zone": "Z2",
-      "runMin": 45,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Long run 45' easy (Zone 2). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
+      "runMin": 44,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 44' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 12,
-      "phase": "2 Base Build",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 12,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-27": {
       "session": "Rest (KB only)",
@@ -1539,58 +1546,60 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "KB swings (two-hand) 4\u00d715 | Double-KB deadlift (3s lowering) 3\u00d78 | Double-KB press 3\u00d75 | One-arm row 3\u00d78 each | Turkish get-up 2\u00d72 each | Double farmer carry 3\u00d740s",
+      "kb": "KB A \u2013 Hinge & Press (~35'): One-arm swings 4\u00d710 each | Single-leg RDL (one KB) 3\u00d78 each | Double-KB press 4\u00d75 | Renegade row 3\u00d75 each | Turkish get-up 3\u00d72 each | Double farmer carry 4\u00d740s",
       "kbCode": "A",
       "notes": null,
-      "week": 13,
-      "phase": "2 Base Build",
       "dow": 0,
-      "weekday": "Sun"
+      "weekday": "Sun",
+      "week": 13,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-28": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 45,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 45' (Zone 2, talk-test pace)",
+      "session": "Quality 1: Sub-Threshold (long)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 36,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 10' easy jog + drills | 2\u00d78' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 9' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 13,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Longest session of the week. Set the pace from the Dec 21 benchmark; slower is always fine.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 13,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-29": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 40,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 40' (Zone 2, talk-test pace)",
-      "kb": "Halos 3\u00d78 each way | Double-KB press 3\u00d75 | Double-KB bent-over row 3\u00d78 | Turkish get-up 2\u00d72 each | Russian twist 3\u00d720 | Plank 3\u00d740s",
+      "runMin": 24,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 24' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
       "kbCode": "B",
-      "notes": null,
-      "week": 13,
-      "phase": "2 Base Build",
+      "notes": "KB B after the run, at lunch, or split into desk-break blocks. Keep the run genuinely easy after Monday.",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 13,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-30": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 45,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 45' (Zone 2, talk-test pace)",
+      "session": "Quality 2: Sub-Threshold (medium)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 31,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 8' easy jog + drills | 4\u00d73' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 8' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 13,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Medium session: short reps, controlled. The last rep should feel like the first \u2014 if it doesn't, you went too fast.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 13,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2026-12-31": {
       "session": "Rest (KB only)",
@@ -1599,43 +1608,44 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "Double-KB front squat 3\u00d78 | Reverse lunge (double rack) 3\u00d76 each | Single-leg glute bridge 3\u00d78 each | Calf raise (hold KB) 3\u00d712 | Suitcase carry 3\u00d740s each | Side plank 3\u00d720s each",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
       "kbCode": "C",
       "notes": null,
-      "week": 13,
-      "phase": "2 Base Build",
       "dow": 4,
-      "weekday": "Thu"
+      "weekday": "Thu",
+      "week": 13,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-01": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace)",
+      "session": "Quality 3: Sub-Threshold (short)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 25,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 8' easy jog + drills | 3\u00d73' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 6' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 13,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Shortest session of the week. Stop at the planned reps even if you feel good \u2014 the recovery is the point.",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 13,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-02": {
       "session": "Long Run",
       "kind": "long",
       "zone": "Z2",
-      "runMin": 70,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Long run 70' easy (Zone 2). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
+      "runMin": 46,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 46' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": "From ~60' on, practice fueling: water + 30\u201360 g carbs/hr.",
-      "week": 13,
-      "phase": "2 Base Build",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 13,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-03": {
       "session": "Rest (KB only)",
@@ -1644,103 +1654,106 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "KB swings (two-hand) 4\u00d715 | Double-KB deadlift (3s lowering) 3\u00d78 | Double-KB press 3\u00d75 | One-arm row 3\u00d78 each | Turkish get-up 2\u00d72 each | Double farmer carry 3\u00d740s",
+      "kb": "KB A \u2013 Hinge & Press (~35'): One-arm swings 4\u00d710 each | Single-leg RDL (one KB) 3\u00d78 each | Double-KB press 4\u00d75 | Renegade row 3\u00d75 each | Turkish get-up 3\u00d72 each | Double farmer carry 4\u00d740s",
       "kbCode": "A",
       "notes": null,
-      "week": 14,
-      "phase": "2 Base Build",
       "dow": 0,
-      "weekday": "Sun"
+      "weekday": "Sun",
+      "week": 14,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-04": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 45,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 45' (Zone 2, talk-test pace)",
+      "session": "Quality 1: Sub-Threshold (long)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 41,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 10' easy jog + drills | 2\u00d710' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 2' easy jog between) | CD 9' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 14,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Longest session of the week. Set the pace from the Dec 21 benchmark; slower is always fine.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 14,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-05": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 40,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 40' (Zone 2, talk-test pace)",
-      "kb": "Halos 3\u00d78 each way | Double-KB press 3\u00d75 | Double-KB bent-over row 3\u00d78 | Turkish get-up 2\u00d72 each | Russian twist 3\u00d720 | Plank 3\u00d740s",
+      "runMin": 16,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 16' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
       "kbCode": "B",
-      "notes": null,
-      "week": 14,
-      "phase": "2 Base Build",
+      "notes": "KB B after the run, at lunch, or split into desk-break blocks. Keep the run genuinely easy after Monday.",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 14,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-06": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 45,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 45' (Zone 2, talk-test pace)",
+      "session": "Quality 2: Sub-Threshold (medium)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 35,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 8' easy jog + drills | 5\u00d73' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 8' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 14,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Medium session: short reps, controlled. The last rep should feel like the first \u2014 if it doesn't, you went too fast.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 14,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-07": {
-      "session": "Rest (KB only)",
-      "kind": "rest",
-      "zone": "",
-      "runMin": 0,
-      "intensity": "\u2014",
-      "details": "No running \u2014 kettlebell session only.",
-      "kb": "Double-KB front squat 3\u00d78 | Reverse lunge (double rack) 3\u00d76 each | Single-leg glute bridge 3\u00d78 each | Calf raise (hold KB) 3\u00d712 | Suitcase carry 3\u00d740s each | Side plank 3\u00d720s each",
-      "kbCode": "C",
-      "notes": null,
-      "week": 14,
-      "phase": "2 Base Build",
-      "dow": 4,
-      "weekday": "Thu"
-    },
-    "2027-01-08": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace)",
+      "runMin": 15,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 15' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
+      "kbCode": "C",
+      "notes": "First six-day week: a 15' shuffle only. Trim KB C to two sets, not three.",
+      "dow": 4,
+      "weekday": "Thu",
+      "week": 14,
+      "phase": "2 Base Build \u2014 Singles Ramp"
+    },
+    "2027-01-08": {
+      "session": "Quality 3: Sub-Threshold (short)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 25,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 8' easy jog + drills | 3\u00d73' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 6' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 14,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Shortest session of the week. Stop at the planned reps even if you feel good \u2014 the recovery is the point.",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 14,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-09": {
       "session": "Long Run",
       "kind": "long",
       "zone": "Z2",
-      "runMin": 70,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Long run 70' easy (Zone 2). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
+      "runMin": 42,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 42' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 14,
-      "phase": "2 Base Build",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 14,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-10": {
       "session": "Rest (KB only)",
@@ -1749,58 +1762,59 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "KB swings (two-hand) 4\u00d715 | Double-KB deadlift (3s lowering) 3\u00d78 | Double-KB press 3\u00d75 | One-arm row 3\u00d78 each | Turkish get-up 2\u00d72 each | Double farmer carry 3\u00d740s",
+      "kb": "KB A \u2013 Hinge & Press (~35'): One-arm swings 4\u00d710 each | Single-leg RDL (one KB) 3\u00d78 each | Double-KB press 4\u00d75 | Renegade row 3\u00d75 each | Turkish get-up 3\u00d72 each | Double farmer carry 4\u00d740s",
       "kbCode": "A",
       "notes": null,
-      "week": 15,
-      "phase": "2 Base Build",
       "dow": 0,
-      "weekday": "Sun"
+      "weekday": "Sun",
+      "week": 15,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-11": {
-      "session": "Easy Run",
-      "kind": "easy",
-      "zone": "Z2",
-      "runMin": 40,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 40' (Zone 2, talk-test pace)",
+      "session": "Quality 1: Sub-Threshold (long)",
+      "kind": "subthreshold",
+      "zone": "Z3",
+      "runMin": 36,
+      "intensity": "Sub-threshold \u2013 RPE 5\u20136; HR \u2264165 (moderate, not hard)",
+      "details": "WU 10' easy jog + drills | 2\u00d78' @ sub-threshold \u2014 effort only, no pace target (RPE 5\u20136, HR \u2264165; 1' easy jog between) | CD 9' easy",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 15,
-      "phase": "2 Base Build",
+      "effortOnly": true,
+      "notes": "Longest session of the week. Set the pace from the Dec 21 benchmark; slower is always fine.",
       "dow": 1,
-      "weekday": "Mon"
+      "weekday": "Mon",
+      "week": 15,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-12": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 35,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 35' (Zone 2, talk-test pace)",
-      "kb": "Halos 3\u00d78 each way | Double-KB press 3\u00d75 | Double-KB bent-over row 3\u00d78 | Turkish get-up 2\u00d72 each | Russian twist 3\u00d720 | Plank 3\u00d740s",
+      "runMin": 20,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 20' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
+      "kb": "KB B \u2013 Upper & Core (~25'): Halos 3\u00d78 each way | Double-KB press 4\u00d75 | Double-KB bent-over row 4\u00d78 | Turkish get-up 3\u00d72 each | Windmill 2\u00d75 each | Dead bug 3\u00d78 each",
       "kbCode": "B",
-      "notes": null,
-      "week": 15,
-      "phase": "2 Base Build",
+      "notes": "KB B after the run, at lunch, or split into desk-break blocks. Keep the run genuinely easy after Monday.",
       "dow": 2,
-      "weekday": "Tue"
+      "weekday": "Tue",
+      "week": 15,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-13": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 40,
-      "intensity": "Zone 2 + strides (RPE 3\u20134; strides ~7)",
-      "details": "Easy aerobic run 40' (Zone 2, talk-test pace) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
+      "runMin": 28,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 28' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target)",
       "kb": null,
       "kbCode": null,
-      "notes": null,
-      "week": 15,
-      "phase": "2 Base Build",
+      "notes": "Easy and flat. Nothing fast by accident.",
       "dow": 3,
-      "weekday": "Wed"
+      "weekday": "Wed",
+      "week": 15,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-14": {
       "session": "Rest (KB only)",
@@ -1809,58 +1823,56 @@
       "runMin": 0,
       "intensity": "\u2014",
       "details": "No running \u2014 kettlebell session only.",
-      "kb": "Double-KB front squat 2\u00d78 | Reverse lunge (double rack) 2\u00d76 each | Single-leg glute bridge 2\u00d78 each | Calf raise (hold KB) 2\u00d712 | Suitcase carry 2\u00d740s each | Side plank 2\u00d720s each \u2014 DOWN WEEK: 1 fewer set",
+      "kb": "KB C \u2013 Squat, Single-Leg & Carry (~35'): Double-KB front squat 4\u00d78 | Rear-foot-elevated split squat (goblet) 3\u00d76 each | Single-leg calf raise 3\u00d712 each | Step-up (stair/low box, double KB) 3\u00d78 each | Rack carry (one KB) 3\u00d745s each | Side plank 3\u00d735s each",
       "kbCode": "C",
       "notes": null,
-      "week": 15,
-      "phase": "2 Base Build",
       "dow": 4,
-      "weekday": "Thu"
+      "weekday": "Thu",
+      "week": 15,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-15": {
       "session": "Easy Run",
       "kind": "easy",
       "zone": "Z2",
-      "runMin": 25,
-      "intensity": "Zone 2 + strides (RPE 3\u20134; strides ~7)",
-      "details": "Easy aerobic run 25' (Zone 2, talk-test pace) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
+      "runMin": 18,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Easy aerobic run 18' (Zone 2, talk-test pace; HR \u2264133 \u2014 a ceiling, not a target) | finish with 4\u00d715s strides (relaxed-fast, 45\u201360s walk/jog between)",
       "kb": null,
       "kbCode": null,
-      "notes": "Pre-time-trial: short and springy, nothing tiring.",
-      "week": 15,
-      "phase": "2 Base Build",
+      "notes": "Shakeout before tomorrow's long run.",
       "dow": 5,
-      "weekday": "Fri"
+      "weekday": "Fri",
+      "week": 15,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-16": {
-      "session": "Easy Run",
-      "kind": "easy",
+      "session": "Long Run",
+      "kind": "long",
       "zone": "Z2",
-      "runMin": 30,
-      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134)",
-      "details": "Easy aerobic run 30' (Zone 2, talk-test pace)",
+      "runMin": 28,
+      "intensity": "Zone 2 \u2013 easy (RPE 3\u20134; HR \u2264133)",
+      "details": "Long run 28' easy (Zone 2; HR \u2264133). Steady and relaxed \u2014 finish feeling you could run 10\u201315' more.",
       "kb": null,
       "kbCode": null,
-      "notes": "Tomorrow is the gate \u2014 rest your legs today.",
-      "week": 15,
-      "phase": "2 Base Build",
+      "notes": "Easy means easy. Walk the hills; HR \u2264133 is a ceiling, not a target.",
       "dow": 6,
-      "weekday": "Sat"
+      "weekday": "Sat",
+      "week": 15,
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-17": {
       "session": "5K Time Trial",
       "kind": "test",
       "zone": "TEST",
-      "runMin": 55,
-      "intensity": "Test \u2013 5K all out (RPE 9\u201310)",
-      "details": "WU 20' easy + drills + 4\u00d720s strides | 3.1 mi time trial, flat out | CD 15' easy",
+      "runMin": 45,
+      "intensity": "Time trial \u2013 flat out (RPE 9)",
+      "details": "WU 20' easy + drills + 4\u00d720s strides | 3.1 mi time trial, flat out | CD 15' easy. Use a flat, measured route or the track.",
       "kb": null,
       "kbCode": null,
-      "notes": "GATE FOR SUB-31. On track if \u226420:00. 20:15\u201320:45 = we re-aim at ~32:00. Send me the time and effort felt.",
+      "notes": "This is the gate and the pace-setter: it resets every pace target for the St Paddy's build. Start controlled, finish empty.",
       "week": 16,
-      "phase": "2 Base Build",
-      "dow": 0,
-      "weekday": "Sun"
+      "phase": "2 Base Build \u2014 Singles Ramp"
     },
     "2027-01-18": {
       "session": "Easy Run",
@@ -5741,7 +5753,8 @@
       "end": "2026-10-03",
       "longMin": 55,
       "totalRunMin": 115,
-      "quality": 0
+      "quality": 0,
+      "moderate": 0
     },
     {
       "week": 1,
@@ -5750,7 +5763,8 @@
       "end": "2026-10-10",
       "longMin": 60,
       "totalRunMin": 192,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 2,
@@ -5759,7 +5773,8 @@
       "end": "2026-10-17",
       "longMin": 45,
       "totalRunMin": 160,
-      "quality": 1
+      "quality": 1,
+      "moderate": 0
     },
     {
       "week": 3,
@@ -5768,7 +5783,8 @@
       "end": "2026-10-24",
       "longMin": 45,
       "totalRunMin": 115,
-      "quality": 0
+      "quality": 0,
+      "moderate": 0
     },
     {
       "week": 4,
@@ -5777,7 +5793,8 @@
       "end": "2026-10-31",
       "longMin": 45,
       "totalRunMin": 130,
-      "quality": 0
+      "quality": 0,
+      "moderate": 0
     },
     {
       "week": 5,
@@ -5786,106 +5803,118 @@
       "end": "2026-11-07",
       "longMin": 50,
       "totalRunMin": 135,
-      "quality": 0
+      "quality": 0,
+      "moderate": 0
     },
     {
       "week": 6,
       "phase": "1 Re-Entry / Reset",
       "start": "2026-11-08",
       "end": "2026-11-14",
-      "longMin": 50,
-      "totalRunMin": 140,
-      "quality": 0
+      "longMin": 38,
+      "totalRunMin": 100,
+      "quality": 0,
+      "moderate": 0
     },
     {
       "week": 7,
       "phase": "1 Re-Entry / Reset",
       "start": "2026-11-15",
       "end": "2026-11-21",
-      "longMin": 55,
-      "totalRunMin": 150,
-      "quality": 0
+      "longMin": 42,
+      "totalRunMin": 120,
+      "quality": 0,
+      "moderate": 0
     },
     {
       "week": 8,
-      "phase": "1 Re-Entry / Reset",
+      "phase": "2 Base Build \u2014 Singles Ramp",
       "start": "2026-11-22",
       "end": "2026-11-28",
-      "longMin": 55,
-      "totalRunMin": 150,
-      "quality": 0
+      "longMin": 40,
+      "totalRunMin": 123,
+      "quality": 0,
+      "moderate": 1
     },
     {
       "week": 9,
-      "phase": "1 Re-Entry / Reset",
+      "phase": "2 Base Build \u2014 Singles Ramp",
       "start": "2026-11-29",
       "end": "2026-12-05",
-      "longMin": 55,
-      "totalRunMin": 185,
-      "quality": 0
+      "longMin": 42,
+      "totalRunMin": 128,
+      "quality": 0,
+      "moderate": 1
     },
     {
       "week": 10,
-      "phase": "2 Base Build",
+      "phase": "2 Base Build \u2014 Singles Ramp",
       "start": "2026-12-06",
       "end": "2026-12-12",
-      "longMin": 0,
-      "totalRunMin": 170,
-      "quality": 0
+      "longMin": 40,
+      "totalRunMin": 143,
+      "quality": 0,
+      "moderate": 2
     },
     {
       "week": 11,
-      "phase": "2 Base Build",
+      "phase": "2 Base Build \u2014 Singles Ramp",
       "start": "2026-12-13",
       "end": "2026-12-19",
-      "longMin": 45,
-      "totalRunMin": 200,
-      "quality": 0
+      "longMin": 32,
+      "totalRunMin": 107,
+      "quality": 0,
+      "moderate": 1
     },
     {
       "week": 12,
-      "phase": "2 Base Build",
+      "phase": "2 Base Build \u2014 Singles Ramp",
       "start": "2026-12-20",
       "end": "2026-12-26",
-      "longMin": 45,
+      "longMin": 44,
       "totalRunMin": 155,
-      "quality": 0
+      "quality": 0,
+      "moderate": 2
     },
     {
       "week": 13,
-      "phase": "2 Base Build",
+      "phase": "2 Base Build \u2014 Singles Ramp",
       "start": "2026-12-27",
       "end": "2027-01-02",
-      "longMin": 70,
-      "totalRunMin": 235,
-      "quality": 0
+      "longMin": 46,
+      "totalRunMin": 162,
+      "quality": 0,
+      "moderate": 3
     },
     {
       "week": 14,
-      "phase": "2 Base Build",
+      "phase": "2 Base Build \u2014 Singles Ramp",
       "start": "2027-01-03",
       "end": "2027-01-09",
-      "longMin": 70,
-      "totalRunMin": 235,
-      "quality": 0
+      "longMin": 42,
+      "totalRunMin": 174,
+      "quality": 0,
+      "moderate": 3
     },
     {
       "week": 15,
-      "phase": "2 Base Build",
+      "phase": "2 Base Build \u2014 Singles Ramp",
       "start": "2027-01-10",
       "end": "2027-01-16",
-      "longMin": 0,
-      "totalRunMin": 170,
-      "quality": 0
+      "longMin": 28,
+      "totalRunMin": 130,
+      "quality": 0,
+      "moderate": 1
     },
     {
       "week": 16,
-      "phase": "2 Base Build",
+      "phase": "3 Hills + Sharpen",
       "start": "2027-01-17",
       "end": "2027-01-23",
       "longMin": 60,
-      "totalRunMin": 260,
-      "quality": 1
+      "totalRunMin": 250,
+      "quality": 1,
+      "moderate": 0
     },
     {
       "week": 17,
@@ -5894,7 +5923,8 @@
       "end": "2027-01-30",
       "longMin": 75,
       "totalRunMin": 248,
-      "quality": 1
+      "quality": 1,
+      "moderate": 1
     },
     {
       "week": 18,
@@ -5903,16 +5933,18 @@
       "end": "2027-02-06",
       "longMin": 80,
       "totalRunMin": 255,
-      "quality": 1
+      "quality": 1,
+      "moderate": 1
     },
     {
       "week": 19,
-      "phase": "3 Hills + Sharpen",
+      "phase": "4 5-Mile Peak",
       "start": "2027-02-07",
       "end": "2027-02-13",
       "longMin": 75,
       "totalRunMin": 242,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 20,
@@ -5921,7 +5953,8 @@
       "end": "2027-02-20",
       "longMin": 60,
       "totalRunMin": 205,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 21,
@@ -5930,7 +5963,8 @@
       "end": "2027-02-27",
       "longMin": 70,
       "totalRunMin": 235,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 22,
@@ -5939,16 +5973,18 @@
       "end": "2027-03-06",
       "longMin": 0,
       "totalRunMin": 135,
-      "quality": 1
+      "quality": 1,
+      "moderate": 0
     },
     {
       "week": 23,
-      "phase": "4 5-Mile Peak",
+      "phase": "5 Bloomsday 12K",
       "start": "2027-03-07",
       "end": "2027-03-13",
       "longMin": 45,
       "totalRunMin": 215,
-      "quality": 0
+      "quality": 0,
+      "moderate": 0
     },
     {
       "week": 24,
@@ -5957,7 +5993,8 @@
       "end": "2027-03-20",
       "longMin": 70,
       "totalRunMin": 225,
-      "quality": 1
+      "quality": 1,
+      "moderate": 1
     },
     {
       "week": 25,
@@ -5966,7 +6003,8 @@
       "end": "2027-03-27",
       "longMin": 80,
       "totalRunMin": 255,
-      "quality": 1
+      "quality": 1,
+      "moderate": 1
     },
     {
       "week": 26,
@@ -5975,7 +6013,8 @@
       "end": "2027-04-03",
       "longMin": 80,
       "totalRunMin": 253,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 27,
@@ -5984,7 +6023,8 @@
       "end": "2027-04-10",
       "longMin": 85,
       "totalRunMin": 265,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 28,
@@ -5993,7 +6033,8 @@
       "end": "2027-04-17",
       "longMin": 65,
       "totalRunMin": 210,
-      "quality": 1
+      "quality": 1,
+      "moderate": 0
     },
     {
       "week": 29,
@@ -6002,7 +6043,8 @@
       "end": "2027-04-24",
       "longMin": 85,
       "totalRunMin": 265,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 30,
@@ -6011,16 +6053,18 @@
       "end": "2027-05-01",
       "longMin": 0,
       "totalRunMin": 135,
-      "quality": 1
+      "quality": 1,
+      "moderate": 0
     },
     {
       "week": 31,
-      "phase": "5 Bloomsday 12K",
+      "phase": "6 General / Half-Marathon",
       "start": "2027-05-02",
       "end": "2027-05-08",
       "longMin": 50,
       "totalRunMin": 235,
-      "quality": 0
+      "quality": 0,
+      "moderate": 0
     },
     {
       "week": 32,
@@ -6029,7 +6073,8 @@
       "end": "2027-05-15",
       "longMin": 70,
       "totalRunMin": 235,
-      "quality": 0
+      "quality": 0,
+      "moderate": 0
     },
     {
       "week": 33,
@@ -6038,7 +6083,8 @@
       "end": "2027-05-22",
       "longMin": 65,
       "totalRunMin": 203,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 34,
@@ -6047,7 +6093,8 @@
       "end": "2027-05-29",
       "longMin": 90,
       "totalRunMin": 242,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 35,
@@ -6056,7 +6103,8 @@
       "end": "2027-06-05",
       "longMin": 80,
       "totalRunMin": 233,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 36,
@@ -6065,7 +6113,8 @@
       "end": "2027-06-12",
       "longMin": 90,
       "totalRunMin": 245,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 37,
@@ -6074,7 +6123,8 @@
       "end": "2027-06-19",
       "longMin": 65,
       "totalRunMin": 203,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 38,
@@ -6083,7 +6133,8 @@
       "end": "2027-06-26",
       "longMin": 90,
       "totalRunMin": 245,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 39,
@@ -6092,7 +6143,8 @@
       "end": "2027-07-03",
       "longMin": 80,
       "totalRunMin": 233,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 40,
@@ -6101,7 +6153,8 @@
       "end": "2027-07-10",
       "longMin": 90,
       "totalRunMin": 245,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 41,
@@ -6110,7 +6163,8 @@
       "end": "2027-07-17",
       "longMin": 45,
       "totalRunMin": 202,
-      "quality": 1
+      "quality": 1,
+      "moderate": 0
     },
     {
       "week": 42,
@@ -6119,7 +6173,8 @@
       "end": "2027-07-24",
       "longMin": 90,
       "totalRunMin": 245,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 43,
@@ -6128,7 +6183,8 @@
       "end": "2027-07-31",
       "longMin": 85,
       "totalRunMin": 238,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 44,
@@ -6137,7 +6193,8 @@
       "end": "2027-08-07",
       "longMin": 90,
       "totalRunMin": 245,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 45,
@@ -6146,7 +6203,8 @@
       "end": "2027-08-14",
       "longMin": 65,
       "totalRunMin": 203,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 46,
@@ -6155,7 +6213,8 @@
       "end": "2027-08-21",
       "longMin": 90,
       "totalRunMin": 245,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 47,
@@ -6164,7 +6223,8 @@
       "end": "2027-08-28",
       "longMin": 85,
       "totalRunMin": 238,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 48,
@@ -6173,7 +6233,8 @@
       "end": "2027-09-04",
       "longMin": 90,
       "totalRunMin": 245,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 49,
@@ -6182,7 +6243,8 @@
       "end": "2027-09-11",
       "longMin": 65,
       "totalRunMin": 203,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 50,
@@ -6191,7 +6253,8 @@
       "end": "2027-09-18",
       "longMin": 90,
       "totalRunMin": 242,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 51,
@@ -6200,7 +6263,8 @@
       "end": "2027-09-25",
       "longMin": 75,
       "totalRunMin": 224,
-      "quality": 2
+      "quality": 2,
+      "moderate": 0
     },
     {
       "week": 52,
@@ -6209,18 +6273,19 @@
       "end": "2027-10-02",
       "longMin": 0,
       "totalRunMin": 192,
-      "quality": 1
+      "quality": 1,
+      "moderate": 0
     }
   ],
   "phases": [
     {
       "name": "1 Re-Entry / Reset",
       "start": "2026-09-30",
-      "end": "2026-11-30"
+      "end": "2026-11-22"
     },
     {
-      "name": "2 Base Build",
-      "start": "2026-12-01",
+      "name": "2 Base Build \u2014 Singles Ramp",
+      "start": "2026-11-23",
       "end": "2027-01-17"
     },
     {
@@ -6252,7 +6317,7 @@
       "pace": "8:27 \u2013 9:17",
       "rule": "TT pace + 100\u2013150 sec/mi (slower is fine; go by talk test)",
       "sessions": "Easy runs, long run, warm-ups/cool-downs",
-      "frequency": "Most of the week (3\u20134 runs + long run)"
+      "frequency": "3\u20134 runs/week + the long run"
     },
     {
       "name": "Sub-Threshold (Norwegian single)",
@@ -6261,7 +6326,7 @@
       "pace": "7:12 \u2013 7:22",
       "rule": "TT pace + 25\u201335 sec/mi (just below threshold)",
       "sessions": "Singles: 3\u00d78'/1', 4\u00d76'/1', 3\u00d710'/1', 10\u00d73'/1'",
-      "frequency": "1\u20132\u00d7/week (Monday) in the base + sharpen blocks"
+      "frequency": "2\u20133\u00d7/week (Mon long, Wed medium, Fri short) in the singles block"
     },
     {
       "name": "Lactate Threshold",

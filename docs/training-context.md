@@ -16,16 +16,21 @@ Two races in 2027:
 Sub-31 is a **return to form, not a moonshot**: 5-mile PR is 30:01 (2018), and
 the 2021 10K PR of 38:58 is ≈31:00 for 5 miles.
 
-Also pencilled in: **2026-12-13 — indoor mile**, for fun. No dedicated training;
-a fitness marker on the way to the January 5K TT.
+The December indoor mile was **dropped** (agreed 2026-11-10): train through
+instead. The **2027-01-17 5K time trial** is the only fitness check before
+St Paddy's, and it resets every pace target.
 
 ## Current fitness
 
 - Returning from a **273-day layoff** (Nov 2025 → Aug 2026). Four weeks back in as
   of mid-Oct 2026: ~5 → ~5 → ~9 → 28 mi/wk — too fast a ramp; shins complained.
-- **20-min TT assumption: 2.95 mi (~6:47/mi).** Not measured — a coaching guess
-  from the Oct 2026 sessions. The gate is the **5K time trial on 2027-01-17**.
-- Recent evidence: 3×6' threshold reps at 6:57–7:06 (HR 162–166), a 7:15 mile at
+- **Actual recent base (Nov 2026): 2–3 runs/week, ~100 min/week.** Lower than
+  the plan assumed. Shins quiet as of 2026-11-10 — quiet *because* the load was
+  low, not proof of durability.
+- **20-min TT assumption: 2.95 mi (~6:47/mi).** Not measured, and now **stale**
+  (it predates the detraining). The singles block runs on effort and HR only
+  until the 2027-01-17 TT resets it.
+- Older evidence: 3×6' threshold reps at 6:57–7:06 (HR 162–166), a 7:15 mile at
   HR 170 at the end of a 28-mile week.
 - Long-run history: 11,333 lifetime miles, 3.6 days/wk, 4.1 mi average run,
   65 weeks over 50 miles, longest streak 90 days, longest run 19.6 mi. Volume
@@ -33,19 +38,23 @@ a fitness marker on the way to the January 5K TT.
 
 ## Target races / events
 
-- `2026-12-13 — Indoor mile — for fun, no goal`
 - `2027-03-07 — St Paddy's Day 5 Miler — sub-31:00`
 - `2027-05-02 — Bloomsday 12K — no time goal`
+- `2027-01-17 — 5K time trial (training gate, not a race)`
 
 ## Constraints & logistics
 
 - Family and work come first; sessions stay flexible. **Weekday runs ≤ 60'.**
-- **Nothing serious until ~Dec 1, 2026.** October–November is a light reset
-  (3–4 easy runs, ~110–155 min/wk, no quality). November is deliberately minimal —
-  busy month; re-decide December volume with the coach.
-- **6 running days/week is possible from 2027**, not before.
+- **Nov 2026 is a rebuild, not a reset.** Two on-ramp weeks (Nov 9–22) climb from
+  ~100 to ~120 min/week, then the **singles ramp runs Nov 23 → Jan 17**
+  (100 → ~180 min/week, 4 → 6 running days). See `docs/norwegian-singles.md`.
+- **No travel or disruptions planned through December** (confirmed 2026-11-10).
+- **Four running days at the start of the block, six by the peak week.** A sixth
+  day is *earned* by two clean weeks, never scheduled ahead of that.
+- **Seven running days waits until after the Jan 17 TT** at the earliest.
 - Runs are time-based, not distance-based.
-- **Max HR ≈ 190** (used by the app's Paces modal).
+- **Max HR ≈ 190** (used by the app's Paces modal). Easy ceiling ≈ 133 bpm; LTHR
+  ≈ 172.
 - Hills: no long climbs nearby, but short/steep hills are available and
   **Doomsday Hill** can be driven to on planned days (2 sessions scheduled in the
   Bloomsday block).
@@ -67,7 +76,13 @@ a fitness marker on the way to the January 5K TT.
 - **Lydiard conditioning + Norwegian singles.** Big easy base, then hills, then
   sharpening — with frequent *controlled* sub-threshold work (RPE 5–6) rather
   than hammering. Sub-threshold is moderate, not hard.
+- **Preferred week shape: longest sub-threshold on Monday, long easy run on
+  Saturday, Sunday and Thursday off running.** Monday is the anchor session and
+  gets the freshest legs.
 - Tone: direct and encouraging.
 - Prefers the plan to bend around life, not the other way round.
 - Tends to run a little hot (easy days drifting to the top of Z2, warm-ups at
-  threshold pace) — worth calling out early rather than late.
+  threshold pace) — worth calling out early rather than late. Treat the 133 bpm
+  easy ceiling as a cap, not a target.
+- Wants more running days than the plan currently allows. Hold the line on
+  earning them; that instinct, not laziness, is what caused the October flare.

@@ -28,7 +28,8 @@ _Last reviewed: 2026-10-14._
   against that budget. That's the Norwegian-singles part of the philosophy: spread
   moderate work across the week instead of one hammer session.
 - **Never stack hard days back-to-back.** Hard days hard, easy days easy.
-- **Easy days must be genuinely easy** — full-sentence talk test.
+- **Easy days must be genuinely easy** — full-sentence talk test, and **HR ≤ 133
+  as a ceiling** (~70% of max HR). A ceiling, not a target.
 - **Nothing is fast by accident.** Warm-ups at 9:00–9:30/mi, recovery jogs at
   9:45–10:30/mi. If every part of a session is 10–40 sec/mi hot, that's not a
   hard session, it's a hot one — and it shows up in the shins.
@@ -40,6 +41,26 @@ _Last reviewed: 2026-10-14._
 - **If a quality session's RPE runs high or form degrades, cut it short.** A
   missed rep is not a missed week.
 - **Ramp slowly after a layoff.** Volume first, one variable at a time.
+- **Running days are earned, not scheduled.** Add a day only after two
+  consecutive weeks at target with quiet shins and easy runs that still feel
+  easy. Never add a day and a quality session in the same week.
+- **Sunday stays off running while Monday carries the long sub-threshold.**
+  Seven-day weeks cost the anchor session, which is the whole point of the shape.
+
+## Preferred week
+
+| Day | Session |
+|-----|---------|
+| Sun | Rest + KB A |
+| **Mon** | **Quality 1 — longest sub-threshold** (freshest legs) |
+| Tue | Easy + KB B |
+| Wed | Quality 2 — medium sub-threshold |
+| Thu | Rest + KB C |
+| Fri | Easy, or Quality 3 — shortest sub-threshold |
+| **Sat** | **Long run, easy** |
+
+Wednesday has no kettlebell. The Friday session, when it exists, is the shortest
+of the three because Saturday's long run follows it.
 
 ## Progression
 

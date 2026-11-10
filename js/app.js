@@ -434,7 +434,11 @@
   function paceTextFor(day) {
     var info = paceInfoFor(day);
     if (!info) return "";
-    var parts = ["Pace " + paceRangeText(info.pace, store.settings.unit)];
+    var parts = [];
+    // The singles ramp is deliberately effort-only: the pace model rests on an
+    // October anchor the athlete has since detrained from, so show the HR
+    // guardrail but withhold a pace target until the time trial resets it.
+    if (!day.effortOnly) parts.push("Pace " + paceRangeText(info.pace, store.settings.unit));
     var hr = hrRangeText(info.hr);
     if (hr) parts.push("HR " + hr + " bpm");
     return parts.join(" · ");
@@ -571,8 +575,15 @@
   function renderWeek() {
     beginView();
     var start = weekStart(state.selectedDate);
-    var qCount = 0;
-    for (var q = 0; q < 7; q++) { if (isQuality(dayFor(addDays(start, q)).kind)) qCount++; }
+    var qCount = 0, mCount = 0;
+    for (var q = 0; q < 7; q++) {
+      var k = dayFor(addDays(start, q)).kind;
+      if (isQuality(k)) qCount++;
+      if (k === "subthreshold") mCount++;
+    }
+    var loadBits = [];
+    if (qCount) loadBits.push(qCount + " hard day" + (qCount === 1 ? "" : "s"));
+    if (mCount) loadBits.push(mCount + " moderate");
     var today = todayISO();
 
     var html = section("week",
@@ -580,7 +591,7 @@
         '<button type="button" class="nav-btn" data-action="week-prev" aria-label="Previous week">[&lt;]</button>' +
         '<div class="ctl-mid"><span class="ctl-title">' + esc(weekLabel(start)) + "</span>" +
           '<p class="ctl-sub">' + esc(fmtShort(start)) + " – " + esc(fmtShort(addDays(start, 6))) + " · " +
-            (qCount ? qCount + " quality day" + (qCount === 1 ? "" : "s") : "no quality days") + "</p></div>" +
+            (loadBits.length ? loadBits.join(" · ") : "no quality days") + "</p></div>" +
         '<button type="button" class="nav-btn" data-action="week-next" aria-label="Next week">[&gt;]</button>' +
       "</div>");
 
@@ -874,16 +885,19 @@
 
     if (PLAN.weeks && PLAN.weeks.length) {
       html += section("schedule",
-        table(["Wk", "Dates", "Phase", "Long", "Quality"], PLAN.weeks.map(function (w) {
+        table(["Wk", "Dates", "Phase", "Long", "Hard", "Moderate"], PLAN.weeks.map(function (w) {
           return [
             esc(w.week),
             esc(fmtShort(w.start)) + " – " + esc(fmtShort(w.end)),
             esc(w.phase),
             w.longMin ? esc(fmtMin(w.longMin)) : "—",
-            w.quality + "×"
+            w.quality ? w.quality + "×" : "—",
+            w.moderate ? w.moderate + "×" : "—"
           ];
         })) +
-        '<p class="out-note">Every week from the source plan. Open any date in Week or Calendar for full details.</p>');
+        '<p class="out-note">Every week from the source plan. <b>Hard</b> counts threshold/VO2 sessions ' +
+          'against the two-hard-days budget; <b>Moderate</b> counts sub-threshold singles, which do not. ' +
+          'Open any date in Week or Calendar for full details.</p>');
     }
 
     var model = computePaces();
