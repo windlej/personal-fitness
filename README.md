@@ -99,7 +99,8 @@ js/app.js               # all app logic (resolves any date's session)
 data/plan.js            # generated: dated schedule + phases + zones
 data/plan.json          # same data as JSON
 scripts/build_plan.py   # parses the workbook's Daily Schedule into data/plan.*
-scripts/build_history.py# distills a Strava/SmashRun CSV into a history digest
+scripts/build_history.py  # distills a Strava/SmashRun CSV into a history digest
+scripts/sync_smashrun.py  # pulls runs from the free SmashRun API into smashrun-export.csv + digest
 docs/                   # how-to-use.md, training-context.md (+ personal history)
 Training Plan (1).xlsx  # original source workbook (source of session content)
 ```
@@ -177,7 +178,8 @@ opencode after editing any `.opencode/` or `opencode.json` file.
 
 ## Roadmap
 
-- [ ] Import actuals from Strava / Garmin / Apple Health (GPX/CSV or API).
+- [x] Sync actuals from SmashRun (free API) into the history digest via `scripts/sync_smashrun.py`.
+- [ ] Import actuals into app logs (GPX/CSV or API) for Progress charts.
 - [ ] Compute pace zones from a real 20-min time trial entry instead of the placeholder.
 - [ ] Training-load model (RPE × duration, acute:chronic ratio) and fatigue warnings.
 - [ ] Per-day template editing in the UI (no code changes).

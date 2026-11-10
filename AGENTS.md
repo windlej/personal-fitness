@@ -80,6 +80,9 @@ drop the long run and all quality.
 - `scripts/build_history.py` — distills a Strava/SmashRun CSV export into
   `docs/training-history.md` (coach-readable history/insights) and
   `data/history-summary.json`. Output is **generated and git-ignored** (personal).
+- `scripts/sync_smashrun.py` — pulls runs from the free SmashRun API (which can
+  aggregate Strava/Garmin/Apple) into `smashrun-export.csv` and re-runs
+  `build_history.py`. Token stays local (env/arg/prompt).
 - `.opencode/` — opencode agent + skill config (see below).
 
 ## Rebuild + deploy

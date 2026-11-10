@@ -90,6 +90,8 @@ shows you the diff before committing.
 You have years of real training data — use it to spot **consistency, trends, and
 what you've actually sustained**, so the coach can ground its advice.
 
+### Option A — one-off CSV export (simplest)
+
 1. **Get a CSV export:**
    - **Strava:** Settings → My Account → *Download your account* → Request
      download. The emailed zip contains `activities.csv`.
@@ -103,8 +105,33 @@ what you've actually sustained**, so the coach can ground its advice.
    This writes `docs/training-history.md` — all-time volume, consistency and
    streaks, personal bests, yearly trends, and insight notes — plus a
    machine-readable `data/history-summary.json`.
-4. **Ask the coach** about it: "Given my 10-year history, is my current weekly
-   volume realistic?" or "Where do I lose consistency?"
+
+### Option B — keep it in sync with SmashRun (free, no MCP)
+
+SmashRun has a free OAuth API and can aggregate runs from Strava, Garmin,
+Apple Health, etc. Instead of re-downloading a CSV every time, run:
+
+```bash
+python3 scripts/sync_smashrun.py
+```
+
+The first time it asks for an access token. Get one in ~30 seconds:
+
+1. Open <https://api.smashrun.com/v1/explorer>.
+2. Type **`client`** in the box at the top and click **connect**, then authorize.
+3. Copy the access token (copy button) and paste it when prompted
+   (or set the `SMASHRUN_TOKEN` env var / pass `--token`).
+
+The script pages through your runs, writes `smashrun-export.csv` (git-ignored),
+and regenerates the coach digest. Tokens last ~12 weeks; re-run the flow when
+one expires. Use `--since YYYY-MM-DD` for a faster incremental sync, or
+`--all` to force a full re-fetch. This is the free, no-account, no-MCP way to
+keep the coach (and your history digest) up to date from Strava.
+
+### Then ask the coach
+
+Either option sets up the same conversation: "Given my 10-year history, is my
+current weekly volume realistic?" or "Where do I lose consistency?"
 
 Both generated files are git-ignored. If the CSV columns aren't detected, the
 script prints the headers it saw — pass `--unit km|mi|m` or rename the columns.
