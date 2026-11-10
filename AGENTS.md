@@ -15,7 +15,7 @@ web app for viewing today's session and logging how it felt. Read this file, the
   back to a repeating sun→sat A/B template, so the app can still resolve *any*
   date.
 - Hosted free on GitHub Pages (static, no build). Live at
-  <https://windlej.github.io/personal-fitness/>.
+  <https://windlej.github.io/training/>.
 
 > **Sheet gotcha:** the Daily Schedule's `Day` column is mislabeled — it runs one
 > day ahead of the real weekday (e.g. a row dated 2026-10-04, a real Sunday, is

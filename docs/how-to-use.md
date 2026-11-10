@@ -5,7 +5,7 @@ the plan itself is built and deployed, see the top-level `README.md`.
 
 ## Open it
 
-- **On your phone:** open <https://windlej.github.io/personal-fitness/> in Safari
+- **On your phone:** open <https://windlej.github.io/training/> in Safari
   or Chrome, then **Add to Home Screen** so it opens full-screen like an app.
 - **On your computer:** same URL in any browser.
 - No login, no account. Your logs are saved in **this browser only**.
